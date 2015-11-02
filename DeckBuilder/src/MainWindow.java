@@ -56,7 +56,9 @@ static File dir = new File(imgPath);
 		  for (File child : directoryListing) {
 			    final BufferedImage image = ImageIO.read(new URL(
 			            "http://upload.wikimedia.org/wikipedia/en/2/24/Lenna.png"));
-			    cardimages.add(child.getName(), image);
+			    String tName = child.getName();
+			    CardImage cImg = new CardImage(tName,image);
+			    cardimages.add(cImg);
 		  }
 		} else {
 		  // Handle the case where dir is not really a directory.
