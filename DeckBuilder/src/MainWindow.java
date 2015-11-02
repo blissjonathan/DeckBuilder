@@ -37,8 +37,20 @@ ArrayList<Deck> decks = new ArrayList<Deck>();
 	/**
 	 * Launch the application.
 	 * @throws IOException 
+	 * @throws IllegalAccessException 
+	 * @throws InstantiationException 
+	 * @throws ClassNotFoundException 
 	 */
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+		
+	    try {
+	    	UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            
+    } 
+    catch (UnsupportedLookAndFeelException e) {
+       // handle exception
+    }
+		
 		String inputFile = "data.txt";
 		String line;
 		try {
@@ -178,6 +190,8 @@ ArrayList<Deck> decks = new ArrayList<Deck>();
 		      if (e.getSource().toString()=="Decks"){
 		      }
 		      if (e.getSource().toString()=="Create a Deck"){
+		      }
+		      if (e.getSource().toString()=="Save"){
 		      }
 		  }
 	   }
