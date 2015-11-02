@@ -15,6 +15,10 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Insets;
+import javax.swing.JScrollPane;
+import javax.swing.JList;
+import javax.swing.JLabel;
 
 public class MainWindow {
 
@@ -74,10 +78,10 @@ public class MainWindow {
 		JPanel panel_3 = new JPanel();
 		panel.add(panel_3, BorderLayout.CENTER);
 		GridBagLayout gbl_panel_3 = new GridBagLayout();
-		gbl_panel_3.columnWidths = new int[]{0, 0};
-		gbl_panel_3.rowHeights = new int[]{0, 0, 0, 0};
-		gbl_panel_3.columnWeights = new double[]{0.0, Double.MIN_VALUE};
-		gbl_panel_3.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel_3.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_panel_3.rowHeights = new int[]{0, 0, 0, 0, 0};
+		gbl_panel_3.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_panel_3.rowWeights = new double[]{0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
 		panel_3.setLayout(gbl_panel_3);
 		
 		JButton btnDecks = new JButton("Decks");
@@ -86,9 +90,34 @@ public class MainWindow {
 			}
 		});
 		GridBagConstraints gbc_btnDecks = new GridBagConstraints();
+		gbc_btnDecks.insets = new Insets(0, 0, 5, 5);
 		gbc_btnDecks.gridx = 0;
-		gbc_btnDecks.gridy = 2;
+		gbc_btnDecks.gridy = 0;
 		panel_3.add(btnDecks, gbc_btnDecks);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+		gbc_scrollPane.insets = new Insets(0, 0, 5, 0);
+		gbc_scrollPane.gridheight = 3;
+		gbc_scrollPane.gridwidth = 3;
+		gbc_scrollPane.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane.gridx = 9;
+		gbc_scrollPane.gridy = 0;
+		panel_3.add(scrollPane, gbc_scrollPane);
+		
+		JList list = new JList();
+		list.setSize(1, 30);
+		
+		JLabel tmp = new JLabel();
+		for(int i=0;i<30;i++) {
+			tmp = new JLabel("Label " + i);
+			list.add(tmp);
+		}
+		
+		scrollPane.setViewportView(list);
+		
+		JLabel lblclass = new JLabel("$CLASS");
+		scrollPane.setColumnHeaderView(lblclass);
 		
 		JMenuBar menuBar = new JMenuBar();
 		frmDeckbuilder.setJMenuBar(menuBar);
@@ -101,6 +130,10 @@ public class MainWindow {
 		
 		JMenuItem mntmNewMenuItem = new JMenuItem("Export");
 		mnFile.add(mntmNewMenuItem);
+	}
+	
+	void ActionPerformed(ActionEvent e) {
+		
 	}
 
 }
