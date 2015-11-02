@@ -14,20 +14,41 @@ import javax.swing.SwingConstants;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import java.awt.Insets;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.JLabel;
 
+
 public class MainWindow {
+ArrayList<Deck> decks = new ArrayList<Deck>();
 
 	private JFrame frmDeckbuilder;
 
 	/**
 	 * Launch the application.
+	 * @throws IOException 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
+		String inputFile = "data.txt";
+		String line;
+		try {
+			FileReader fileReader = new FileReader(inputFile);
+			BufferedReader bufferedReader = new BufferedReader(fileReader);
+			
+            while((line = bufferedReader.readLine()) != null) {
+                System.out.println(line);
+            }   
+            
+		} catch(FileNotFoundException ex) {
+			
+		}
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -79,9 +100,9 @@ public class MainWindow {
 		panel.add(panel_3, BorderLayout.CENTER);
 		GridBagLayout gbl_panel_3 = new GridBagLayout();
 		gbl_panel_3.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_panel_3.rowHeights = new int[]{0, 0, 0, 0, 0};
-		gbl_panel_3.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
-		gbl_panel_3.rowWeights = new double[]{0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
+		gbl_panel_3.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
+		gbl_panel_3.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_panel_3.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
 		panel_3.setLayout(gbl_panel_3);
 		
 		JButton btnDecks = new JButton("Decks");
@@ -89,10 +110,20 @@ public class MainWindow {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
+		
+		JComboBox comboBox = new JComboBox();
+		comboBox.setToolTipText("Decks");
+		GridBagConstraints gbc_comboBox = new GridBagConstraints();
+		gbc_comboBox.gridwidth = 3;
+		gbc_comboBox.insets = new Insets(0, 0, 5, 5);
+		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
+		gbc_comboBox.gridx = 9;
+		gbc_comboBox.gridy = 0;
+		panel_3.add(comboBox, gbc_comboBox);
 		GridBagConstraints gbc_btnDecks = new GridBagConstraints();
 		gbc_btnDecks.insets = new Insets(0, 0, 5, 5);
 		gbc_btnDecks.gridx = 0;
-		gbc_btnDecks.gridy = 0;
+		gbc_btnDecks.gridy = 1;
 		panel_3.add(btnDecks, gbc_btnDecks);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -102,22 +133,28 @@ public class MainWindow {
 		gbc_scrollPane.gridwidth = 3;
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane.gridx = 9;
-		gbc_scrollPane.gridy = 0;
+		gbc_scrollPane.gridy = 1;
 		panel_3.add(scrollPane, gbc_scrollPane);
 		
-		JList list = new JList();
-		list.setSize(1, 30);
-		
-		JLabel tmp = new JLabel();
+		String[] tmp = new String[30];
 		for(int i=0;i<30;i++) {
-			tmp = new JLabel("Label " + i);
-			list.add(tmp);
+			tmp[i]=("Label " +i);
 		}
 		
+		
+		JList list = new JList(tmp);
+
 		scrollPane.setViewportView(list);
 		
 		JLabel lblclass = new JLabel("$CLASS");
 		scrollPane.setColumnHeaderView(lblclass);
+		
+		JButton btnCreateADeck = new JButton("Create a Deck");
+		GridBagConstraints gbc_btnCreateADeck = new GridBagConstraints();
+		gbc_btnCreateADeck.insets = new Insets(0, 0, 5, 5);
+		gbc_btnCreateADeck.gridx = 0;
+		gbc_btnCreateADeck.gridy = 2;
+		panel_3.add(btnCreateADeck, gbc_btnCreateADeck);
 		
 		JMenuBar menuBar = new JMenuBar();
 		frmDeckbuilder.setJMenuBar(menuBar);
@@ -130,6 +167,9 @@ public class MainWindow {
 		
 		JMenuItem mntmNewMenuItem = new JMenuItem("Export");
 		mnFile.add(mntmNewMenuItem);
+		
+		JMenu mnCollection = new JMenu("Collection");
+		menuBar.add(mnCollection);
 	}
 	
 	void ActionPerformed(ActionEvent e) {
