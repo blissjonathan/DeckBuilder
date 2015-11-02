@@ -54,8 +54,7 @@ static File dir = new File(imgPath);
 
 		if (directoryListing != null) {
 		  for (File child : directoryListing) {
-			    final BufferedImage image = ImageIO.read(new URL(
-			            "http://upload.wikimedia.org/wikipedia/en/2/24/Lenna.png"));
+			    final BufferedImage image = ImageIO.read(child);
 			    String tName = child.getName();
 			    CardImage cImg = new CardImage(tName,image);
 			    cardimages.add(cImg);
