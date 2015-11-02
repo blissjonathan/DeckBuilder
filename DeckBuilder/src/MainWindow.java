@@ -24,10 +24,13 @@ import java.awt.Insets;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.JLabel;
+import javax.swing.*;
+
 
 
 public class MainWindow {
 ArrayList<Deck> decks = new ArrayList<Deck>();
+
 
 	private JFrame frmDeckbuilder;
 
@@ -106,10 +109,7 @@ ArrayList<Deck> decks = new ArrayList<Deck>();
 		panel_3.setLayout(gbl_panel_3);
 		
 		JButton btnDecks = new JButton("Decks");
-		btnDecks.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
+		btnDecks.addActionListener(new actionListener());
 		
 		JComboBox comboBox = new JComboBox();
 		comboBox.setToolTipText("Decks");
@@ -150,6 +150,7 @@ ArrayList<Deck> decks = new ArrayList<Deck>();
 		scrollPane.setColumnHeaderView(lblclass);
 		
 		JButton btnCreateADeck = new JButton("Create a Deck");
+		btnCreateADeck.addActionListener(new actionListener());
 		GridBagConstraints gbc_btnCreateADeck = new GridBagConstraints();
 		gbc_btnCreateADeck.insets = new Insets(0, 0, 5, 5);
 		gbc_btnCreateADeck.gridx = 0;
@@ -172,8 +173,13 @@ ArrayList<Deck> decks = new ArrayList<Deck>();
 		menuBar.add(mnCollection);
 	}
 	
-	void ActionPerformed(ActionEvent e) {
-		
-	}
+	   class actionListener implements ActionListener{
+		      public void actionPerformed(ActionEvent e) {
+		      if (e.getSource().toString()=="Decks"){
+		      }
+		      if (e.getSource().toString()=="Create a Deck"){
+		      }
+		  }
+	   }
 
 }
