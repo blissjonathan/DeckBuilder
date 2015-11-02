@@ -14,22 +14,29 @@ import javax.swing.SwingConstants;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import java.awt.Insets;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.JLabel;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 
 
 public class MainWindow {
 ArrayList<Deck> decks = new ArrayList<Deck>();
+static ArrayList<CardImage> cardimages = new ArrayList<CardImage>();
+static String imgPath = "";
+static File dir = new File(imgPath);
 
 
 	private JFrame frmDeckbuilder;
@@ -43,13 +50,29 @@ ArrayList<Deck> decks = new ArrayList<Deck>();
 	 */
 	public static void main(String[] args) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
 		
+		File[] directoryListing = dir.listFiles();
+
+		if (directoryListing != null) {
+		  for (File child : directoryListing) {
+			    final BufferedImage image = ImageIO.read(new URL(
+			            "http://upload.wikimedia.org/wikipedia/en/2/24/Lenna.png"));
+			    cardimages.add(child.getName(), image);
+		  }
+		} else {
+		  // Handle the case where dir is not really a directory.
+		  // Checking dir.isDirectory() above would not be sufficient
+		  // to avoid race conditions with another process that deletes
+		  // directories.
+		}
+		
+		
 	    try {
 	    	UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             
-    } 
-    catch (UnsupportedLookAndFeelException e) {
+	    } 
+	    catch (UnsupportedLookAndFeelException e) {
        // handle exception
-    }
+	    }
 		
 		String inputFile = "data.txt";
 		String line;
