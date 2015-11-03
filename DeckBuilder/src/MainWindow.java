@@ -124,7 +124,7 @@ JLabel classLabel = new JLabel();
 	 */
 	private void initialize() {
 		frmDeckbuilder = new JFrame();
-		frmDeckbuilder.setIconImage(Toolkit.getDefaultToolkit().getImage("./dbicon.png"));
+		frmDeckbuilder.setIconImage(Toolkit.getDefaultToolkit().getImage("./resources/dbicon.png"));
 		frmDeckbuilder.setBackground(Color.LIGHT_GRAY);
 		frmDeckbuilder.setResizable(false);
 		frmDeckbuilder.setTitle("DeckBuilder .1");
