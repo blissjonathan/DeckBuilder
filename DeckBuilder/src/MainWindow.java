@@ -202,21 +202,23 @@ JLabel classLabel = new JLabel();
 		gbc_scrollPane.gridy = 1;
 		panel_3.add(scrollPane, gbc_scrollPane);
 		
-		String[] tmp = new String[30];
-		for(int i=0;i<30;i++) {
-			tmp[i]=("Label " +i);
-		}
-		
-		
 		createList();
 
-
 		scrollPane.setViewportView(list);
-		
-		
 		scrollPane.setColumnHeaderView(classLabel);
 		
 		JButton btnCreateADeck = new JButton("Create a Deck");
+		
+		btnCreateADeck.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				CreateDeckWindow.createWindow();
+				
+			}
+			
+		});
+		
 		GridBagConstraints gbc_btnCreateADeck = new GridBagConstraints();
 		gbc_btnCreateADeck.insets = new Insets(0, 0, 5, 5);
 		gbc_btnCreateADeck.gridx = 0;
