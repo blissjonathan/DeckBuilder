@@ -45,6 +45,16 @@ static Deck currentDeck;
 JList list = new JList();
 JLabel classLabel = new JLabel();
 
+Icon paladinIcon = new ImageIcon("./resources/icons/paladinicon.png");
+Icon warlockIcon = new ImageIcon("./resources/icons/warlockicon.png");
+Icon mageIcon = new ImageIcon("./resources/icons/madeicon.png");
+Icon warriorIcon = new ImageIcon("./resources/icons/warrioricon.png");
+Icon shamanIcon = new ImageIcon("./resources/icons/shamanicon.png");
+Icon priestIcon = new ImageIcon("./resources/icons/priesticon.png");
+Icon hunterIcon = new ImageIcon("./resources/icons/huntericon.png");
+Icon rogueIcon = new ImageIcon("./resources/icons/rogueicon.png");
+Icon druidIcon = new ImageIcon("./resources/icons/druidicon.png");
+
 
 	private JFrame frmDeckbuilder;
 
@@ -174,6 +184,33 @@ JLabel classLabel = new JLabel();
 				 System.out.println(selected.toString());
 				 currentDeck = getDeck(selected.toString());
 				 classLabel.setText(currentDeck.getHero());
+				 if(currentDeck.getHero()=="Paladin") {
+				 classLabel.setIcon(paladinIcon);
+				 }
+				 if(currentDeck.getHero()=="Hunter") {
+					 classLabel.setIcon(hunterIcon);
+					 }
+				 if(currentDeck.getHero()=="Mage") {
+					 classLabel.setIcon(mageIcon);
+					 }
+				 if(currentDeck.getHero()=="Warlock") {
+					 classLabel.setIcon(warlockIcon);
+					 }
+				 if(currentDeck.getHero()=="Druid") {
+					 classLabel.setIcon(druidIcon);
+					 }
+				 if(currentDeck.getHero()=="Priest") {
+					 classLabel.setIcon(priestIcon);
+					 }
+				 if(currentDeck.getHero()=="Warrior") {
+					 classLabel.setIcon(warriorIcon);
+					 }
+				 if(currentDeck.getHero()=="Rogue") {
+					 classLabel.setIcon(rogueIcon);
+					 }
+				 if(currentDeck.getHero()=="Shaman") {
+					 classLabel.setIcon(shamanIcon);
+					 }
 				 createList();
 				
 			}
