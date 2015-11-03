@@ -31,14 +31,19 @@ import javax.swing.JList;
 import javax.swing.JLabel;
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.Toolkit;
 
 
 
 public class MainWindow {
-ArrayList<Deck> decks = new ArrayList<Deck>();
-static ArrayList<CardImage> cardimages = new ArrayList<CardImage>();
+static ArrayList<Deck> decks = new ArrayList<Deck>();
+static ArrayList<Card> cards = new ArrayList<Card>();
 static String imgPath = "";
 static File dir = new File(imgPath);
+static Deck currentDeck;
+
+JList list = new JList();
+JLabel classLabel = new JLabel();
 
 
 	private JFrame frmDeckbuilder;
@@ -53,13 +58,18 @@ static File dir = new File(imgPath);
 	public static void main(String[] args) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
 		
 		File[] directoryListing = dir.listFiles();
+		
+		for(int i=0;i<5;i++) {
+			String deckName = ("Deck " + i);
+			Deck tmpDeck = new Deck(deckName,"Paladin");
+			decks.add(tmpDeck);
+		}
 
 		if (directoryListing != null) {
 		  for (File child : directoryListing) {
 			    final BufferedImage image = ImageIO.read(child);
 			    String tName = child.getName();
-			    CardImage cImg = new CardImage(tName,image);
-			    cardimages.add(cImg);
+			    getAnyCard(tName).setImage(image);
 		  }
 		} else {
 		  // Handle the case where dir is not really a directory.
@@ -114,6 +124,7 @@ static File dir = new File(imgPath);
 	 */
 	private void initialize() {
 		frmDeckbuilder = new JFrame();
+		frmDeckbuilder.setIconImage(Toolkit.getDefaultToolkit().getImage("./dbicon.png"));
 		frmDeckbuilder.setBackground(Color.LIGHT_GRAY);
 		frmDeckbuilder.setResizable(false);
 		frmDeckbuilder.setTitle("DeckBuilder .1");
@@ -147,9 +158,26 @@ static File dir = new File(imgPath);
 		panel_3.setLayout(gbl_panel_3);
 		
 		JButton btnDecks = new JButton("Decks");
-		btnDecks.addActionListener(new actionListener());
 		
 		JComboBox comboBox = new JComboBox();
+		if(decks != null) {
+		for(int i =0; i < decks.size();i++) {
+			comboBox.addItem(decks.get(i).getName());
+		}
+		comboBox.repaint();
+
+		}
+		
+		comboBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				 Object selected = comboBox.getSelectedItem();
+				 System.out.println(selected.toString());
+				 currentDeck = getDeck(selected.toString());
+				 classLabel.setText(currentDeck.getHero());
+				 createList();
+				
+			}
+		});
 		comboBox.setToolTipText("Decks");
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.gridwidth = 3;
@@ -158,7 +186,7 @@ static File dir = new File(imgPath);
 		gbc_comboBox.gridx = 9;
 		gbc_comboBox.gridy = 0;
 		panel_3.add(comboBox, gbc_comboBox);
-		GridBagConstraints gbc_btnDecks = new GridBagConstraints();
+			GridBagConstraints gbc_btnDecks = new GridBagConstraints();
 		gbc_btnDecks.insets = new Insets(0, 0, 5, 5);
 		gbc_btnDecks.gridx = 0;
 		gbc_btnDecks.gridy = 1;
@@ -180,22 +208,15 @@ static File dir = new File(imgPath);
 		}
 		
 		
-		JList list = new JList(tmp);
-		list.addMouseListener(new MouseAdapter() {
-            public void mouseEntered(MouseEvent evt)
-            {
-            	list.getSelectedIndex();
-            }
-			
-		});
+		createList();
+
 
 		scrollPane.setViewportView(list);
 		
-		JLabel lblclass = new JLabel("$CLASS");
-		scrollPane.setColumnHeaderView(lblclass);
+		
+		scrollPane.setColumnHeaderView(classLabel);
 		
 		JButton btnCreateADeck = new JButton("Create a Deck");
-		btnCreateADeck.addActionListener(new actionListener());
 		GridBagConstraints gbc_btnCreateADeck = new GridBagConstraints();
 		gbc_btnCreateADeck.insets = new Insets(0, 0, 5, 5);
 		gbc_btnCreateADeck.gridx = 0;
@@ -217,16 +238,55 @@ static File dir = new File(imgPath);
 		JMenu mnCollection = new JMenu("Collection");
 		menuBar.add(mnCollection);
 	}
-	
-	   class actionListener implements ActionListener{
-		      public void actionPerformed(ActionEvent e) {
-		      if (e.getSource().toString()=="Decks"){
-		      }
-		      if (e.getSource().toString()=="Create a Deck"){
-		      }
-		      if (e.getSource().toString()=="Save"){
-		      }
+	   
+	   
+	   public static Card getAnyCard(String name) {
+		   
+		   for(int i=0; i<cards.size();i++) {
+			   if(name == cards.get(i).getName()) {
+				   return cards.get(i);
+			   } else {
+				   return null;
+			   }
+		   }
+		   return null;
+	   }
+	   
+	   public static Deck getDeck(String name) {
+		   
+		   for(int i = 0; i < decks.size(); i++) {
+			   if(decks.get(i).getName()==name) {
+				   return decks.get(i);
+			   }
+		   }
+		   return null;
+	   }
+	   
+	   public static String[] getCurrentCards() {
+		  String[] currentCards = new String[30];
+		  if(currentDeck !=null) {
+		  ArrayList<Card> tmp = currentDeck.getAllCards();
+		   for(int i=0;i<tmp.size();i++) {
+				currentCards[i]=tmp.get(i).getName();
+			}
 		  }
+		  return currentCards;
+	   }
+	   
+	   public void createList() {
+			JList list = new JList();
+			if(currentDeck!=null) {
+			list = new JList(getCurrentCards());
+			list.repaint();
+			}
+			list.addMouseListener(new MouseAdapter() {
+	            public void mouseEntered(MouseEvent evt)
+	            {
+	            	//list.getSelectedIndex();
+	            }
+				
+			});
+		   
 	   }
 	   
 	   
