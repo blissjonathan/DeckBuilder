@@ -14,6 +14,8 @@ import javax.swing.SwingConstants;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
@@ -179,6 +181,13 @@ static File dir = new File(imgPath);
 		
 		
 		JList list = new JList(tmp);
+		list.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent evt)
+            {
+            	list.getSelectedIndex();
+            }
+			
+		});
 
 		scrollPane.setViewportView(list);
 		
@@ -219,5 +228,7 @@ static File dir = new File(imgPath);
 		      }
 		  }
 	   }
+	   
+	   
 
 }

@@ -8,6 +8,9 @@ private BufferedImage image;
 		image = _image;
 	}
 	
+	public CardImage(String _name) {
+		name = _name;
+	}
 	public BufferedImage getImage() {
 		return image;
 	}
