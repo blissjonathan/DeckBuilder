@@ -98,6 +98,8 @@ public class CreateDeckWindow {
 		});
 		
 		JList list = new JList();
+		list.setFixedCellHeight(2);
+		list.setFixedCellWidth(4);
 		GridBagConstraints gbc_list = new GridBagConstraints();
 		gbc_list.insets = new Insets(0, 0, 5, 0);
 		gbc_list.fill = GridBagConstraints.BOTH;

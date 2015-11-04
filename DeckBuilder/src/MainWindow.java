@@ -33,16 +33,27 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.Toolkit;
 
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.JsonNode;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
+import com.mashape.unirest.request.GetRequest;
 
 
 public class MainWindow {
+	
+
+	
 static ArrayList<Deck> decks = new ArrayList<Deck>();
 static ArrayList<Card> cards = new ArrayList<Card>();
 static String imgPath = "";
 static File dir = new File(imgPath);
 static Deck currentDeck;
+static double version = .1;
+public static HttpResponse<JsonNode> response;
 
 JList list = new JList();
+
 JLabel classLabel = new JLabel();
 
 Icon paladinIcon = new ImageIcon("./resources/icons/paladinicon.png");
@@ -66,6 +77,16 @@ Icon druidIcon = new ImageIcon("./resources/icons/druidicon.png");
 	 * @throws ClassNotFoundException 
 	 */
 	public static void main(String[] args) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+		
+		try {
+			response = Unirest.get("https://omgvamp-hearthstone-v1.p.mashape.com/cards")
+					.header("X-Mashape-Key", "32dPU6CVE4mshjYVlOQh1au6LxYVp1hAEkIjsnw7zXqucLcZY3")
+					.asJson();
+		} catch (UnirestException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
 		
 		File[] directoryListing = dir.listFiles();
 		
