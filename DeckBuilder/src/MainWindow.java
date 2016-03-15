@@ -91,12 +91,14 @@ Icon druidIcon = new ImageIcon("./resources/icons/druidicon.png");
 		
 		File[] directoryListing = dir.listFiles();
 		
-		for(int i=0;i<5;i++) {
+		for(int i=0;i<5;i++) { //test decks
 			String deckName = ("Deck " + i);
 			Deck tmpDeck = new Deck(deckName,"Paladin");
 			decks.add(tmpDeck);
 		}
-
+		String d1 = "Warlock deck"; //test deck
+		Deck tDeck = new Deck(d1,"Warlock");
+		decks.add(tDeck);
 		if (directoryListing != null) {
 		  for (File child : directoryListing) {
 			    final BufferedImage image = ImageIO.read(child);
