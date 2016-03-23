@@ -24,6 +24,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.awt.event.ActionEvent;
 import java.awt.Insets;
 import javax.swing.JScrollPane;
@@ -47,6 +48,7 @@ public class MainWindow {
 	
 static ArrayList<Deck> decks = new ArrayList<Deck>();
 static ArrayList<Card> cards = new ArrayList<Card>();
+public static ArrayList<String> CardData = new ArrayList<String>();
 static String imgPath = "";
 static File dir = new File(imgPath);
 static Deck currentDeck;
@@ -59,7 +61,7 @@ JLabel classLabel = new JLabel();
 
 Icon paladinIcon = new ImageIcon("./resources/icons/paladinicon.png");
 Icon warlockIcon = new ImageIcon("./resources/icons/warlockicon.png");
-Icon mageIcon = new ImageIcon("./resources/icons/madeicon.png");
+Icon mageIcon = new ImageIcon("./resources/icons/mageicon.png");
 Icon warriorIcon = new ImageIcon("./resources/icons/warrioricon.png");
 Icon shamanIcon = new ImageIcon("./resources/icons/shamanicon.png");
 Icon priestIcon = new ImageIcon("./resources/icons/priesticon.png");
@@ -67,7 +69,9 @@ Icon hunterIcon = new ImageIcon("./resources/icons/huntericon.png");
 Icon rogueIcon = new ImageIcon("./resources/icons/rogueicon.png");
 Icon druidIcon = new ImageIcon("./resources/icons/druidicon.png");
 
-public static HttpResponse<JsonNode> AllCards;
+public static JSONObject AllCardsObj;
+public static JSONArray AllCards;
+public static Iterator keys;
 
 	private JFrame frmDeckbuilder;
 
@@ -84,9 +88,26 @@ public static HttpResponse<JsonNode> AllCards;
 			HttpResponse<JsonNode> response = Unirest.get("https://omgvamp-hearthstone-v1.p.mashape.com/cards")
 					.header("X-Mashape-Key", "32dPU6CVE4mshjYVlOQh1au6LxYVp1hAEkIjsnw7zXqucLcZY3")
 					.asJson();
+			AllCardsObj = response.getBody().getObject();
+			keys = AllCardsObj.keys();
+			while (keys.hasNext()){
+			    String key = (String) keys.next();
+			    AllCards.put(AllCardsObj.get(key));
+			}
 		} catch (UnirestException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
+		}
+	
+			System.out.println(AllCardsObj.toString()); //testing
+			 
+			if (AllCards != null) { 
+			   for (int i=0;i<AllCards.length();i++){ 
+			    CardData.add(AllCards.get(i).toString());
+			   } 
+			} 	
+		
+		for(int i = 0; i<CardData.size();i++) { //testing
+			System.out.println(CardData.get(i));
 		}
 		
 		File[] directoryListing = dir.listFiles();
