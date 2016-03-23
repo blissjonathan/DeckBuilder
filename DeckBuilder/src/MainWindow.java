@@ -1,16 +1,21 @@
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+
 import java.awt.Color;
 import java.awt.CardLayout;
+
 import javax.swing.JPanel;
 import javax.swing.JMenuBar;
 import javax.swing.JButton;
+
 import java.awt.BorderLayout;
+
 import javax.swing.JComboBox;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.SwingConstants;
+
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionListener;
@@ -27,18 +32,22 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.awt.event.ActionEvent;
 import java.awt.Insets;
+
 import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.JLabel;
 import javax.imageio.ImageIO;
 import javax.swing.*;
+
 import java.awt.Toolkit;
 
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
+import com.mashape.unirest.http.ObjectMapper;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mashape.unirest.request.GetRequest;
+
 import org.json.*;
 
 
@@ -71,6 +80,8 @@ Icon druidIcon = new ImageIcon("./resources/icons/druidicon.png");
 
 public static JSONObject AllCardsObj;
 public static JSONArray AllCards;
+public static JsonNode cardNode;
+public static ObjectMapper m;
 public static Iterator keys;
 
 	private JFrame frmDeckbuilder;
@@ -89,26 +100,27 @@ public static Iterator keys;
 					.header("X-Mashape-Key", "32dPU6CVE4mshjYVlOQh1au6LxYVp1hAEkIjsnw7zXqucLcZY3")
 					.asJson();
 			AllCardsObj = response.getBody().getObject();
-			keys = AllCardsObj.keys();
-			while (keys.hasNext()){
-			    String key = (String) keys.next();
-			    AllCards.put(AllCardsObj.get(key));
+			JSONArray basicCards = AllCardsObj.getJSONArray("Basic");
+			for(int i=0; i<basicCards.length();i++) {
+				JSONObject tObject = basicCards.getJSONObject(i);
+				if(tObject.has("cost") && tObject.has("health") && tObject.has("attack") && tObject.has("playerClass")) {
+				Card tCard = new Card(tObject.getString("cardId"),tObject.getString("name"),
+						"Basic",tObject.getString("playerClass"), tObject.getString("type"), tObject.getString("attack"), 
+						tObject.getString("health"), tObject.getString("rarity"), 
+						tObject.getString("cost"), tObject.getString("img"));
+				
+				cards.add(tCard);
+				}
 			}
 		} catch (UnirestException e1) {
 			e1.printStackTrace();
 		}
 	
-			System.out.println(AllCardsObj.toString()); //testing
+			for(int i = 0; i<cards.size();i++) { 	//Testing
+				System.out.println(cards.get(i).toString());
+			}
+			
 			 
-			if (AllCards != null) { 
-			   for (int i=0;i<AllCards.length();i++){ 
-			    CardData.add(AllCards.get(i).toString());
-			   } 
-			} 	
-		
-		for(int i = 0; i<CardData.size();i++) { //testing
-			System.out.println(CardData.get(i));
-		}
 		
 		File[] directoryListing = dir.listFiles();
 		
@@ -120,18 +132,6 @@ public static Iterator keys;
 		String d1 = "Warlock deck"; //test deck
 		Deck tDeck = new Deck(d1,"Warlock");
 		decks.add(tDeck);
-		if (directoryListing != null) {
-		  for (File child : directoryListing) {
-			    final BufferedImage image = ImageIO.read(child);
-			    String tName = child.getName();
-			    getAnyCard(tName).setImage(image);
-		  }
-		} else {
-		  // Handle the case where dir is not really a directory.
-		  // Checking dir.isDirectory() above would not be sufficient
-		  // to avoid race conditions with another process that deletes
-		  // directories.
-		}
 		
 		
 	    try {
