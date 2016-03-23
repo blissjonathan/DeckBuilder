@@ -4,7 +4,7 @@ public class Card {
 private String id;
 private String set;
 private String type;
-private String mana;
+private int mana;
 private String name;
 private String attack;
 private String health;
@@ -22,7 +22,7 @@ private boolean isGolden;
 private String image;
 
 public Card(String _id, String _name, String _set, String _hero, String _type, String _attack, String _health, 
-		String _rarity, String _mana, String _img) {
+		String _rarity, int _mana, String _img) {
 		
 		name = _name;
 		type = _type;
@@ -36,7 +36,7 @@ public Card(String _id, String _name, String _set, String _hero, String _type, S
 		image = _img;
 }
 
-public Card(String _id, String _name, String _set, String _hero, String _type, String _rarity, String _mana, String _img) {
+public Card(String _id, String _name, String _set, String _hero, String _type, String _rarity, int _mana, String _img) {
 		
 		name = _name;
 		type = _type;
@@ -60,8 +60,13 @@ public String getHealth() {
 public String getRarity() {
 	return rarity;
 }
-public String getMana() {
-	return mana;
+
+public void setAttack(String _attack) {
+	attack = _attack;
+}
+
+public void setHealth(String _health) {
+	health = _health;
 }
 
 public String toString() {

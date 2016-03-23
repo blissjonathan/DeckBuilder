@@ -103,12 +103,10 @@ public static Iterator keys;
 			JSONArray basicCards = AllCardsObj.getJSONArray("Basic");
 			for(int i=0; i<basicCards.length();i++) {
 				JSONObject tObject = basicCards.getJSONObject(i);
-				if(tObject.has("cost") && tObject.has("health") && tObject.has("attack") && tObject.has("playerClass")) {
+				if(tObject.getString("type")!="Hero" && tObject.has("playerClass")&&tObject.has("rarity")&&tObject.has("cost")) {
 				Card tCard = new Card(tObject.getString("cardId"),tObject.getString("name"),
-						"Basic",tObject.getString("playerClass"), tObject.getString("type"), tObject.getString("attack"), 
-						tObject.getString("health"), tObject.getString("rarity"), 
-						tObject.getString("cost"), tObject.getString("img"));
-				
+						"Basic",tObject.getString("playerClass"), tObject.getString("type"), tObject.getString("rarity"), 
+						tObject.getInt("cost"), tObject.getString("img"));
 				cards.add(tCard);
 				}
 			}
