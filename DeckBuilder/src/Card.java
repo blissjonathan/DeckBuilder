@@ -8,6 +8,13 @@ private String health;
 private String flavor;
 private String rarity;
 private String hero;
+private boolean draw;
+private boolean spellpower;
+private boolean finisher;
+private boolean burst;
+private boolean buff;
+private boolean nerf;
+private boolean aoe;
 private boolean isGolden;
 private BufferedImage image;
 
