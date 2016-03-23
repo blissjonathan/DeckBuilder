@@ -6,7 +6,7 @@ public class Deck {
 	private int currentsize = 0;
 	private String name;
 	private String hero;
-	
+	private boolean finished;
 	
 	public Deck(String _name, String _hero) {
 		name = _name;
@@ -15,6 +15,10 @@ public class Deck {
 	
 	public String getHero() {
 		return hero;
+	}
+	
+	public boolean getFinished() {
+		return finished;
 	}
 	
 	public String getName() {

@@ -67,6 +67,7 @@ Icon hunterIcon = new ImageIcon("./resources/icons/huntericon.png");
 Icon rogueIcon = new ImageIcon("./resources/icons/rogueicon.png");
 Icon druidIcon = new ImageIcon("./resources/icons/druidicon.png");
 
+public static HttpResponse<JsonNode> AllCards;
 
 	private JFrame frmDeckbuilder;
 
@@ -79,15 +80,6 @@ Icon druidIcon = new ImageIcon("./resources/icons/druidicon.png");
 	 */
 	public static void main(String[] args) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
 		
-		try {
-			HttpResponse<JsonNode> response = Unirest.get("https://omgvamp-hearthstone-v1.p.mashape.com/cards")
-					.header("X-Mashape-Key", "32dPU6CVE4mshjYVlOQh1au6LxYVp1hAEkIjsnw7zXqucLcZY3")
-					.asJson();
-		} catch (UnirestException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-	
 		
 		File[] directoryListing = dir.listFiles();
 		
