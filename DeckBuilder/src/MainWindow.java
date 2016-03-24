@@ -131,17 +131,20 @@ public static JSONArray AllCards;
 				System.out.println(cards.get(i).toString());
 			}
 			
-//		URL update = new URL("https://dl.dropboxusercontent.com/u/82755681/DeckBuilder/update.txt");
-//		Scanner sUpdate = new Scanner(update.openStream());
-//		String checkUpdate = sUpdate.next();
-//		StringTokenizer st = new StringTokenizer(checkUpdate,":");
-//		String tempversion = st.nextToken();
-//		String tempurl = st.nextToken();
+		URL update = new URL("https://dl.dropboxusercontent.com/u/82755681/DeckBuilder/update.txt");
+		Scanner sUpdate = new Scanner(update.openStream());
+		String checkUpdate = sUpdate.next();
+		StringTokenizer st = new StringTokenizer(checkUpdate,":");
+		String tempversion = st.nextToken();
+		System.out.println("Server version " + tempversion);
+		String tempurl = st.nextToken();
+		System.out.println("Server URL " + tempurl);
+
 		
-//		if(!(tempversion.equals(version))) {
-//			UpdateWindow.createWindow(tempurl);
-//		}
-//		
+		if(!(tempversion.equals(version))) {
+			UpdateWindow.createWindow(tempurl,tempversion);
+		}
+		
 		File[] directoryListing = dir.listFiles();
 		
 		for(int i=0;i<5;i++) { //test decks

@@ -7,6 +7,9 @@ import javax.swing.JLabel;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
 import javax.swing.JTextField;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.Window.Type;
 
 
 public class UpdateWindow {
@@ -14,12 +17,14 @@ public class UpdateWindow {
 	private JFrame frmUpdate;
 	private JTextField txtUrl;
 	private static String updateURL;
+	private static String updateVersion;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void createWindow(String _updateURL) {
+	public static void createWindow(String _updateURL, String _updateVersion) {
 		updateURL = _updateURL;
+		updateVersion = _updateVersion;
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -44,6 +49,8 @@ public class UpdateWindow {
 	 */
 	private void initialize() {
 		frmUpdate = new JFrame();
+		frmUpdate.setAlwaysOnTop(true);
+		frmUpdate.setType(Type.UTILITY);
 		frmUpdate.setTitle("Update!");
 		frmUpdate.setResizable(false);
 		frmUpdate.setBounds(100, 100, 311, 207);
@@ -53,11 +60,16 @@ public class UpdateWindow {
 		
 		JLabel lblVersion = new JLabel("Version:");
 		
-		JLabel lblVersionnum = new JLabel("versionnum");
+		JLabel lblVersionnum = new JLabel(updateVersion);
 		
 		JLabel lblGetItAt = new JLabel("Get it at:");
 		
 		JButton btnOk = new JButton("OK");
+		btnOk.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				frmUpdate.dispose();
+			}
+		});
 		
 		txtUrl = new JTextField();
 		txtUrl.setText(updateURL);
