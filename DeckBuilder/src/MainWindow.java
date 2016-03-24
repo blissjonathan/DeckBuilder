@@ -119,9 +119,9 @@ public static JSONArray AllCards;
 					tCard.setHealth(tObject.getInt("health"));
 					cards.add(tCard);
 				}
-			}
-				
-			}
+			}	
+		}
+			
 		} catch (UnirestException e1) {
 			e1.printStackTrace();
 		}

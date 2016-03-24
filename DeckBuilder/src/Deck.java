@@ -6,6 +6,7 @@ public class Deck {
 	private int currentsize = 0;
 	private String name;
 	private String hero;
+	private String archetype;
 	private boolean finisher;
 	private boolean burst;
 	private boolean boarclear;
