@@ -36,6 +36,7 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JRadioButton;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.SwingUtilities;
 
 public class CreateDeckWindow implements ActionListener {
 
@@ -47,6 +48,8 @@ public class CreateDeckWindow implements ActionListener {
 	private String classSelected;
 	private JComboBox cardBookBox;
 	private JComboBox classList;
+	private Deck currentDeck;
+	private JPanel deckPanel;
 
 	/**
 	 * Launch the application.
@@ -157,8 +160,8 @@ public class CreateDeckWindow implements ActionListener {
 		gbc_scrollPane.gridy = 3;
 		frame.getContentPane().add(scrollPane, gbc_scrollPane);
 		
-		JPanel panel = new JPanel();
-		scrollPane.setViewportView(panel);
+		deckPanel = new JPanel();
+		scrollPane.setViewportView(deckPanel);
 		
 		JScrollPane cardBook = new JScrollPane();
 		GridBagConstraints gbc_cardBook = new GridBagConstraints();
@@ -200,7 +203,9 @@ public class CreateDeckWindow implements ActionListener {
 			cardButton.setIcon(cardIcon);
 			System.out.println("Image " + i + " set");
 			cardButton.setName(MainWindow.cards.get(i).getName());
-
+			cardButton.setOpaque(false);
+			cardButton.setContentAreaFilled(false);
+			cardButton.setBorderPainted(false);
 			
 			cardPanel.add(cardButton);
 			}
@@ -251,6 +256,10 @@ public class CreateDeckWindow implements ActionListener {
 		if(e.getSource() instanceof JButton) {
 			JButton tempButton = (JButton) e.getSource();
 			String tempName = tempButton.getName();
+			if(MainWindow.getAnyCard(tempName)!=null) {
+				currentDeck.addCard(MainWindow.getAnyCard(tempName));
+				//new Jbutton with card info
+			}
 		}
 	}
 }
