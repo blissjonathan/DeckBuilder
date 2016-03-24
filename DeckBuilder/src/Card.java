@@ -51,6 +51,10 @@ public Card(String _id, String _name, String _set, String _hero, String _type, S
 public String getName() {
 	return name;
 }
+
+public String getHero() {
+	return hero;
+}
 public int getAttack() {
 	return attack;
 }
@@ -74,6 +78,6 @@ public void setHealth(int _health) {
 }
 
 public String toString() {
-	return name + ":" + id + ":" + image;
+	return name + ":" + hero + ":" + id + ":" + image;
 }
 }
