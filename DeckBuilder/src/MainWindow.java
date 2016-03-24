@@ -30,6 +30,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Scanner;
+import java.util.StringTokenizer;
 import java.awt.event.ActionEvent;
 import java.awt.Insets;
 
@@ -53,7 +55,7 @@ import org.json.*;
 
 public class MainWindow {
 	
-
+private static final String version = ".1";
 	
 static ArrayList<Deck> decks = new ArrayList<Deck>();
 static ArrayList<Card> cards = new ArrayList<Card>();
@@ -61,7 +63,6 @@ public static ArrayList<String> CardData = new ArrayList<String>();
 static String imgPath = "";
 static File dir = new File(imgPath);
 static Deck currentDeck;
-static double version = .1;
 public static HttpResponse<JsonNode> response;
 
 JList list = new JList();
@@ -130,8 +131,17 @@ public static JSONArray AllCards;
 				System.out.println(cards.get(i).toString());
 			}
 			
-			 
+//		URL update = new URL("https://dl.dropboxusercontent.com/u/82755681/DeckBuilder/update.txt");
+//		Scanner sUpdate = new Scanner(update.openStream());
+//		String checkUpdate = sUpdate.next();
+//		StringTokenizer st = new StringTokenizer(checkUpdate,":");
+//		String tempversion = st.nextToken();
+//		String tempurl = st.nextToken();
 		
+//		if(!(tempversion.equals(version))) {
+//			UpdateWindow.createWindow(tempurl);
+//		}
+//		
 		File[] directoryListing = dir.listFiles();
 		
 		for(int i=0;i<5;i++) { //test decks
