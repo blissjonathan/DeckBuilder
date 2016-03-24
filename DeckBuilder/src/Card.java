@@ -6,8 +6,8 @@ private String set;
 private String type;
 private int mana;
 private String name;
-private String attack;
-private String health;
+private int attack;
+private int health;
 private String flavor;
 private String rarity;
 private String hero;
@@ -21,7 +21,7 @@ private boolean aoe;
 private boolean isGolden;
 private String image;
 
-public Card(String _id, String _name, String _set, String _hero, String _type, String _attack, String _health, 
+public Card(String _id, String _name, String _set, String _hero, String _type, int _attack, int _health, 
 		String _rarity, int _mana, String _img) {
 		
 		name = _name;
@@ -51,25 +51,29 @@ public Card(String _id, String _name, String _set, String _hero, String _type, S
 public String getName() {
 	return name;
 }
-public String getAttack() {
+public int getAttack() {
 	return attack;
 }
-public String getHealth() {
+public int getHealth() {
 	return health;
 }
 public String getRarity() {
 	return rarity;
 }
 
-public void setAttack(String _attack) {
+public String getImage() {
+	return image;
+}
+
+public void setAttack(int _attack) {
 	attack = _attack;
 }
 
-public void setHealth(String _health) {
+public void setHealth(int _health) {
 	health = _health;
 }
 
 public String toString() {
-	return name + id;
+	return name + ":" + id + ":" + image;
 }
 }

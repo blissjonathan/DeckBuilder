@@ -6,6 +6,11 @@ public class Deck {
 	private int currentsize = 0;
 	private String name;
 	private String hero;
+	private boolean finisher;
+	private boolean burst;
+	private boolean boarclear;
+	private boolean upgrades;
+	private boolean tempo;
 	private boolean finished;
 	
 	public Deck(String _name, String _hero) {

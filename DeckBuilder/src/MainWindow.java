@@ -80,9 +80,6 @@ Icon druidIcon = new ImageIcon("./resources/icons/druidicon.png");
 
 public static JSONObject AllCardsObj;
 public static JSONArray AllCards;
-public static JsonNode cardNode;
-public static ObjectMapper m;
-public static Iterator keys;
 
 	private JFrame frmDeckbuilder;
 
@@ -99,16 +96,31 @@ public static Iterator keys;
 			HttpResponse<JsonNode> response = Unirest.get("https://omgvamp-hearthstone-v1.p.mashape.com/cards")
 					.header("X-Mashape-Key", "32dPU6CVE4mshjYVlOQh1au6LxYVp1hAEkIjsnw7zXqucLcZY3")
 					.asJson();
+			
 			AllCardsObj = response.getBody().getObject();
+			
 			JSONArray basicCards = AllCardsObj.getJSONArray("Basic");
+			JSONArray classicCards = AllCardsObj.getJSONArray("Classic");
+			JSONArray naxCards = AllCardsObj.getJSONArray("Naxxramas");
+			JSONArray loeCards = AllCardsObj.getJSONArray("The League of Explorers");
+			JSONArray blackrockCards = AllCardsObj.getJSONArray("Blackrock Mountain");
+			JSONArray tgtCards = AllCardsObj.getJSONArray("The Grand Tournament");
+			
 			for(int i=0; i<basicCards.length();i++) {
 				JSONObject tObject = basicCards.getJSONObject(i);
 				if(tObject.getString("type")!="Hero" && tObject.has("playerClass")&&tObject.has("rarity")&&tObject.has("cost")) {
 				Card tCard = new Card(tObject.getString("cardId"),tObject.getString("name"),
 						"Basic",tObject.getString("playerClass"), tObject.getString("type"), tObject.getString("rarity"), 
 						tObject.getInt("cost"), tObject.getString("img"));
+				if(!(tObject.has("attack")) || !(tObject.has("health"))) {
 				cards.add(tCard);
+				} else {
+					tCard.setAttack(tObject.getInt("attack"));
+					tCard.setHealth(tObject.getInt("health"));
+					cards.add(tCard);
 				}
+			}
+				
 			}
 		} catch (UnirestException e1) {
 			e1.printStackTrace();
