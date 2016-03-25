@@ -139,7 +139,10 @@ public class CreateDeckWindow implements ActionListener {
 		JButton btnNewButton = new JButton("OK");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//Save everything
+				if(currentDeck != null) {
+				currentDeck.calcSize();
+				MainWindow.decks.add(currentDeck);
+				}
 				frame.dispose();
 			}
 		});
@@ -217,9 +220,12 @@ public class CreateDeckWindow implements ActionListener {
 					JButton deckButton = new JButton(cardButton.getName());
 					deckButton.setOpaque(false);
 					deckButton.setContentAreaFilled(false);
-					//currentDeck.add(MainWindow.getAnyCard(cardButton.getName()));
+					Card tempCard = MainWindow.getAnyCard(cardButton.getName());
+					System.out.println(cardButton.getName());
+					if(currentDeck.add(tempCard)==true) {
 					deckPanel.add(deckButton);
 					deckPanel.revalidate();
+					}
 				}
 			});
 			

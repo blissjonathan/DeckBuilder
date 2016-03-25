@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Deck {
 	private ArrayList<Card> cards = new ArrayList<Card>();
@@ -17,6 +18,14 @@ public class Deck {
 	public Deck(String _name, String _hero) {
 		name = _name;
 		hero = _hero;
+		
+	}
+	
+	public void calcSize() {
+		
+		for(int i = 0; i<cards.size();i++) {
+			currentsize++;
+		}
 	}
 	
 	public String getHero() {
@@ -65,8 +74,14 @@ public class Deck {
 		return null;
 	}
 
-	public void add(Card _card) {
+	public Boolean add(Card _card) {
+		if(Collections.frequency(cards, _card) <= 2 && !(currentsize >= maxsize) && _card != null) {
 		cards.add(_card);
+		currentsize++;
+		return true;
+		} else {
+			return false;
+		}
 		
 	}
 
