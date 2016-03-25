@@ -222,7 +222,7 @@ public class CreateDeckWindow implements ActionListener {
 					String buttonName = cardButton.getName();
 					JButton deckButton = new JButton(buttonName);
 					
-					deckButton.setPreferredSize(new Dimension(deckPanel.getWidth(),8));
+					deckButton.setPreferredSize(new Dimension(30,8));
 					deckButton.setOpaque(false);
 					deckButton.setContentAreaFilled(false);
 					deckButton.setBorder(BorderFactory.createLineBorder(Color.yellow, 3));
