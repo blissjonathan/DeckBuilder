@@ -50,6 +50,10 @@ public class Deck {
 		
 	}
 	
+	public int getSize() {
+		return currentsize;
+	}
+	
 	public Card getCard(String name) {
 		for(int i = 0; i < cards.size(); i++) {
 			if(cards.get(i).getName()==name) {
