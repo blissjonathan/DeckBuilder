@@ -229,7 +229,13 @@ public class CreateDeckWindow implements ActionListener {
 					
 					deckButton.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
-							//remove from current Deck
+//							for(int i = 0; i < deckPanel.getComponentCount(); i++) {
+//								JButton tButton = (JButton) e.getSource();
+//								if(deckPanel.getComponent(i).getName().equals(tButton.getName())) {
+//									deckPanel.remove(deckPanel.getComponent(i));
+//									deckPanel.revalidate();
+//								}
+//							}
 						}
 					});
 					
