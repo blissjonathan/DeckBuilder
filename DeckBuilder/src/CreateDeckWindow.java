@@ -217,7 +217,7 @@ public class CreateDeckWindow implements ActionListener {
 					JButton deckButton = new JButton(cardButton.getName());
 					deckButton.setOpaque(false);
 					deckButton.setContentAreaFilled(false);
-					currentDeck.add(MainWindow.getAnyCard(cardButton.getName()));
+					//currentDeck.add(MainWindow.getAnyCard(cardButton.getName()));
 					deckPanel.add(deckButton);
 					deckPanel.revalidate();
 				}
