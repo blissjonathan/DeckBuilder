@@ -65,8 +65,6 @@ static File dir = new File(imgPath);
 static Deck currentDeck;
 public static HttpResponse<JsonNode> response;
 
-JList list = new JList();
-
 JLabel classLabel = new JLabel();
 
 Icon paladinIcon = new ImageIcon("./resources/icons/paladinicon.png");
@@ -308,8 +306,6 @@ public static JSONArray AllCards;
 		panel_3.add(scrollPane, gbc_scrollPane);
 		
 		createList();
-
-		scrollPane.setViewportView(list);
 		scrollPane.setColumnHeaderView(classLabel);
 		
 		JButton btnCreateADeck = new JButton("Create a Deck");

@@ -5,6 +5,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -28,6 +29,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
@@ -217,15 +219,26 @@ public class CreateDeckWindow implements ActionListener {
 			cardButton.setBorderPainted(false);
 			cardButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					JButton deckButton = new JButton(cardButton.getName());
+					String buttonName = cardButton.getName();
+					JButton deckButton = new JButton(buttonName);
+					
+					deckButton.setPreferredSize(new Dimension(deckPanel.getWidth(),8));
 					deckButton.setOpaque(false);
 					deckButton.setContentAreaFilled(false);
-					Card tempCard = MainWindow.getAnyCard(cardButton.getName());
-					System.out.println(cardButton.getName());
-					if(currentDeck.add(tempCard)==true) {
+					deckButton.setBorder(BorderFactory.createLineBorder(Color.yellow, 3));
+					
+					deckButton.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							//remove from current Deck
+						}
+					});
+					
+					Card tempCard = MainWindow.getAnyCard(buttonName);
+					
+					//Add to currentDeck and check if able
 					deckPanel.add(deckButton);
 					deckPanel.revalidate();
-					}
+					
 				}
 			});
 			
