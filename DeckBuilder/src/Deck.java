@@ -65,4 +65,9 @@ public class Deck {
 		return null;
 	}
 
+	public void add(Card _card) {
+		cards.add(_card);
+		
+	}
+
 }

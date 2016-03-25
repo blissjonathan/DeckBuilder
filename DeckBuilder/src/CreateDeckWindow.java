@@ -8,6 +8,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.Image;
+import java.awt.LayoutManager;
 
 import javax.swing.JTextField;
 
@@ -27,6 +28,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
 import javax.swing.JMenuBar;
@@ -37,7 +39,9 @@ import javax.swing.Action;
 import javax.swing.JRadioButton;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.SwingUtilities;
+
 import java.awt.GridLayout;
+import java.awt.FlowLayout;
 
 public class CreateDeckWindow implements ActionListener {
 
@@ -162,12 +166,7 @@ public class CreateDeckWindow implements ActionListener {
 		frame.getContentPane().add(scrollPane, gbc_scrollPane);
 		deckPanel = new JPanel();
 		scrollPane.setViewportView(drawDeckPanel());
-		GridBagLayout gbl_deckPanel = new GridBagLayout();
-		gbl_deckPanel.columnWidths = new int[]{0};
-		gbl_deckPanel.rowHeights = new int[]{0};
-		gbl_deckPanel.columnWeights = new double[]{Double.MIN_VALUE};
-		gbl_deckPanel.rowWeights = new double[]{Double.MIN_VALUE};
-		deckPanel.setLayout(gbl_deckPanel);
+		deckPanel.setLayout(new BoxLayout(deckPanel, BoxLayout.Y_AXIS));
 		
 		JScrollPane cardBook = new JScrollPane();
 		GridBagConstraints gbc_cardBook = new GridBagConstraints();
@@ -215,7 +214,12 @@ public class CreateDeckWindow implements ActionListener {
 			cardButton.setBorderPainted(false);
 			cardButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					//TODO
+					JButton deckButton = new JButton(cardButton.getName());
+					deckButton.setOpaque(false);
+					deckButton.setContentAreaFilled(false);
+					currentDeck.add(MainWindow.getAnyCard(cardButton.getName()));
+					deckPanel.add(deckButton);
+					deckPanel.revalidate();
 				}
 			});
 			

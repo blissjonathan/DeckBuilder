@@ -55,7 +55,7 @@ import org.json.*;
 
 public class MainWindow {
 	
-private static final String version = ".1";
+private static final String version = ".2";
 	
 static ArrayList<Deck> decks = new ArrayList<Deck>();
 static ArrayList<Card> cards = new ArrayList<Card>();
@@ -205,7 +205,7 @@ public static JSONArray AllCards;
 		frmDeckbuilder.setIconImage(Toolkit.getDefaultToolkit().getImage("./resources/dbicon.png"));
 		frmDeckbuilder.setBackground(Color.LIGHT_GRAY);
 		frmDeckbuilder.setResizable(false);
-		frmDeckbuilder.setTitle("DeckBuilder .1");
+		frmDeckbuilder.setTitle("DeckBuilder " + version);
 		frmDeckbuilder.setBounds(100, 100, 450, 600);
 		frmDeckbuilder.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmDeckbuilder.getContentPane().setLayout(new CardLayout(0, 0));
