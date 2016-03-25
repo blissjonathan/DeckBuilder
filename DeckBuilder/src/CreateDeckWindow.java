@@ -213,7 +213,11 @@ public class CreateDeckWindow implements ActionListener {
 			cardButton.setOpaque(false);
 			cardButton.setContentAreaFilled(false);
 			cardButton.setBorderPainted(false);
-			cardButton.addActionListener(new CreateDeckWindow());
+			cardButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					//TODO
+				}
+			});
 			
 			cardPanel.add(cardButton);
 			}
