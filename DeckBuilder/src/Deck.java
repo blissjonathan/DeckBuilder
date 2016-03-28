@@ -21,6 +21,10 @@ public class Deck {
 		
 	}
 	
+	public Deck() {
+		
+	}
+	
 	public void calcSize() {
 		
 		for(int i = 0; i<cards.size();i++) {
@@ -44,13 +48,6 @@ public class Deck {
 		return cards;
 	}
 	
-	public void addCard(Card _card) {
-		if(currentsize<maxsize) {
-			cards.add(_card);
-			currentsize++;
-		}
-		
-	}
 	
 	public void removeCard(String name) {
 		
@@ -61,6 +58,14 @@ public class Deck {
 	
 	public int getSize() {
 		return currentsize;
+	}
+	
+	public void setName(String _name) {
+		name = _name;
+	}
+	
+	public void setHero(String _hero) {
+		hero = _hero;
 	}
 	
 	public Card getCard(String name) {
@@ -74,8 +79,8 @@ public class Deck {
 		return null;
 	}
 
-	public Boolean add(Card _card) {
-		if(Collections.frequency(cards, _card) <= 2 && !(currentsize >= maxsize) && _card != null) {
+	public Boolean addCard (Card _card) {
+		if(Collections.frequency(cards, _card) < 2 && currentsize <= maxsize && _card != null) {
 		cards.add(_card);
 		currentsize++;
 		return true;
