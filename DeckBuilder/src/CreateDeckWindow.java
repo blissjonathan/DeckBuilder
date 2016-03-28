@@ -25,12 +25,15 @@ import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
 import javax.swing.JMenuBar;
@@ -41,6 +44,7 @@ import javax.swing.Action;
 import javax.swing.JRadioButton;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.SwingUtilities;
+import javax.swing.text.JTextComponent;
 
 import java.awt.GridLayout;
 import java.awt.FlowLayout;
@@ -57,6 +61,7 @@ public class CreateDeckWindow implements ActionListener {
 	private JComboBox classList;
 	private Deck currentDeck;
 	private JPanel deckPanel;
+	private JButton btnS;
 
 	/**
 	 * Launch the application.
@@ -116,8 +121,9 @@ public class CreateDeckWindow implements ActionListener {
 		classList.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				 classSelected = classList.getSelectedItem().toString();
-				 //cardBookBox.revalidate();
-				//cardPanel.repaint();
+				 if(classSelected != null) {
+				 //cardPanel.revalidate();
+				 }
 				 
 			}
 		});
@@ -227,23 +233,37 @@ public class CreateDeckWindow implements ActionListener {
 					deckButton.setContentAreaFilled(false);
 					deckButton.setBorder(BorderFactory.createLineBorder(Color.yellow, 3));
 					
+					
 					deckButton.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
-//							for(int i = 0; i < deckPanel.getComponentCount(); i++) {
-//								JButton tButton = (JButton) e.getSource();
-//								if(deckPanel.getComponent(i).getName().equals(tButton.getName())) {
-//									deckPanel.remove(deckPanel.getComponent(i));
-//									deckPanel.revalidate();
-//								}
-//							}
+							JButton sourceButton = (JButton) e.getSource();
+							for(int i = 0; i < deckPanel.getComponentCount(); i++) {
+							if(sourceButton == deckPanel.getComponent(i)) {
+							deckPanel.remove(deckPanel.getComponent(i));	
+							deckPanel.revalidate();
+							deckPanel.repaint();
+							}
+							}
 						}
 					});
-					
-					Card tempCard = MainWindow.getAnyCard(buttonName);
-					
 					//Add to currentDeck and check if able
-					deckPanel.add(deckButton);
-					deckPanel.revalidate();
+					
+//					for(int i = 0; i < deckPanel.getComponentCount(); i++) {
+//						JButton compareButton = (JButton) e.getSource();
+//						if(compareButton.getName().equals(((JButton) deckPanel.getComponent(i)).getText())) {
+//							((JButton) deckPanel.getComponent(i)).setText(buttonName + " (2)");
+//							deckPanel.revalidate();
+//							deckPanel.repaint();
+//						} else {
+//						deckButton.setText(buttonName + " (1)");
+//						deckPanel.add(deckButton);
+//						deckPanel.revalidate();
+//						deckPanel.repaint();
+//					}
+//				}	
+					
+				deckPanel.add(deckButton);
+				deckPanel.revalidate();
 					
 				}
 			});
@@ -263,6 +283,27 @@ public class CreateDeckWindow implements ActionListener {
 		gbc_txtSearch.gridy = 4;
 		frame.getContentPane().add(txtSearch, gbc_txtSearch);
 		txtSearch.setColumns(10);
+		
+		btnS = new JButton();
+		Image searchImage = null;
+		try {
+			searchImage = ImageIO.read(new File("./resources/UI icons/searchButton.png"));
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		Image tempImage = searchImage.getScaledInstance(15, 15, java.awt.Image.SCALE_SMOOTH);
+		Icon searchIcon = new ImageIcon(tempImage);
+		btnS.setIcon(searchIcon);
+		btnS.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				searchBox();
+			}
+		});
+		GridBagConstraints gbc_btnS = new GridBagConstraints();
+		gbc_btnS.insets = new Insets(0, 0, 5, 5);
+		gbc_btnS.gridx = 3;
+		gbc_btnS.gridy = 4;
+		frame.getContentPane().add(btnS, gbc_btnS);
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 		gbc_btnNewButton.gridx = 6;
 		gbc_btnNewButton.gridy = 5;
@@ -296,6 +337,12 @@ public class CreateDeckWindow implements ActionListener {
 		
 		
 		return deckPanel;
+	}
+	
+	public ArrayList<Card> searchBox() {
+		ArrayList<Card> searchedCards = new ArrayList<Card>();
+		
+		return searchedCards;
 	}
 	
 	public JPanel drawCardPanel() {
