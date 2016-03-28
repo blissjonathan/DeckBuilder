@@ -348,12 +348,6 @@ public class CreateDeckWindow implements ActionListener {
 			return searchedCards;
 		}
 	
-	
-	public JPanel drawCardPanel() {
-		
-		
-		return cardPanel;
-	}
 
 	private class SwingAction extends AbstractAction {
 		public SwingAction() {
