@@ -150,7 +150,6 @@ public class CreateDeckWindow {
 			public void actionPerformed(ActionEvent e) {
 				if(currentDeck != null) {
 				currentDeck.setHero(classList.getSelectedItem().toString());
-				currentDeck.calcSize();
 				currentDeck.setName(nameField.getText());
 				MainWindow.decks.add(currentDeck);
 				MainWindow.deckBox.addItem(currentDeck.getName());
@@ -303,6 +302,21 @@ public class CreateDeckWindow {
 				cardButton.setBorderPainted(false);
 				cardButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						
+						Card curCard = null;
+						System.out.println(cardButton.getName() + " pressed");
+						
+						for(int i=0; i< _cards.size();i++) {
+							if(_cards.get(i).getName().equals(cardButton.getName())) {
+								curCard = _cards.get(i);
+							}
+						}
+						
+						if(curCard != null) {
+							currentDeck.addCard(curCard);
+							System.out.println(curCard.getName() + " added to deck");
+						}
+						
 						String buttonName = cardButton.getName();
 						JButton deckButton = new JButton(buttonName);
 						
@@ -326,9 +340,7 @@ public class CreateDeckWindow {
 								}
 							}
 						});
-						
-					Card curCard = MainWindow.getAnyCard(buttonName);
-					currentDeck.addCard(curCard);	
+							
 					deckPanel.add(deckButton);
 					deckPanel.revalidate();
 						

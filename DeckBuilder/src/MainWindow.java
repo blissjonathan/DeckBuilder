@@ -154,9 +154,6 @@ public static JSONArray AllCards;
 			Deck tmpDeck = new Deck(deckName,"Paladin");
 			decks.add(tmpDeck);
 		}
-		String d1 = "Warlock deck"; //test deck
-		Deck tDeck = new Deck(d1,"Warlock");
-		decks.add(tDeck);
 		
 		
 	    try {
@@ -252,14 +249,17 @@ public static JSONArray AllCards;
 				 Object selected = deckBox.getSelectedItem();
 				 System.out.println(selected.toString());
 				 currentDeck = getDeck(selected.toString());
+				 System.out.println("Cards in deck " + currentDeck.getAllCards());
 				 
 				 for(int i=0; i<currentDeck.getAllCards().size();i++) {
 					JLabel cardLabel = new JLabel();
 					Card curCard = currentDeck.getAllCards().get(i);
 					cardLabel.setText(curCard.getName());
 					deckListPanel.add(cardLabel);
-					 
 				 }
+				deckListPanel.revalidate();
+				deckListPanel.repaint();
+				
 				 
 				 classLabel.setText(currentDeck.getHero());
 				 if(currentDeck.getHero()=="Paladin") {
@@ -362,19 +362,20 @@ public static JSONArray AllCards;
 	   public static Card getAnyCard(String name) {
 		   
 		   for(int i=0; i<cards.size();i++) {
-			   if(name == cards.get(i).getName()) {
+			   if(cards.get(i).getName().equals(name)) {
 				   return cards.get(i);
 			   } else {
 				   return null;
 			   }
 		   }
-		   return null;
+		return null;
+		   
 	   }
 	   
 	   public static Deck getDeck(String name) {
 		   
 		   for(int i = 0; i < decks.size(); i++) {
-			   if(decks.get(i).getName()==name) {
+			   if(decks.get(i).getName().equals(name)) {
 				   return decks.get(i);
 			   }
 		   }
