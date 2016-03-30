@@ -21,6 +21,10 @@ public class Deck {
 		
 	}
 	
+	public Deck() {
+		
+	}
+	
 	public void calcSize() {
 		
 		for(int i = 0; i<cards.size();i++) {
@@ -40,7 +44,7 @@ public class Deck {
 		return name;
 	}
 	
-	public ArrayList getAllCards() {
+	public ArrayList<Card> getAllCards() {
 		return cards;
 	}
 	
@@ -72,6 +76,14 @@ public class Deck {
 			}
 		}
 		return null;
+	}
+	
+	public void setName(String _name) {
+		name = _name;
+	}
+	
+	public void setHero(String _hero) {
+		hero = _hero;
 	}
 
 	public Boolean add(Card _card) {

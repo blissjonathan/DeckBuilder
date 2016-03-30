@@ -49,17 +49,17 @@ import javax.swing.text.JTextComponent;
 import java.awt.GridLayout;
 import java.awt.FlowLayout;
 
-public class CreateDeckWindow implements ActionListener {
+public class CreateDeckWindow {
 
 	private JFrame frame;
-	private JTextField textField;
+	private JTextField nameField;
 	private final Action action = new SwingAction();
 	private JTextField txtSearch;
 	private JPanel cardPanel;
 	private String classSelected;
 	private JComboBox cardBookBox;
 	private JComboBox classList;
-	private Deck currentDeck;
+	private Deck currentDeck = new Deck();
 	private JPanel deckPanel;
 	private JButton btnS;
 
@@ -108,14 +108,14 @@ public class CreateDeckWindow implements ActionListener {
 		gbc_lblName.gridy = 0;
 		frame.getContentPane().add(lblName, gbc_lblName);
 		
-		textField = new JTextField();
+		nameField = new JTextField("");
 		GridBagConstraints gbc_textField = new GridBagConstraints();
 		gbc_textField.insets = new Insets(0, 0, 5, 0);
 		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField.gridx = 6;
 		gbc_textField.gridy = 0;
-		frame.getContentPane().add(textField, gbc_textField);
-		textField.setColumns(10);
+		frame.getContentPane().add(nameField, gbc_textField);
+		nameField.setColumns(10);
 		
 		classList = new JComboBox();
 		classList.addActionListener(new ActionListener() {
@@ -149,7 +149,13 @@ public class CreateDeckWindow implements ActionListener {
 			public void actionPerformed(ActionEvent e) {
 				if(currentDeck != null) {
 				currentDeck.calcSize();
+				currentDeck.setName(nameField.getText());
 				MainWindow.decks.add(currentDeck);
+				MainWindow.deckBox.addItem(currentDeck.getName());
+				MainWindow.deckBox.revalidate();
+				MainWindow.deckBox.repaint();
+				MainWindow.deckBox.getParent().revalidate();
+				MainWindow.deckBox.getParent().repaint();
 				}
 				frame.dispose();
 			}
@@ -262,6 +268,8 @@ public class CreateDeckWindow implements ActionListener {
 //					}
 //				}	
 					
+				
+				currentDeck.add(MainWindow.getAnyCard(cardButton.getName()));
 				deckPanel.add(deckButton);
 				deckPanel.revalidate();
 					
@@ -357,21 +365,6 @@ public class CreateDeckWindow implements ActionListener {
 			putValue(SHORT_DESCRIPTION, "Some short description");
 		}
 		public void actionPerformed(ActionEvent e) {
-		}
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() instanceof JButton) {
-			System.out.println("Jbutton pressed");
-			JButton tempButton = (JButton) e.getSource();
-			String tempName = tempButton.getName();
-			if(MainWindow.getAnyCard(tempName)!=null) {
-				System.out.println(tempName + " pressed");
-				currentDeck.addCard(MainWindow.getAnyCard(tempName));
-				drawDeckPanel();
-				deckPanel.repaint();
-			}
 		}
 	}
 }

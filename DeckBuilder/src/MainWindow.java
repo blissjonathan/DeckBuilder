@@ -11,6 +11,8 @@ import javax.swing.JButton;
 
 import java.awt.BorderLayout;
 
+import javax.swing.BoxLayout;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -66,6 +68,8 @@ static Deck currentDeck;
 public static HttpResponse<JsonNode> response;
 
 JLabel classLabel = new JLabel();
+static JComboBox deckBox;
+static JPanel deckListPanel;
 
 Icon paladinIcon = new ImageIcon("./resources/icons/paladinicon.png");
 Icon warlockIcon = new ImageIcon("./resources/icons/warlockicon.png");
@@ -235,20 +239,28 @@ public static JSONArray AllCards;
 		
 		JButton btnDecks = new JButton("Decks");
 		
-		JComboBox comboBox = new JComboBox();
+		deckBox = new JComboBox();
+		
 		if(decks != null) {
 		for(int i =0; i < decks.size();i++) {
-			comboBox.addItem(decks.get(i).getName());
+			deckBox.addItem(decks.get(i).getName());
 		}
-		comboBox.repaint();
-
 		}
 		
-		comboBox.addActionListener(new ActionListener() {
+		deckBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				 Object selected = comboBox.getSelectedItem();
+				 Object selected = deckBox.getSelectedItem();
 				 System.out.println(selected.toString());
 				 currentDeck = getDeck(selected.toString());
+				 
+				 for(int i=0; i<currentDeck.getAllCards().size();i++) {
+					JLabel cardLabel = new JLabel();
+					Card curCard = currentDeck.getAllCards().get(i);
+					cardLabel.setText(curCard.getName());
+					deckListPanel.add(cardLabel);
+					 
+				 }
+				 
 				 classLabel.setText(currentDeck.getHero());
 				 if(currentDeck.getHero()=="Paladin") {
 				 classLabel.setIcon(paladinIcon);
@@ -281,14 +293,14 @@ public static JSONArray AllCards;
 				
 			}
 		});
-		comboBox.setToolTipText("Decks");
+		deckBox.setToolTipText("Decks");
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.gridwidth = 3;
 		gbc_comboBox.insets = new Insets(0, 0, 5, 5);
 		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
 		gbc_comboBox.gridx = 9;
 		gbc_comboBox.gridy = 0;
-		panel_3.add(comboBox, gbc_comboBox);
+		panel_3.add(deckBox, gbc_comboBox);
 			GridBagConstraints gbc_btnDecks = new GridBagConstraints();
 		gbc_btnDecks.insets = new Insets(0, 0, 5, 5);
 		gbc_btnDecks.gridx = 0;
@@ -307,6 +319,10 @@ public static JSONArray AllCards;
 		
 		createList();
 		scrollPane.setColumnHeaderView(classLabel);
+		
+		deckListPanel = new JPanel();
+		scrollPane.setViewportView(deckListPanel);
+		deckListPanel.setLayout(new BoxLayout(deckListPanel, BoxLayout.Y_AXIS));
 		
 		JButton btnCreateADeck = new JButton("Create a Deck");
 		
