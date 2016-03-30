@@ -149,6 +149,7 @@ public class CreateDeckWindow {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(currentDeck != null) {
+				currentDeck.setHero(classList.getSelectedItem().toString());
 				currentDeck.calcSize();
 				currentDeck.setName(nameField.getText());
 				MainWindow.decks.add(currentDeck);

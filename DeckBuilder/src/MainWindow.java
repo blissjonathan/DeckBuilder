@@ -321,8 +321,8 @@ public static JSONArray AllCards;
 		scrollPane.setColumnHeaderView(classLabel);
 		
 		deckListPanel = new JPanel();
-		scrollPane.setViewportView(deckListPanel);
 		deckListPanel.setLayout(new BoxLayout(deckListPanel, BoxLayout.Y_AXIS));
+		scrollPane.setViewportView(deckListPanel);
 		
 		JButton btnCreateADeck = new JButton("Create a Deck");
 		
