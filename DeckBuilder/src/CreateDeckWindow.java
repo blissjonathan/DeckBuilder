@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -197,88 +198,7 @@ public class CreateDeckWindow {
 		frame.getContentPane().add(cardBook, gbc_cardBook);
 		
 		cardPanel = new JPanel();
-		
-		for(int i = 0; i<MainWindow.cards.size();i++) { //5 for testing
-			JButton cardButton = new JButton("");
-			Image image = null;
-			URL url = null;
-			ImageIcon cardIcon = null;
-			
-			try {
-				url = new URL(MainWindow.cards.get(i).getImage());
-			} catch (MalformedURLException e1) {
-				e1.printStackTrace();
-			}
-			
-			if(MainWindow.cards.get(i).getHero().equals(classList.getSelectedItem().toString())) {
-			try {
-				image = ImageIO.read(url);
-				System.out.println("Image " + i + " loaded");
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-			
-			Image tempImage = image.getScaledInstance(150, 230, java.awt.Image.SCALE_SMOOTH);
-			System.out.println("Image " + i + " scaled");
-			cardIcon = new ImageIcon(tempImage);
-			cardButton.setPreferredSize(new Dimension(150,230));
-			cardButton.setIcon(cardIcon);
-			System.out.println("Image " + i + " set");
-			cardButton.setName(MainWindow.cards.get(i).getName());
-			System.out.println("Button name set to " + MainWindow.cards.get(i).getName());
-			cardButton.setOpaque(false);
-			cardButton.setContentAreaFilled(false);
-			cardButton.setBorderPainted(false);
-			cardButton.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					String buttonName = cardButton.getName();
-					JButton deckButton = new JButton(buttonName);
-					
-					deckButton.setPreferredSize(new Dimension(30,8));
-					deckButton.setOpaque(false);
-					deckButton.setContentAreaFilled(false);
-					deckButton.setBorder(BorderFactory.createLineBorder(Color.yellow, 3));
-					
-					
-					deckButton.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							JButton sourceButton = (JButton) e.getSource();
-							for(int i = 0; i < deckPanel.getComponentCount(); i++) {
-							if(sourceButton == deckPanel.getComponent(i)) {
-							deckPanel.remove(deckPanel.getComponent(i));	
-							deckPanel.revalidate();
-							deckPanel.repaint();
-							}
-							}
-						}
-					});
-					//Add to currentDeck and check if able
-					
-//					for(int i = 0; i < deckPanel.getComponentCount(); i++) {
-//						JButton compareButton = (JButton) e.getSource();
-//						if(compareButton.getName().equals(((JButton) deckPanel.getComponent(i)).getText())) {
-//							((JButton) deckPanel.getComponent(i)).setText(buttonName + " (2)");
-//							deckPanel.revalidate();
-//							deckPanel.repaint();
-//						} else {
-//						deckButton.setText(buttonName + " (1)");
-//						deckPanel.add(deckButton);
-//						deckPanel.revalidate();
-//						deckPanel.repaint();
-//					}
-//				}	
-					
-				
-				currentDeck.add(MainWindow.getAnyCard(cardButton.getName()));
-				deckPanel.add(deckButton);
-				deckPanel.revalidate();
-					
-				}
-			});
-			
-			cardPanel.add(cardButton);
-			}
-		}
+		drawCardBook(MainWindow.cards);
 		
 		cardBook.setViewportView(cardPanel);
 		
@@ -304,7 +224,7 @@ public class CreateDeckWindow {
 		btnS.setIcon(searchIcon);
 		btnS.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				searchBox();
+				searchBox(txtSearch.getText());
 			}
 		});
 		GridBagConstraints gbc_btnS = new GridBagConstraints();
@@ -347,17 +267,93 @@ public class CreateDeckWindow {
 		return deckPanel;
 	}
 	
-	public ArrayList<Card> searchBox() {
-		ArrayList<Card> searchedCards = new ArrayList<Card>();
-		
-		return searchedCards;
+	public void drawCardBook(ArrayList<Card> _cards) {
+
+			for(int i = 0; i<_cards.size();i++) {
+				JButton cardButton = new JButton("");
+				Image image = null;
+				URL url = null;
+				ImageIcon cardIcon = null;
+				
+				try {
+					url = new URL(_cards.get(i).getImage());
+				} catch (MalformedURLException e1) {
+					e1.printStackTrace();
+				}
+				
+				if(_cards.get(i).getHero().equals(classList.getSelectedItem().toString())) {
+				try {
+					image = ImageIO.read(url);
+					System.out.println("Image " + i + " loaded");
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+				
+				Image tempImage = image.getScaledInstance(150, 230, java.awt.Image.SCALE_SMOOTH);
+				System.out.println("Image " + i + " scaled");
+				cardIcon = new ImageIcon(tempImage);
+				cardButton.setPreferredSize(new Dimension(150,230));
+				cardButton.setIcon(cardIcon);
+				System.out.println("Image " + i + " set");
+				cardButton.setName(_cards.get(i).getName());
+				System.out.println("Button name set to " + MainWindow.cards.get(i).getName());
+				cardButton.setOpaque(false);
+				cardButton.setContentAreaFilled(false);
+				cardButton.setBorderPainted(false);
+				cardButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						String buttonName = cardButton.getName();
+						JButton deckButton = new JButton(buttonName);
+						
+						deckButton.setPreferredSize(new Dimension(30,8));
+						deckButton.setOpaque(false);
+						deckButton.setContentAreaFilled(false);
+						deckButton.setBorder(BorderFactory.createLineBorder(Color.yellow, 3));
+						
+						
+						deckButton.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								JButton sourceButton = (JButton) e.getSource();
+								for(int i = 0; i < deckPanel.getComponentCount(); i++) {
+								if(sourceButton == deckPanel.getComponent(i)) {
+								
+								currentDeck.removeCard(((JButton) deckPanel.getComponent(i)).getText());	
+								deckPanel.remove(deckPanel.getComponent(i));	
+								deckPanel.revalidate();
+								deckPanel.repaint();
+								}
+								}
+							}
+						});
+						
+					Card curCard = MainWindow.getAnyCard(buttonName);
+					currentDeck.addCard(curCard);	
+					deckPanel.add(deckButton);
+					deckPanel.revalidate();
+						
+					}
+				});
+				
+				cardPanel.add(cardButton);
+				}
+			}
 	}
 	
-	public JPanel drawCardPanel() {
+	public ArrayList<Card> searchBox(String _card) {
+		ArrayList<Card> searchedCards = new ArrayList<Card>();
+		String search = txtSearch.getText();
+		cardPanel = new JPanel();
 		
-		
-		return cardPanel;
-	}
+		for(int i = 0; i < MainWindow.cards.size();i++) {
+			if(MainWindow.cards.get(i).getName().contains(_card)) {
+				searchedCards.add(MainWindow.cards.get(i));
+			}
+		}	
+			
+			return searchedCards;
+		}
+	
+
 
 	private class SwingAction extends AbstractAction {
 		public SwingAction() {
