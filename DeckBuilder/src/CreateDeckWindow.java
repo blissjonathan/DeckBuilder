@@ -44,6 +44,7 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JRadioButton;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.text.JTextComponent;
 
@@ -63,6 +64,7 @@ public class CreateDeckWindow {
 	private Deck currentDeck = new Deck();
 	private JPanel deckPanel;
 	private JButton btnS;
+	private JComboBox formatBox;
 
 	/**
 	 * Launch the application.
@@ -151,6 +153,7 @@ public class CreateDeckWindow {
 				if(currentDeck != null) {
 				currentDeck.setHero(classList.getSelectedItem().toString());
 				currentDeck.setName(nameField.getText());
+				currentDeck.setFormat(formatBox.getSelectedItem().toString());
 				MainWindow.decks.add(currentDeck);
 				MainWindow.deckBox.addItem(currentDeck.getName());
 				MainWindow.deckBox.revalidate();
@@ -168,12 +171,26 @@ public class CreateDeckWindow {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		GridBagConstraints gbc_comboBox = new GridBagConstraints();
-		gbc_comboBox.insets = new Insets(0, 0, 5, 5);
-		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_comboBox.gridx = 2;
-		gbc_comboBox.gridy = 2;
-		frame.getContentPane().add(cardBookBox, gbc_comboBox);
+		GridBagConstraints gbc_formatBox = new GridBagConstraints();
+		gbc_formatBox.insets = new Insets(0, 0, 5, 5);
+		gbc_formatBox.fill = GridBagConstraints.HORIZONTAL;
+		gbc_formatBox.gridx = 2;
+		gbc_formatBox.gridy = 2;
+		frame.getContentPane().add(cardBookBox, gbc_formatBox);
+		
+		formatBox = new JComboBox();
+		formatBox.setModel(new DefaultComboBoxModel(new String[] {"Standard", "Wild"}));
+		formatBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//
+			}
+		});
+		GridBagConstraints gbc_formatBox1 = new GridBagConstraints();
+		gbc_formatBox1.insets = new Insets(0, 0, 5, 0);
+		gbc_formatBox1.fill = GridBagConstraints.HORIZONTAL;
+		gbc_formatBox1.gridx = 6;
+		gbc_formatBox1.gridy = 2;
+		frame.getContentPane().add(formatBox, gbc_formatBox1);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
@@ -319,19 +336,17 @@ public class CreateDeckWindow {
 						
 						String buttonName = cardButton.getName();
 						JButton deckButton = new JButton(buttonName);
-						
 						deckButton.setPreferredSize(new Dimension(30,8));
 						deckButton.setOpaque(false);
 						deckButton.setContentAreaFilled(false);
 						deckButton.setBorder(BorderFactory.createLineBorder(Color.yellow, 3));
-						
+						deckButton.setMaximumSize(new Dimension(Integer.MAX_VALUE, 15));
 						
 						deckButton.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
 								JButton sourceButton = (JButton) e.getSource();
 								for(int i = 0; i < deckPanel.getComponentCount(); i++) {
 								if(sourceButton == deckPanel.getComponent(i)) {
-								
 								currentDeck.removeCard(((JButton) deckPanel.getComponent(i)).getText());	
 								deckPanel.remove(deckPanel.getComponent(i));	
 								deckPanel.revalidate();
@@ -340,19 +355,38 @@ public class CreateDeckWindow {
 								}
 							}
 						});
-							
-					deckPanel.add(deckButton);
-					deckPanel.revalidate();
+						boolean hasButton = false;
+						for(int i = 0; i < deckPanel.getComponentCount(); i++) {
+							if(deckButton.getText().equals(((JButton) deckPanel.getComponent(i)).getText())) {
+							hasButton = true;
+							((JButton) deckPanel.getComponent(i)).setText(buttonName + " (2)"); 
+							deckPanel.revalidate();
+							deckPanel.repaint();
+							}
+							else if((deckButton.getText() + " (2)").equals(((JButton) deckPanel.getComponent(i)).getText())) {
+							hasButton = true;
+							} 
+							else {
+							hasButton = false;
+							}
+
+						}
 						
+						if(hasButton == false) {
+						deckPanel.add(deckButton);
+						deckPanel.revalidate();
+						}
 					}
 				});
 				
 				cardPanel.add(cardButton);
 				}
 			}
+			cardPanel.revalidate();
+			cardPanel.repaint();
 	}
 	
-	public ArrayList<Card> searchBox(String _card) {
+	public void searchBox(String _card) {
 		ArrayList<Card> searchedCards = new ArrayList<Card>();
 		String search = txtSearch.getText();
 		cardPanel = new JPanel();
@@ -363,7 +397,7 @@ public class CreateDeckWindow {
 			}
 		}	
 			
-			return searchedCards;
+			drawCardBook(searchedCards);
 		}
 	
 

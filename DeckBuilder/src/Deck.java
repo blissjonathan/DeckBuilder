@@ -5,6 +5,7 @@ public class Deck {
 	private ArrayList<Card> cards = new ArrayList<Card>();
 	private final int maxsize = 30;
 	private int currentsize = 0;
+	private String format;
 	private String name;
 	private String hero;
 	private String archetype;
@@ -36,6 +37,7 @@ public class Deck {
 		return hero;
 	}
 	
+	
 	public boolean getFinished() {
 		return finished;
 	}
@@ -50,10 +52,7 @@ public class Deck {
 	
 	
 	public void removeCard(String name) {
-		
 		cards.remove(getCard(name));
-		
-		
 	}
 	
 	public int getSize() {
@@ -61,6 +60,9 @@ public class Deck {
 	}
 	
 
+	public void setFormat(String _format) {
+		format = _format;
+	}
 	
 	public Card getCard(String name) {
 		for(int i = 0; i < cards.size(); i++) {

@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 
 import java.awt.Color;
 import java.awt.CardLayout;
+import java.awt.Dimension;
 
 import javax.swing.JPanel;
 import javax.swing.JMenuBar;
@@ -11,6 +12,7 @@ import javax.swing.JButton;
 
 import java.awt.BorderLayout;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
@@ -147,15 +149,6 @@ public static JSONArray AllCards;
 			UpdateWindow.createWindow(tempurl,tempversion);
 		}
 		
-		File[] directoryListing = dir.listFiles();
-		
-		for(int i=0;i<5;i++) { //test decks
-			String deckName = ("Deck " + i);
-			Deck tmpDeck = new Deck(deckName,"Paladin");
-			decks.add(tmpDeck);
-		}
-		
-		
 	    try {
 	    	UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             
@@ -255,6 +248,10 @@ public static JSONArray AllCards;
 					JLabel cardLabel = new JLabel();
 					Card curCard = currentDeck.getAllCards().get(i);
 					cardLabel.setText(curCard.getName());
+					cardLabel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 15));
+					cardLabel.setBorder(BorderFactory.createLineBorder(Color.yellow, 3));
+					cardLabel.setHorizontalAlignment(SwingConstants.CENTER);
+					cardLabel.setVerticalAlignment(SwingConstants.CENTER);
 					deckListPanel.add(cardLabel);
 				 }
 				deckListPanel.revalidate();
