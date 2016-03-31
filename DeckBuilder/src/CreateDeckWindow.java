@@ -356,22 +356,26 @@ public class CreateDeckWindow {
 							}
 						});
 						boolean hasButton = false;
+						
+						checkPanel: {
 						for(int i = 0; i < deckPanel.getComponentCount(); i++) {
 							if(deckButton.getText().equals(((JButton) deckPanel.getComponent(i)).getText())) {
 							hasButton = true;
 							((JButton) deckPanel.getComponent(i)).setText(buttonName + " (2)"); 
 							deckPanel.revalidate();
 							deckPanel.repaint();
+							break checkPanel;
 							}
 							else if((deckButton.getText() + " (2)").equals(((JButton) deckPanel.getComponent(i)).getText())) {
 							hasButton = true;
+							break checkPanel;
 							} 
 							else {
 							hasButton = false;
 							}
 
 						}
-						
+					}	
 						if(hasButton == false) {
 						deckPanel.add(deckButton);
 						deckPanel.revalidate();
