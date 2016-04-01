@@ -100,13 +100,12 @@ public class Deck {
 	public void sortCards() {
 		Card curCard =null;
 		for(int i = 0; i < cards.size();i++) {
-			if(cards.get(i-1) != null) {
-			curCard = cards.get(i-1);
-			}
-			if(curCard != null && curCard.getMana() > cards.get(i).getMana()) {
+			if(i !=0) {
+			if(cards.get(i-1).getMana() > cards.get(i).getMana()) {
 				Card tempCard = cards.get(i);
-				cards.set(i, curCard);
+				cards.set(i, cards.get(i-1));
 				cards.set(i-1, tempCard);
+			}
 			}
 		}
 		

@@ -63,6 +63,7 @@ private static final String version = ".2";
 	
 static ArrayList<Deck> decks = new ArrayList<Deck>();
 static ArrayList<Card> cards = new ArrayList<Card>();
+static ArrayList<Card> collection = new ArrayList<Card>();
 public static ArrayList<String> CardData = new ArrayList<String>();
 static String imgPath = "";
 static File dir = new File(imgPath);
@@ -194,7 +195,7 @@ public static JSONArray AllCards;
 	 */
 	private void initialize() {
 		frmDeckbuilder = new JFrame();
-		frmDeckbuilder.setIconImage(Toolkit.getDefaultToolkit().getImage("./resources/dbicon.png"));
+		frmDeckbuilder.setIconImage(Toolkit.getDefaultToolkit().getImage("./resources/icons/dbicon.png"));
 		frmDeckbuilder.setBackground(Color.LIGHT_GRAY);
 		frmDeckbuilder.setResizable(false);
 		frmDeckbuilder.setTitle("DeckBuilder " + version);
@@ -252,8 +253,25 @@ public static JSONArray AllCards;
 					cardLabel.setBorder(BorderFactory.createLineBorder(Color.yellow, 3));
 					cardLabel.setHorizontalAlignment(SwingConstants.CENTER);
 					cardLabel.setVerticalAlignment(SwingConstants.CENTER);
+					
+//					checkPanel: {
+//						for(int x = 0; x < deckListPanel.getComponentCount(); x++) {
+//							if(cardLabel.getText().equals(((JButton) deckListPanel.getComponent(i)).getText())) {
+//							((JButton) deckListPanel.getComponent(i)).setText(cardLabel.getText() + " (2)"); 
+//							break checkPanel;
+//							}
+//							else {
+//								deckListPanel.add(cardLabel);
+//							} 
+//
+//						}
+//					}
+					
 					deckListPanel.add(cardLabel);
 				 }
+				 
+
+				 
 				deckListPanel.revalidate();
 				deckListPanel.repaint();
 				
@@ -352,7 +370,20 @@ public static JSONArray AllCards;
 		mnFile.add(mntmNewMenuItem);
 		
 		JMenu mnCollection = new JMenu("Collection");
+		mnCollection.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//CollectionWindow.createWindow(collection);
+			}
+		});
 		menuBar.add(mnCollection);
+		
+		JMenuItem mntmOpenCollection = new JMenuItem("Open Collection");
+		mntmOpenCollection.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CollectionWindow.createWindow(collection);
+			}
+		});
+		mnCollection.add(mntmOpenCollection);
 	}
 	   
 	   
