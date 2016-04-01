@@ -348,7 +348,9 @@ public class CreateDeckWindow {
 								System.out.println(sourceButton.getText() + " deck button pressed");
 								checkPanelforRemove: {
 								for(int i = 0; i < deckPanel.getComponentCount(); i++) {
-								if(((JButton) deckPanel.getComponent(i)).getText().contains("(2)")) {
+								if(((JButton) deckPanel.getComponent(i)).getText().contains("(2)") &&
+										((JButton) deckPanel.getComponent(i)).getText().contains(
+												sourceButton.getText().replace(" (2)", ""))) {
 								System.out.println("Found stacked button");
 								String origName = sourceButton.getText().replace(" (2)", "");
 								currentDeck.removeCard(origName);	
