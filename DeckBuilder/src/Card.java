@@ -69,6 +69,10 @@ public String getImage() {
 	return image;
 }
 
+public int getMana() {
+	return mana;
+}
+
 public void setAttack(int _attack) {
 	attack = _attack;
 }
