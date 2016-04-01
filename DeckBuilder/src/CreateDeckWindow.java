@@ -350,7 +350,7 @@ public class CreateDeckWindow {
 								for(int i = 0; i < deckPanel.getComponentCount(); i++) {
 								if(((JButton) deckPanel.getComponent(i)).getText().contains("(2)")) {
 								System.out.println("Found stacked button");
-								String origName = sourceButton.getText().replace("(2)", "");
+								String origName = sourceButton.getText().replace(" (2)", "");
 								currentDeck.removeCard(origName);	
 								((JButton) deckPanel.getComponent(i)).setText(origName);	
 								deckPanel.revalidate();
