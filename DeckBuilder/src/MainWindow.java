@@ -459,7 +459,7 @@ public static JSONArray AllCards;
 	   
 	   public static void saveData() {
 		   System.out.println("Saving...");
-		   String outputFile = "./resources/tempdata/data/data2.txt";
+		   String outputFile = "./resources/tempdata/data/data.txt";
 		   BufferedWriter output = null;
 		   try {
 			output = new BufferedWriter(new FileWriter(outputFile));
