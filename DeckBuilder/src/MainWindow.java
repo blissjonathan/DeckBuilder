@@ -158,19 +158,58 @@ public static JSONArray AllCards;
        // handle exception
 	    }
 		
-		String inputFile = "data.txt";
+	    String inputFile = "temp.txt";
+		//String inputFile = "./resources/tempdata/data/data.txt";
 		String line;
 		try {
 			FileReader fileReader = new FileReader(inputFile);
 			BufferedReader bufferedReader = new BufferedReader(fileReader);
 			
             while((line = bufferedReader.readLine()) != null) {
-                System.out.println(line);
+               StringTokenizer fileRead = new StringTokenizer(line,"|");
+               String dataType = fileRead.nextToken();
+               if(dataType.equals("DECK")) {
+            	   Deck tempDeck = new Deck();
+            	   tempDeck.setName(fileRead.nextToken());
+            	   tempDeck.setHero(fileRead.nextToken());
+            	   System.out.println("found saved deck " + tempDeck.getName() + tempDeck.getHero());
+            	   
+            	   while(fileRead.hasMoreTokens()) {
+            		   Card tempCard = null;
+            		   String cardName = fileRead.nextToken();
+            		   for(int i = 0; i < cards.size();i++) {
+            			   if(cardName != null && cards.get(i).getName().equals(cardName)) {
+            				   tempCard = cards.get(i);
+            			   }
+            		   }
+            		   tempDeck.addCard(tempCard);
+            	   }
+            	   decks.add(tempDeck);
+               }
+               
+               if(dataType.equals("COLLECTION")) {
+            	   while(fileRead.hasMoreTokens()) {
+            		   Card tempCard = null;
+            		   String cardName = fileRead.nextToken();
+            		   for(int i = 0; i < cards.size();i++) {
+            			   if(cardName != null && cards.get(i).getName().equals(cardName)) {
+            				   tempCard = cards.get(i);
+            			   }
+            		   }
+                	   collection.add(tempCard);
+            	   }
+
+               }
+               
             }   
             
 		} catch(FileNotFoundException ex) {
-			
+			System.out.println("File not found");
 		}
+		
+		
+		
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
