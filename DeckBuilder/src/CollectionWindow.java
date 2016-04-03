@@ -62,7 +62,7 @@ public class CollectionWindow {
 		frmCollectionManager.setTitle("Collection Manager");
 		frmCollectionManager.setResizable(false);
 		frmCollectionManager.setBounds(100, 100, 650, 414);
-		frmCollectionManager.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmCollectionManager.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
