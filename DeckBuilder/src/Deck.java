@@ -97,6 +97,17 @@ public class Deck {
 		
 	}
 	
+	public String toString() {
+		String deckStr = "DECK|";
+		
+		deckStr = deckStr + name + "|" + hero;
+		
+		for(int i = 0; i < cards.size(); i++) {
+			deckStr = deckStr + "|" + cards.get(i).getName();
+		}
+		return deckStr;
+	}
+	
 	public void sortCards() {
 		Card curCard =null;
 		for(int i = 0; i < cards.size();i++) {

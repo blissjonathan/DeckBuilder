@@ -27,9 +27,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -208,6 +210,11 @@ public static JSONArray AllCards;
 		}
 		
 		
+		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+	        public void run() {
+	            saveData();
+	        }
+	    }, "Shutdown-thread"));
 		
 		
 		EventQueue.invokeLater(new Runnable() {
@@ -279,6 +286,7 @@ public static JSONArray AllCards;
 		
 		deckBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				deckListPanel.removeAll();
 				 Object selected = deckBox.getSelectedItem();
 				 System.out.println(selected.toString());
 				 currentDeck = getDeck(selected.toString());
@@ -447,6 +455,42 @@ public static JSONArray AllCards;
 			   }
 		   }
 		   return null;
+	   }
+	   
+	   public static void saveData() {
+		   System.out.println("Saving...");
+		   String outputFile = "./resources/tempdata/data/data2.txt";
+		   BufferedWriter output = null;
+		   try {
+			output = new BufferedWriter(new FileWriter(outputFile));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		   for(int i=0;i<decks.size();i++) {
+			   try {
+				output.write(decks.get(i).toString());
+				output.newLine();
+				 System.out.println("Wrote " + decks.get(i).getName() + " to file");
+			} catch (IOException e) {
+				System.out.println("Write deck error");
+				e.printStackTrace();
+			}
+		   }
+		   
+		   String collectionStr = "COLLECTION|";
+		   //add cards to collection
+		   try {
+			output.write(collectionStr);
+			System.out.println("Wrote collection to file");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		  try {
+			output.close();
+			System.out.println("Data File saved");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	   }
 	   
 	   public static String[] getCurrentCards() {

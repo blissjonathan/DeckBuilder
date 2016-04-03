@@ -1,0 +1,3 @@
+DECK|testrogue1|Rogue|Backstab
+DECK|testrogue2|Rogue|Sinister Strike|Deadly Poison
+COLLECTION|
