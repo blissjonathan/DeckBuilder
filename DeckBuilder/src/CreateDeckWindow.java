@@ -67,6 +67,7 @@ public class CreateDeckWindow {
 	private String cardPath = MainWindow.cardPath;
 	private JButton classbtn;
 	private JButton neutralbutton;
+	private JScrollPane cardBook;
 
 	/**
 	 * Launch the application.
@@ -129,6 +130,8 @@ public class CreateDeckWindow {
 				 if(classbtn != null) {
 				 classbtn.revalidate();
 				 classbtn.repaint();
+				 classbtn.getParent().revalidate();
+				 classbtn.getParent().repaint();
 				 }
 				 if(classSelected != null) {
 				 
@@ -195,6 +198,12 @@ public class CreateDeckWindow {
 		
 		neutralbutton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				ArrayList<Card> neutrals;
+				
+				neutrals = MainWindow.createCardList("Neutral", 0);
+				
+				drawCardBook(neutrals);
+				
 			}
 		});
 		
@@ -205,12 +214,12 @@ public class CreateDeckWindow {
 		
 		Image classImage = null;
 		try {
-			neutralImage = ImageIO.read(new File("./resources/icons/" + classList.getSelectedItem().toString() + "icon.png"));
+			classImage = ImageIO.read(new File("./resources/icons/" + classList.getSelectedItem().toString() + "icon.png"));
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		Image tempImage3 = neutralImage.getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
-		neutralbutton.setIcon(new ImageIcon(tempImage3));
+		Image tempImage3 = classImage.getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
+		classbtn.setIcon(new ImageIcon(tempImage3));
 		
 		classbtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -244,7 +253,7 @@ public class CreateDeckWindow {
 		scrollPane.setViewportView(drawDeckPanel());
 		deckPanel.setLayout(new BoxLayout(deckPanel, BoxLayout.Y_AXIS));
 		
-		JScrollPane cardBook = new JScrollPane();
+		cardBook = new JScrollPane();
 		GridBagConstraints gbc_cardBook = new GridBagConstraints();
 		gbc_cardBook.gridwidth = 6;
 		gbc_cardBook.insets = new Insets(0, 0, 5, 0);
@@ -258,7 +267,7 @@ public class CreateDeckWindow {
 		cardPanel = new JPanel();
 		drawCardBook(MainWindow.createCardList(classList.getSelectedItem().toString(), 0));
 		
-		cardBook.setViewportView(cardPanel);
+		
 		
 		txtSearch = new JTextField();
 		txtSearch.setText("Search");
@@ -326,7 +335,7 @@ public class CreateDeckWindow {
 	}
 	
 	public void drawCardBook(ArrayList<Card> _cards) {
-
+		cardPanel = new JPanel();
 			for(int i = 0; i<_cards.size();i++) {
 				JButton cardButton = new JButton("");
 				Image image = null;
@@ -439,6 +448,7 @@ public class CreateDeckWindow {
 			}
 			cardPanel.revalidate();
 			cardPanel.repaint();
+			cardBook.setViewportView(cardPanel);
 	}
 	
 	public void searchBox(String _card) {
