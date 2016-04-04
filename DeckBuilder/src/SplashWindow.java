@@ -7,6 +7,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 
 import java.awt.BorderLayout;
 
@@ -15,7 +16,6 @@ public class SplashWindow {
 
 	public static JFrame frame;
 	Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-
 	/**
 	 * Launch the application.
 	 */
@@ -52,7 +52,6 @@ public class SplashWindow {
 		Dimension dim2 = Toolkit.getDefaultToolkit().getScreenSize();
 		frame.setLocation(dim2.width/2-frame.getSize().width/2, dim2.height/2-frame.getSize().height/2);
 		frame.setContentPane(new JLabel(new ImageIcon("./resources/UI icons/splashscreen.png")));
-
 		
 		
 

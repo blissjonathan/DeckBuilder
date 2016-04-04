@@ -119,6 +119,7 @@ public static boolean loaded = false;
 			JSONArray loeCards = AllCardsObj.getJSONArray("The League of Explorers");
 			JSONArray blackrockCards = AllCardsObj.getJSONArray("Blackrock Mountain");
 			JSONArray tgtCards = AllCardsObj.getJSONArray("The Grand Tournament");
+			ProgressBarWindow.createWindow(AllCardsObj.length());
 			
 			for(int i=0; i<basicCards.length();i++) {
 				JSONObject tObject = basicCards.getJSONObject(i);
@@ -159,6 +160,7 @@ public static boolean loaded = false;
 						File outputfile = new File("./resources/tempdata/cards/" + tCard.getID() + ".png");
 						ImageIO.write(bi, "png", outputfile);
 					}
+					ProgressBarWindow.updateBar();
 				}
 				if(tObject.has("cost")) {
 					tCard.setCost(tObject.getInt("cost"));
@@ -209,6 +211,7 @@ public static boolean loaded = false;
 						File outputfile = new File("./resources/tempdata/cards/" + tCard.getID() + ".png");
 						ImageIO.write(bi, "png", outputfile);
 					}
+					ProgressBarWindow.updateBar();
 				}
 				if(tObject.has("cost")) {
 					tCard.setCost(tObject.getInt("cost"));
@@ -259,6 +262,7 @@ public static boolean loaded = false;
 						File outputfile = new File("./resources/tempdata/cards/" + tCard.getID() + ".png");
 						ImageIO.write(bi, "png", outputfile);
 					}
+					ProgressBarWindow.updateBar();
 				}
 				if(tObject.has("cost")) {
 					tCard.setCost(tObject.getInt("cost"));
@@ -309,6 +313,7 @@ public static boolean loaded = false;
 						File outputfile = new File("./resources/tempdata/cards/" + tCard.getID() + ".png");
 						ImageIO.write(bi, "png", outputfile);
 					}
+					ProgressBarWindow.updateBar();
 				}
 				if(tObject.has("cost")) {
 					tCard.setCost(tObject.getInt("cost"));
@@ -359,6 +364,7 @@ public static boolean loaded = false;
 						File outputfile = new File("./resources/tempdata/cards/" + tCard.getID() + ".png");
 						ImageIO.write(bi, "png", outputfile);
 					}
+					ProgressBarWindow.updateBar();
 				}
 				if(tObject.has("cost")) {
 					tCard.setCost(tObject.getInt("cost"));
@@ -409,6 +415,7 @@ public static boolean loaded = false;
 						File outputfile = new File("./resources/tempdata/cards/" + tCard.getID() + ".png");
 						ImageIO.write(bi, "png", outputfile);
 					}
+					ProgressBarWindow.updateBar();
 				}
 				if(tObject.has("cost")) {
 					tCard.setCost(tObject.getInt("cost"));
@@ -419,6 +426,7 @@ public static boolean loaded = false;
 				
 				cards.add(tCard);	
 		}
+			ProgressBarWindow.frame.dispose();
 			
 		} catch (UnirestException e1) {
 			e1.printStackTrace();
