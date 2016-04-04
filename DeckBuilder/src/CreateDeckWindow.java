@@ -59,13 +59,14 @@ public class CreateDeckWindow {
 	private JTextField txtSearch;
 	private JPanel cardPanel;
 	private String classSelected;
-	private JComboBox cardBookBox;
 	private JComboBox classList;
 	private Deck currentDeck = new Deck();
 	private JPanel deckPanel;
 	private JButton btnS;
 	private JComboBox formatBox;
 	private String cardPath = MainWindow.cardPath;
+	private JButton classbtn;
+	private JButton neutralbutton;
 
 	/**
 	 * Launch the application.
@@ -99,16 +100,16 @@ public class CreateDeckWindow {
 		frame.setBounds(100, 100, 750, 500);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
+		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{1.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.columnWeights = new double[]{1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
 		frame.getContentPane().setLayout(gridBagLayout);
 		
 		JLabel lblName = new JLabel("Name:");
 		GridBagConstraints gbc_lblName = new GridBagConstraints();
 		gbc_lblName.insets = new Insets(0, 0, 5, 5);
-		gbc_lblName.gridx = 5;
+		gbc_lblName.gridx = 7;
 		gbc_lblName.gridy = 0;
 		frame.getContentPane().add(lblName, gbc_lblName);
 		
@@ -116,7 +117,7 @@ public class CreateDeckWindow {
 		GridBagConstraints gbc_textField = new GridBagConstraints();
 		gbc_textField.insets = new Insets(0, 0, 5, 0);
 		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField.gridx = 6;
+		gbc_textField.gridx = 8;
 		gbc_textField.gridy = 0;
 		frame.getContentPane().add(nameField, gbc_textField);
 		nameField.setColumns(10);
@@ -125,8 +126,12 @@ public class CreateDeckWindow {
 		classList.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				 classSelected = classList.getSelectedItem().toString();
+				 if(classbtn != null) {
+				 classbtn.revalidate();
+				 classbtn.repaint();
+				 }
 				 if(classSelected != null) {
-				 //cardPanel.revalidate();
+				 
 				 }
 				 
 			}
@@ -144,7 +149,7 @@ public class CreateDeckWindow {
 		GridBagConstraints gbc_classList = new GridBagConstraints();
 		gbc_classList.insets = new Insets(0, 0, 5, 0);
 		gbc_classList.fill = GridBagConstraints.HORIZONTAL;
-		gbc_classList.gridx = 6;
+		gbc_classList.gridx = 8;
 		gbc_classList.gridy = 1;
 		frame.getContentPane().add(classList, gbc_classList);
 		
@@ -166,19 +171,6 @@ public class CreateDeckWindow {
 			}
 		});
 		
-		cardBookBox = new JComboBox();
-		cardBookBox.setModel(new DefaultComboBoxModel(new String[] {classSelected + " Cards", "Neutral Cards"}));
-		cardBookBox.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		GridBagConstraints gbc_formatBox = new GridBagConstraints();
-		gbc_formatBox.insets = new Insets(0, 0, 5, 5);
-		gbc_formatBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_formatBox.gridx = 2;
-		gbc_formatBox.gridy = 2;
-		frame.getContentPane().add(cardBookBox, gbc_formatBox);
-		
 		formatBox = new JComboBox();
 		formatBox.setModel(new DefaultComboBoxModel(new String[] {"Standard", "Wild"}));
 		formatBox.addActionListener(new ActionListener() {
@@ -186,10 +178,58 @@ public class CreateDeckWindow {
 				//
 			}
 		});
+		
+		neutralbutton = new JButton("");
+		
+		neutralbutton.setOpaque(false);
+		neutralbutton.setContentAreaFilled(false);
+		
+		Image neutralImage = null;
+		try {
+			neutralImage = ImageIO.read(new File("./resources/icons/neutralicon.png"));
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		Image tempImage2 = neutralImage.getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
+		neutralbutton.setIcon(new ImageIcon(tempImage2));
+		
+		neutralbutton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		
+		classbtn = new JButton("");
+		
+		classbtn.setOpaque(false);
+		classbtn.setContentAreaFilled(false);
+		
+		Image classImage = null;
+		try {
+			neutralImage = ImageIO.read(new File("./resources/icons/" + classList.getSelectedItem().toString() + "icon.png"));
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		Image tempImage3 = neutralImage.getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
+		neutralbutton.setIcon(new ImageIcon(tempImage3));
+		
+		classbtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		GridBagConstraints gbc_classbtn = new GridBagConstraints();
+		gbc_classbtn.insets = new Insets(0, 0, 5, 5);
+		gbc_classbtn.gridx = 4;
+		gbc_classbtn.gridy = 2;
+		frame.getContentPane().add(classbtn, gbc_classbtn);
+		GridBagConstraints gbc_neutralbutton = new GridBagConstraints();
+		gbc_neutralbutton.insets = new Insets(0, 0, 5, 5);
+		gbc_neutralbutton.gridx = 5;
+		gbc_neutralbutton.gridy = 2;
+		frame.getContentPane().add(neutralbutton, gbc_neutralbutton);
 		GridBagConstraints gbc_formatBox1 = new GridBagConstraints();
 		gbc_formatBox1.insets = new Insets(0, 0, 5, 0);
 		gbc_formatBox1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_formatBox1.gridx = 6;
+		gbc_formatBox1.gridx = 8;
 		gbc_formatBox1.gridy = 2;
 		frame.getContentPane().add(formatBox, gbc_formatBox1);
 		
@@ -206,10 +246,10 @@ public class CreateDeckWindow {
 		
 		JScrollPane cardBook = new JScrollPane();
 		GridBagConstraints gbc_cardBook = new GridBagConstraints();
-		gbc_cardBook.gridwidth = 5;
+		gbc_cardBook.gridwidth = 6;
 		gbc_cardBook.insets = new Insets(0, 0, 5, 0);
 		gbc_cardBook.fill = GridBagConstraints.BOTH;
-		gbc_cardBook.gridx = 2;
+		gbc_cardBook.gridx = 3;
 		gbc_cardBook.gridy = 3;
 		
 		
@@ -225,7 +265,7 @@ public class CreateDeckWindow {
 		GridBagConstraints gbc_txtSearch = new GridBagConstraints();
 		gbc_txtSearch.insets = new Insets(0, 0, 5, 5);
 		gbc_txtSearch.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtSearch.gridx = 2;
+		gbc_txtSearch.gridx = 3;
 		gbc_txtSearch.gridy = 4;
 		frame.getContentPane().add(txtSearch, gbc_txtSearch);
 		txtSearch.setColumns(10);
@@ -247,11 +287,11 @@ public class CreateDeckWindow {
 		});
 		GridBagConstraints gbc_btnS = new GridBagConstraints();
 		gbc_btnS.insets = new Insets(0, 0, 5, 5);
-		gbc_btnS.gridx = 3;
+		gbc_btnS.gridx = 5;
 		gbc_btnS.gridy = 4;
 		frame.getContentPane().add(btnS, gbc_btnS);
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-		gbc_btnNewButton.gridx = 6;
+		gbc_btnNewButton.gridx = 8;
 		gbc_btnNewButton.gridy = 5;
 		frame.getContentPane().add(btnNewButton, gbc_btnNewButton);
 		

@@ -598,7 +598,7 @@ public static boolean loaded = false;
 					JLabel cardLabel = new JLabel();
 					Card curCard = currentDeck.getAllCards().get(i);
 					cardLabel.setText(curCard.getName());
-					cardLabel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 15));
+					cardLabel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
 					cardLabel.setBorder(BorderFactory.createLineBorder(Color.yellow, 3));
 					cardLabel.setHorizontalAlignment(SwingConstants.CENTER);
 					cardLabel.setVerticalAlignment(SwingConstants.CENTER);
@@ -608,8 +608,7 @@ public static boolean loaded = false;
 //							if(cardLabel.getText().equals(((JButton) deckListPanel.getComponent(i)).getText())) {
 //							((JButton) deckListPanel.getComponent(i)).setText(cardLabel.getText() + " (2)"); 
 //							break checkPanel;
-//							}
-//							else {
+//							} else if(!(cardLabel.getText().equals(((JButton) deckListPanel.getComponent(i)).getText()))) {
 //								deckListPanel.add(cardLabel);
 //							} 
 //
@@ -758,6 +757,16 @@ public static boolean loaded = false;
 			}
 		});
 		mnCollection.add(mntmOpenCollection);
+		
+		JMenu mnHelp = new JMenu("Help");
+		menuBar.add(mnHelp);
+		
+		JMenuItem mntmAbout = new JMenuItem("About");
+		mntmAbout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		mnHelp.add(mntmAbout);
 	}
 	   
 	   
