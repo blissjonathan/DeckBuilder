@@ -170,6 +170,256 @@ public static boolean loaded = false;
 				cards.add(tCard);	
 		}
 			
+			for(int i=0; i<classicCards.length();i++) {
+				JSONObject tObject = classicCards.getJSONObject(i);
+				Card tCard = new Card();
+				if(tObject.has("playerClass")) {
+					tCard.setHero(tObject.getString("playerClass"));
+				}
+				if(!(tObject.has("playerClass"))) {
+					tCard.setHero("Neutral");
+				}
+				if(tObject.has("cardId")) {
+					tCard.setID(tObject.getString("cardId"));
+				}
+				if(tObject.has("cardSet")) {
+					tCard.setSet(tObject.getString("cardSet"));
+				}
+				if(tObject.has("name")) {
+					tCard.setName(tObject.getString("name"));
+				}
+				if(tObject.has("type")) {
+					tCard.setType(tObject.getString("type"));
+				}
+				if(tObject.has("text")) {
+					tCard.setText(tObject.getString("text"));
+				}
+				if(tObject.has("attack")) {
+					tCard.setAttack(tObject.getInt("attack"));
+				}
+				if(tObject.has("health")) {
+					tCard.setHealth(tObject.getInt("health"));
+				}
+				if(tObject.has("img")) {
+					tCard.setImg(tObject.getString("img"));
+					File f = new File("./resources/tempdata/cards/" + tCard.getID() + ".png");
+					if(!(f.exists())) { 
+						URL url = new URL(tObject.getString("img"));
+						BufferedImage bi = ImageIO.read(url);
+						File outputfile = new File("./resources/tempdata/cards/" + tCard.getID() + ".png");
+						ImageIO.write(bi, "png", outputfile);
+					}
+				}
+				if(tObject.has("cost")) {
+					tCard.setCost(tObject.getInt("cost"));
+				}
+				if(tObject.has("rarity")) {
+					tCard.setRarity(tObject.getString("rarity"));
+				}
+				
+				cards.add(tCard);	
+		}
+			
+			for(int i=0; i<naxCards.length();i++) {
+				JSONObject tObject = naxCards.getJSONObject(i);
+				Card tCard = new Card();
+				if(tObject.has("playerClass")) {
+					tCard.setHero(tObject.getString("playerClass"));
+				}
+				if(!(tObject.has("playerClass"))) {
+					tCard.setHero("Neutral");
+				}
+				if(tObject.has("cardId")) {
+					tCard.setID(tObject.getString("cardId"));
+				}
+				if(tObject.has("cardSet")) {
+					tCard.setSet(tObject.getString("cardSet"));
+				}
+				if(tObject.has("name")) {
+					tCard.setName(tObject.getString("name"));
+				}
+				if(tObject.has("type")) {
+					tCard.setType(tObject.getString("type"));
+				}
+				if(tObject.has("text")) {
+					tCard.setText(tObject.getString("text"));
+				}
+				if(tObject.has("attack")) {
+					tCard.setAttack(tObject.getInt("attack"));
+				}
+				if(tObject.has("health")) {
+					tCard.setHealth(tObject.getInt("health"));
+				}
+				if(tObject.has("img")) {
+					tCard.setImg(tObject.getString("img"));
+					File f = new File("./resources/tempdata/cards/" + tCard.getID() + ".png");
+					if(!(f.exists())) { 
+						URL url = new URL(tObject.getString("img"));
+						BufferedImage bi = ImageIO.read(url);
+						File outputfile = new File("./resources/tempdata/cards/" + tCard.getID() + ".png");
+						ImageIO.write(bi, "png", outputfile);
+					}
+				}
+				if(tObject.has("cost")) {
+					tCard.setCost(tObject.getInt("cost"));
+				}
+				if(tObject.has("rarity")) {
+					tCard.setRarity(tObject.getString("rarity"));
+				}
+				
+				cards.add(tCard);	
+		}
+			
+			for(int i=0; i<loeCards.length();i++) {
+				JSONObject tObject = loeCards.getJSONObject(i);
+				Card tCard = new Card();
+				if(tObject.has("playerClass")) {
+					tCard.setHero(tObject.getString("playerClass"));
+				}
+				if(!(tObject.has("playerClass"))) {
+					tCard.setHero("Neutral");
+				}
+				if(tObject.has("cardId")) {
+					tCard.setID(tObject.getString("cardId"));
+				}
+				if(tObject.has("cardSet")) {
+					tCard.setSet(tObject.getString("cardSet"));
+				}
+				if(tObject.has("name")) {
+					tCard.setName(tObject.getString("name"));
+				}
+				if(tObject.has("type")) {
+					tCard.setType(tObject.getString("type"));
+				}
+				if(tObject.has("text")) {
+					tCard.setText(tObject.getString("text"));
+				}
+				if(tObject.has("attack")) {
+					tCard.setAttack(tObject.getInt("attack"));
+				}
+				if(tObject.has("health")) {
+					tCard.setHealth(tObject.getInt("health"));
+				}
+				if(tObject.has("img")) {
+					tCard.setImg(tObject.getString("img"));
+					File f = new File("./resources/tempdata/cards/" + tCard.getID() + ".png");
+					if(!(f.exists())) { 
+						URL url = new URL(tObject.getString("img"));
+						BufferedImage bi = ImageIO.read(url);
+						File outputfile = new File("./resources/tempdata/cards/" + tCard.getID() + ".png");
+						ImageIO.write(bi, "png", outputfile);
+					}
+				}
+				if(tObject.has("cost")) {
+					tCard.setCost(tObject.getInt("cost"));
+				}
+				if(tObject.has("rarity")) {
+					tCard.setRarity(tObject.getString("rarity"));
+				}
+				
+				cards.add(tCard);	
+		}
+			
+			for(int i=0; i<blackrockCards.length();i++) {
+				JSONObject tObject = blackrockCards.getJSONObject(i);
+				Card tCard = new Card();
+				if(tObject.has("playerClass")) {
+					tCard.setHero(tObject.getString("playerClass"));
+				}
+				if(!(tObject.has("playerClass"))) {
+					tCard.setHero("Neutral");
+				}
+				if(tObject.has("cardId")) {
+					tCard.setID(tObject.getString("cardId"));
+				}
+				if(tObject.has("cardSet")) {
+					tCard.setSet(tObject.getString("cardSet"));
+				}
+				if(tObject.has("name")) {
+					tCard.setName(tObject.getString("name"));
+				}
+				if(tObject.has("type")) {
+					tCard.setType(tObject.getString("type"));
+				}
+				if(tObject.has("text")) {
+					tCard.setText(tObject.getString("text"));
+				}
+				if(tObject.has("attack")) {
+					tCard.setAttack(tObject.getInt("attack"));
+				}
+				if(tObject.has("health")) {
+					tCard.setHealth(tObject.getInt("health"));
+				}
+				if(tObject.has("img")) {
+					tCard.setImg(tObject.getString("img"));
+					File f = new File("./resources/tempdata/cards/" + tCard.getID() + ".png");
+					if(!(f.exists())) { 
+						URL url = new URL(tObject.getString("img"));
+						BufferedImage bi = ImageIO.read(url);
+						File outputfile = new File("./resources/tempdata/cards/" + tCard.getID() + ".png");
+						ImageIO.write(bi, "png", outputfile);
+					}
+				}
+				if(tObject.has("cost")) {
+					tCard.setCost(tObject.getInt("cost"));
+				}
+				if(tObject.has("rarity")) {
+					tCard.setRarity(tObject.getString("rarity"));
+				}
+				
+				cards.add(tCard);	
+		}
+			
+			for(int i=0; i<tgtCards.length();i++) {
+				JSONObject tObject = tgtCards.getJSONObject(i);
+				Card tCard = new Card();
+				if(tObject.has("playerClass")) {
+					tCard.setHero(tObject.getString("playerClass"));
+				}
+				if(!(tObject.has("playerClass"))) {
+					tCard.setHero("Neutral");
+				}
+				if(tObject.has("cardId")) {
+					tCard.setID(tObject.getString("cardId"));
+				}
+				if(tObject.has("cardSet")) {
+					tCard.setSet(tObject.getString("cardSet"));
+				}
+				if(tObject.has("name")) {
+					tCard.setName(tObject.getString("name"));
+				}
+				if(tObject.has("type")) {
+					tCard.setType(tObject.getString("type"));
+				}
+				if(tObject.has("text")) {
+					tCard.setText(tObject.getString("text"));
+				}
+				if(tObject.has("attack")) {
+					tCard.setAttack(tObject.getInt("attack"));
+				}
+				if(tObject.has("health")) {
+					tCard.setHealth(tObject.getInt("health"));
+				}
+				if(tObject.has("img")) {
+					tCard.setImg(tObject.getString("img"));
+					File f = new File("./resources/tempdata/cards/" + tCard.getID() + ".png");
+					if(!(f.exists())) { 
+						URL url = new URL(tObject.getString("img"));
+						BufferedImage bi = ImageIO.read(url);
+						File outputfile = new File("./resources/tempdata/cards/" + tCard.getID() + ".png");
+						ImageIO.write(bi, "png", outputfile);
+					}
+				}
+				if(tObject.has("cost")) {
+					tCard.setCost(tObject.getInt("cost"));
+				}
+				if(tObject.has("rarity")) {
+					tCard.setRarity(tObject.getString("rarity"));
+				}
+				
+				cards.add(tCard);	
+		}
+			
 		} catch (UnirestException e1) {
 			e1.printStackTrace();
 		}
@@ -450,8 +700,6 @@ public static boolean loaded = false;
 				String tempName = deckBox.getSelectedItem().toString();
 				Object tempItem = deckBox.getSelectedItem();
 				deckBox.removeItem(tempItem);
-				deckBox.removeItem(tempItem);
-				deckBox.setSelectedIndex(0);
 				
 				for(int i = 0; i < decks.size(); i++) {
 					if(tempName.equals(decks.get(i).getName())) {
@@ -545,7 +793,7 @@ public static boolean loaded = false;
 			}
 		   }
 		   
-		   String collectionStr = "COLLECTION|W";
+		   String collectionStr = "COLLECTION|";
 		   
 		   for(int i=0; i <collection.size();i++) {
 			   collectionStr =  collectionStr + collection.get(i) + "|";
