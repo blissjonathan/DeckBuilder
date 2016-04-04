@@ -157,6 +157,10 @@ public static boolean loaded = false;
 				if(tObject.has("img")) {
 					tCard.setImg(tObject.getString("img"));
 					File f = new File("./resources/tempdata/cards/" + tCard.getID() + ".png");
+					File dir = new File("./resources/tempdata/cards/");
+					if(!(dir.exists())) {
+						dir.mkdir();
+					}
 					if(!(f.exists())) { 
 						URL url = new URL(tObject.getString("img"));
 						BufferedImage bi = ImageIO.read(url);
