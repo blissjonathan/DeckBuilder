@@ -15,6 +15,7 @@ public class ProgressBarWindow extends JPanel {
   public static void createWindow(int value) {
 	pbar = new JProgressBar(0,value);
 	pbar.setValue(0);
+	pbar.setStringPainted(true);
     frame = new JFrame("Loading Images...");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.setContentPane(pbar);

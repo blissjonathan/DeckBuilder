@@ -119,7 +119,10 @@ public static boolean loaded = false;
 			JSONArray loeCards = AllCardsObj.getJSONArray("The League of Explorers");
 			JSONArray blackrockCards = AllCardsObj.getJSONArray("Blackrock Mountain");
 			JSONArray tgtCards = AllCardsObj.getJSONArray("The Grand Tournament");
-			ProgressBarWindow.createWindow(AllCardsObj.length());
+			int totalCards = AllCardsObj.getJSONArray("Basic").length() + AllCardsObj.getJSONArray("Classic").length()
+								+ AllCardsObj.getJSONArray("Naxxramas").length() + AllCardsObj.getJSONArray("The League of Explorers").length()
+								+ AllCardsObj.getJSONArray("Blackrock Mountain").length() + AllCardsObj.getJSONArray("The Grand Tournament").length();
+			ProgressBarWindow.createWindow(totalCards);
 			
 			for(int i=0; i<basicCards.length();i++) {
 				JSONObject tObject = basicCards.getJSONObject(i);
