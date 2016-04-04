@@ -25,6 +25,7 @@ import java.awt.GridBagConstraints;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -72,6 +73,8 @@ static File dir = new File(imgPath);
 static Deck currentDeck;
 public static HttpResponse<JsonNode> response;
 
+static boolean dataDownloaded = false;
+
 JLabel classLabel = new JLabel();
 static JComboBox deckBox;
 static JPanel deckListPanel;
@@ -89,6 +92,9 @@ Icon druidIcon = new ImageIcon("./resources/icons/druidicon.png");
 public static JSONObject AllCardsObj;
 public static JSONArray AllCards;
 
+public static String cardPath = "./resources/tempdata/cards/";
+public static boolean loaded = false;
+
 	private JFrame frmDeckbuilder;
 
 	/**
@@ -99,7 +105,7 @@ public static JSONArray AllCards;
 	 * @throws ClassNotFoundException 
 	 */
 	public static void main(String[] args) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
-		
+		SplashWindow.createWindow();
 		try {
 			HttpResponse<JsonNode> response = Unirest.get("https://omgvamp-hearthstone-v1.p.mashape.com/cards")
 					.header("X-Mashape-Key", "32dPU6CVE4mshjYVlOQh1au6LxYVp1hAEkIjsnw7zXqucLcZY3")
@@ -116,27 +122,61 @@ public static JSONArray AllCards;
 			
 			for(int i=0; i<basicCards.length();i++) {
 				JSONObject tObject = basicCards.getJSONObject(i);
-				if(tObject.getString("type")!="Hero" && tObject.has("playerClass")&&tObject.has("rarity")&&tObject.has("cost")) {
-				Card tCard = new Card(tObject.getString("cardId"),tObject.getString("name"),
-						"Basic",tObject.getString("playerClass"), tObject.getString("type"), tObject.getString("rarity"), 
-						tObject.getInt("cost"), tObject.getString("img"));
-				if(!(tObject.has("attack")) || !(tObject.has("health"))) {
-				cards.add(tCard);
-				} else {
-					tCard.setAttack(tObject.getInt("attack"));
-					tCard.setHealth(tObject.getInt("health"));
-					cards.add(tCard);
+				Card tCard = new Card();
+				if(tObject.has("playerClass")) {
+					tCard.setHero(tObject.getString("playerClass"));
 				}
-			}	
+				if(!(tObject.has("playerClass"))) {
+					tCard.setHero("Neutral");
+				}
+				if(tObject.has("cardId")) {
+					tCard.setID(tObject.getString("cardId"));
+				}
+				if(tObject.has("cardSet")) {
+					tCard.setSet(tObject.getString("cardSet"));
+				}
+				if(tObject.has("name")) {
+					tCard.setName(tObject.getString("name"));
+				}
+				if(tObject.has("type")) {
+					tCard.setType(tObject.getString("type"));
+				}
+				if(tObject.has("text")) {
+					tCard.setText(tObject.getString("text"));
+				}
+				if(tObject.has("attack")) {
+					tCard.setAttack(tObject.getInt("attack"));
+				}
+				if(tObject.has("health")) {
+					tCard.setHealth(tObject.getInt("health"));
+				}
+				if(tObject.has("img")) {
+					tCard.setImg(tObject.getString("img"));
+					File f = new File("./resources/tempdata/cards/" + tCard.getID() + ".png");
+					if(!(f.exists())) { 
+						URL url = new URL(tObject.getString("img"));
+						BufferedImage bi = ImageIO.read(url);
+						File outputfile = new File("./resources/tempdata/cards/" + tCard.getID() + ".png");
+						ImageIO.write(bi, "png", outputfile);
+					}
+				}
+				if(tObject.has("cost")) {
+					tCard.setCost(tObject.getInt("cost"));
+				}
+				if(tObject.has("rarity")) {
+					tCard.setRarity(tObject.getString("rarity"));
+				}
+				
+				cards.add(tCard);	
 		}
 			
 		} catch (UnirestException e1) {
 			e1.printStackTrace();
 		}
 	
-			for(int i = 0; i<cards.size();i++) { 	//Testing
-				System.out.println(cards.get(i).toString());
-			}
+//			for(int i = 0; i<cards.size();i++) { 	//Testing
+//				System.out.println(cards.get(i).toString());
+//			}
 			
 		URL update = new URL("https://dl.dropboxusercontent.com/u/82755681/DeckBuilder/update.txt");
 		Scanner sUpdate = new Scanner(update.openStream());
@@ -216,6 +256,7 @@ public static JSONArray AllCards;
 	        }
 	    }, "Shutdown-thread"));
 		
+		SplashWindow.frame.dispose();
 		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -269,9 +310,9 @@ public static JSONArray AllCards;
 		panel.add(panel_3, BorderLayout.CENTER);
 		GridBagLayout gbl_panel_3 = new GridBagLayout();
 		gbl_panel_3.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_panel_3.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
+		gbl_panel_3.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0};
 		gbl_panel_3.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
-		gbl_panel_3.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
+		gbl_panel_3.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel_3.setLayout(gbl_panel_3);
 		
 		JButton btnDecks = new JButton("Decks");
@@ -350,15 +391,14 @@ public static JSONArray AllCards;
 					 }
 				 if(currentDeck.getHero()=="Shaman") {
 					 classLabel.setIcon(shamanIcon);
-					 }
-				 createList();
+				 }
 				
 			}
 		});
 		deckBox.setToolTipText("Decks");
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.gridwidth = 3;
-		gbc_comboBox.insets = new Insets(0, 0, 5, 5);
+		gbc_comboBox.insets = new Insets(0, 0, 5, 0);
 		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
 		gbc_comboBox.gridx = 9;
 		gbc_comboBox.gridy = 0;
@@ -379,7 +419,7 @@ public static JSONArray AllCards;
 		gbc_scrollPane.gridy = 1;
 		panel_3.add(scrollPane, gbc_scrollPane);
 		
-		createList();
+
 		scrollPane.setColumnHeaderView(classLabel);
 		
 		deckListPanel = new JPanel();
@@ -404,6 +444,31 @@ public static JSONArray AllCards;
 		gbc_btnCreateADeck.gridy = 2;
 		panel_3.add(btnCreateADeck, gbc_btnCreateADeck);
 		
+		JButton btnDeleteDeck = new JButton("Delete Deck");
+		btnDeleteDeck.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String tempName = deckBox.getSelectedItem().toString();
+				Object tempItem = deckBox.getSelectedItem();
+				deckBox.removeItem(tempItem);
+				deckBox.removeItem(tempItem);
+				deckBox.setSelectedIndex(0);
+				
+				for(int i = 0; i < decks.size(); i++) {
+					if(tempName.equals(decks.get(i).getName())) {
+						decks.remove(i);
+					}
+				}
+				deckBox.repaint();
+				System.out.println("Deck " + tempName + " deleted");
+			}
+		});
+		GridBagConstraints gbc_btnDeleteDeck = new GridBagConstraints();
+		gbc_btnDeleteDeck.gridwidth = 3;
+		gbc_btnDeleteDeck.insets = new Insets(0, 0, 5, 0);
+		gbc_btnDeleteDeck.gridx = 9;
+		gbc_btnDeleteDeck.gridy = 4;
+		panel_3.add(btnDeleteDeck, gbc_btnDeleteDeck);
+		
 		JMenuBar menuBar = new JMenuBar();
 		frmDeckbuilder.setJMenuBar(menuBar);
 		
@@ -416,12 +481,15 @@ public static JSONArray AllCards;
 		JMenuItem mntmNewMenuItem = new JMenuItem("Export");
 		mnFile.add(mntmNewMenuItem);
 		
-		JMenu mnCollection = new JMenu("Collection");
-		mnCollection.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				//CollectionWindow.createWindow(collection);
+		JMenuItem mntmExit = new JMenuItem("Exit");
+		mntmExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frmDeckbuilder.dispatchEvent(new WindowEvent(frmDeckbuilder, WindowEvent.WINDOW_CLOSING));
 			}
 		});
+		mnFile.add(mntmExit);
+		
+		JMenu mnCollection = new JMenu("Collection");
 		menuBar.add(mnCollection);
 		
 		JMenuItem mntmOpenCollection = new JMenuItem("Open Collection");
@@ -477,8 +545,12 @@ public static JSONArray AllCards;
 			}
 		   }
 		   
-		   String collectionStr = "COLLECTION|";
-		   //add cards to collection
+		   String collectionStr = "COLLECTION|W";
+		   
+		   for(int i=0; i <collection.size();i++) {
+			   collectionStr =  collectionStr + collection.get(i) + "|";
+		   }
+		   
 		   try {
 			output.write(collectionStr);
 			System.out.println("Wrote collection to file");
@@ -493,33 +565,47 @@ public static JSONArray AllCards;
 		}
 	   }
 	   
-	   public static String[] getCurrentCards() {
-		  String[] currentCards = new String[30];
-		  if(currentDeck !=null) {
-		  ArrayList<Card> tmp = currentDeck.getAllCards();
-		   for(int i=0;i<tmp.size();i++) {
-				currentCards[i]=tmp.get(i).getName();
-			}
-		  }
-		  return currentCards;
+	   
+	   public static ArrayList<Card> createCardList(String input, int type) {
+		   ArrayList<Card> outputList = new ArrayList<Card>();
+		   
+		   if(type == 0) { //Get cards by Class
+			   
+			   for(int i = 0; i<cards.size();i++) {
+				   if(cards.get(i).getHero().equals(input) && cards.get(i).hasImage() == true &&
+						   (cards.get(i).getType().equals("Weapon") || cards.get(i).getType().equals("Minion") ||
+								   cards.get(i).getType().equals("Spell") || cards.get(i).getType().equals("Enchantment"))) {
+					   outputList.add(cards.get(i));
+				   }
+			   }
+			   
+		   }
+		   
+		   
+		   if(type == 1) { //Get cards by name (search)
+			   
+			   for(int i = 0; i<cards.size();i++) {
+				   if(cards.get(i).getName().equals(input) && 
+						   (cards.get(i).getType().equals("Weapon") || cards.get(i).getType().equals("Minion") ||
+								   cards.get(i).getType().equals("Spell") || cards.get(i).getType().equals("Enchantment"))) {
+					   outputList.add(cards.get(i));
+				   }
+			   }
+			   
+			   
+		   }
+		   
+		   if(type == 2) { //Get cards by format
+			   
+			   
+		   }
+		   
+		   
+		   return outputList;
 	   }
 	   
-	   public void createList() {
-			JList list = new JList();
-			if(currentDeck!=null) {
-			list = new JList(getCurrentCards());
-			list.repaint();
-			}
-			list.addMouseListener(new MouseAdapter() {
-	            public void mouseEntered(MouseEvent evt)
-	            {
-	            	//list.getSelectedIndex();
-	            }
-				
-			});
+	   public void downloadImage() {
 		   
 	   }
-	   
-	   
-
+	  
 }

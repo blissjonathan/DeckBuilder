@@ -4,10 +4,11 @@ public class Card {
 private String id;
 private String set;
 private String type;
-private int mana;
+private String cost;
 private String name;
-private int attack;
-private int health;
+private String text;
+private String attack;
+private String health;
 private String flavor;
 private String rarity;
 private String hero;
@@ -18,34 +19,36 @@ private boolean burst;
 private boolean buff;
 private boolean nerf;
 private boolean aoe;
-private boolean isGolden;
 private String image;
+private String fileName;
 
-public Card(String _id, String _name, String _set, String _hero, String _type, int _attack, int _health, 
-		String _rarity, int _mana, String _img) {
+public Card(String _id, String _name, String _set, String _hero, String _type, String _attack, String _health, 
+		String _rarity, String _mana) {
 		
 		name = _name;
 		type = _type;
 		attack = _attack;
 		health = _health;
 		rarity = _rarity;
-		mana = _mana;
+		cost = _mana;
+		hero = _hero;
+		id = _id;
+		set = _set;
+}
+
+public Card(String _id, String _name, String _set, String _hero, String _type, String _rarity, String _mana, String _img) {
+		
+		name = _name;
+		type = _type;
+		rarity = _rarity;
+		cost = _mana;
 		hero = _hero;
 		id = _id;
 		set = _set;
 		image = _img;
 }
 
-public Card(String _id, String _name, String _set, String _hero, String _type, String _rarity, int _mana, String _img) {
-		
-		name = _name;
-		type = _type;
-		rarity = _rarity;
-		mana = _mana;
-		hero = _hero;
-		id = _id;
-		set = _set;
-		image = _img;
+public Card() {
 }
 
 public String getName() {
@@ -55,10 +58,10 @@ public String getName() {
 public String getHero() {
 	return hero;
 }
-public int getAttack() {
+public String getAttack() {
 	return attack;
 }
-public int getHealth() {
+public String getHealth() {
 	return health;
 }
 public String getRarity() {
@@ -69,19 +72,92 @@ public String getImage() {
 	return image;
 }
 
-public int getMana() {
-	return mana;
+public String getType() {
+	return type;
 }
 
-public void setAttack(int _attack) {
-	attack = _attack;
+public String getID() {
+	return id;
 }
+
+public String getCost() {
+	return cost;
+}
+
+public int getMana() {
+	return Integer.parseInt(cost);
+}
+
 
 public void setHealth(int _health) {
-	health = _health;
+	attack = String.valueOf(_health);
+
 }
 
 public String toString() {
 	return name + ":" + hero + ":" + id + ":" + image;
 }
+
+public void setHero(String _hero) {
+hero = _hero;
+	
+}
+
+public void setID(String string) {
+	id = string;
+	
+}
+
+public void setName(String string) {
+name = string;
+	
+}
+
+public void setType(String string) {
+type = string;
+	
+}
+
+public void setText(String string) {
+	text = string;
+	
+}
+
+public void setSet(String string) {
+	set = string;
+	
+}
+
+public void setAttack(int string) {
+	attack = String.valueOf(string);
+	
+}
+
+public void setImg(String string) {
+	image = string;
+	
+}
+
+public void setCost(int string) {
+	cost = String.valueOf(string);
+
+}
+
+public void setRarity(String string) {
+	rarity =  string;
+	
+}
+
+public boolean hasImage() {
+	Boolean hasimg;
+	
+	if(image != null) {
+		hasimg = true;
+	} else {
+		hasimg = false;
+	}
+	
+	return hasimg;
+}
+
 }

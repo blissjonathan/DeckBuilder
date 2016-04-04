@@ -65,6 +65,7 @@ public class CreateDeckWindow {
 	private JPanel deckPanel;
 	private JButton btnS;
 	private JComboBox formatBox;
+	private String cardPath = MainWindow.cardPath;
 
 	/**
 	 * Launch the application.
@@ -215,7 +216,7 @@ public class CreateDeckWindow {
 		frame.getContentPane().add(cardBook, gbc_cardBook);
 		
 		cardPanel = new JPanel();
-		drawCardBook(MainWindow.cards);
+		drawCardBook(MainWindow.createCardList(classList.getSelectedItem().toString(), 0));
 		
 		cardBook.setViewportView(cardPanel);
 		
@@ -289,18 +290,11 @@ public class CreateDeckWindow {
 			for(int i = 0; i<_cards.size();i++) {
 				JButton cardButton = new JButton("");
 				Image image = null;
-				URL url = null;
 				ImageIcon cardIcon = null;
 				
+			
 				try {
-					url = new URL(_cards.get(i).getImage());
-				} catch (MalformedURLException e1) {
-					e1.printStackTrace();
-				}
-				
-				if(_cards.get(i).getHero().equals(classList.getSelectedItem().toString())) {
-				try {
-					image = ImageIO.read(url);
+					image = ImageIO.read(new File(cardPath + _cards.get(i).getID() + ".png"));
 					System.out.println("Image " + i + " loaded");
 				} catch (IOException e1) {
 					e1.printStackTrace();
@@ -401,7 +395,7 @@ public class CreateDeckWindow {
 				});
 				
 				cardPanel.add(cardButton);
-				}
+				
 			}
 			cardPanel.revalidate();
 			cardPanel.repaint();
