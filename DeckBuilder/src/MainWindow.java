@@ -122,7 +122,8 @@ public static boolean loaded = false;
 			JSONArray tgtCards = AllCardsObj.getJSONArray("The Grand Tournament");
 			int totalCards = AllCardsObj.getJSONArray("Basic").length() + AllCardsObj.getJSONArray("Classic").length()
 								+ AllCardsObj.getJSONArray("Naxxramas").length() + AllCardsObj.getJSONArray("The League of Explorers").length()
-								+ AllCardsObj.getJSONArray("Blackrock Mountain").length() + AllCardsObj.getJSONArray("The Grand Tournament").length();
+								+ AllCardsObj.getJSONArray("Blackrock Mountain").length() + 
+								AllCardsObj.getJSONArray("The Grand Tournament").length();
 			
 			ProgressBarWindow.createWindow(totalCards);
 			Dimension dim2 = Toolkit.getDefaultToolkit().getScreenSize();
@@ -867,7 +868,7 @@ public static boolean loaded = false;
 		   if(type == 1) { //Get cards by name (search)
 			   
 			   for(int i = 0; i<cards.size();i++) {
-				   if(cards.get(i).getName().equals(input) && 
+				   if(cards.get(i).getName().contains(input) && cards.get(i).hasImage() == true &&
 						   (cards.get(i).getType().equals("Weapon") || cards.get(i).getType().equals("Minion") ||
 								   cards.get(i).getType().equals("Spell") || cards.get(i).getType().equals("Enchantment"))) {
 					   outputList.add(cards.get(i));

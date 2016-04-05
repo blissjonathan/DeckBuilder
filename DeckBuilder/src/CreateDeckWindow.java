@@ -37,6 +37,7 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
@@ -69,6 +70,9 @@ public class CreateDeckWindow {
 	private JButton classbtn;
 	private JButton neutralbutton;
 	private JScrollPane cardBook;
+	private JProgressBar pb;
+	private JFrame pbframe;
+	private int currentScreen = 0;
 
 	/**
 	 * Launch the application.
@@ -208,6 +212,7 @@ public class CreateDeckWindow {
 		
 		neutralbutton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				currentScreen = 1;
 				ArrayList<Card> neutrals = MainWindow.createCardList("Neutral", 0);
 				drawCardBook(neutrals);
 				
@@ -230,6 +235,7 @@ public class CreateDeckWindow {
 		
 		classbtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				currentScreen = 0;
 				 ArrayList<Card> tempList = MainWindow.createCardList(classList.getSelectedItem().toString(), 0);
 				 if(cardBook != null) {
 				 drawCardBook(tempList);
@@ -289,8 +295,6 @@ public class CreateDeckWindow {
 		gbc_txtSearch.gridy = 4;
 		frame.getContentPane().add(txtSearch, gbc_txtSearch);
 		txtSearch.setColumns(10);
-		
-		btnS = new JButton();
 		Image searchImage = null;
 		try {
 			searchImage = ImageIO.read(new File("./resources/UI icons/searchButton.png"));
@@ -299,6 +303,8 @@ public class CreateDeckWindow {
 		}
 		Image tempImage = searchImage.getScaledInstance(15, 15, java.awt.Image.SCALE_SMOOTH);
 		Icon searchIcon = new ImageIcon(tempImage);
+		
+		btnS = new JButton();
 		btnS.setIcon(searchIcon);
 		btnS.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -307,7 +313,7 @@ public class CreateDeckWindow {
 		});
 		GridBagConstraints gbc_btnS = new GridBagConstraints();
 		gbc_btnS.insets = new Insets(0, 0, 5, 5);
-		gbc_btnS.gridx = 5;
+		gbc_btnS.gridx = 4;
 		gbc_btnS.gridy = 4;
 		frame.getContentPane().add(btnS, gbc_btnS);
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
@@ -347,11 +353,10 @@ public class CreateDeckWindow {
 	
 	public void drawCardBook(ArrayList<Card> _cards) {
 		cardPanel = new JPanel();
-		ProgressBarWindow.createWindow(_cards.size());
-			
-			Dimension dim2 = new Dimension(frame.getWidth(),frame.getHeight());
-			ProgressBarWindow.setLoc(dim2.width/2-ProgressBarWindow.frame.getSize().width/2, 
-					dim2.height/2-ProgressBarWindow.frame.getSize().height/2);
+		ProgressBarWindow.createWindow(_cards.size());	
+		Dimension dim2 = new Dimension(frame.getWidth(),frame.getHeight());
+		ProgressBarWindow.setLoc(dim2.width/2-ProgressBarWindow.frame.getSize().width/2, 
+								dim2.height/2-ProgressBarWindow.frame.getSize().height/2);
 			
 		
 			for(int i = 0; i<_cards.size();i++) {
@@ -473,17 +478,47 @@ public class CreateDeckWindow {
 	
 	public void searchBox(String _card) {
 		ArrayList<Card> searchedCards = new ArrayList<Card>();
-		String search = txtSearch.getText();
-		cardPanel = new JPanel();
 		
-		for(int i = 0; i < MainWindow.cards.size();i++) {
-			if(MainWindow.cards.get(i).getName().contains(_card)) {
-				searchedCards.add(MainWindow.cards.get(i));
+		if(currentScreen == 0) { //on class cards
+			ArrayList<Card> tempCards = MainWindow.createCardList(classList.getSelectedItem().toString(), 0);
+			ArrayList<Card> tempCards2 = MainWindow.createCardList(_card, 1);
+			for(int i =0; i < tempCards2.size(); i++) {
+				if(tempCards.contains(tempCards2.get(i))) {
+					searchedCards.add(tempCards2.get(i));
+				}
 			}
-		}	
-			
+
+		}
+		
+		if(currentScreen == 1) { //on neutral cards
+			ArrayList<Card> tempCards = MainWindow.createCardList("Neutral", 0);
+			ArrayList<Card> tempCards2 = MainWindow.createCardList(_card, 1);
+			for(int i =0; i < tempCards2.size(); i++) {
+				if(tempCards.contains(tempCards2.get(i))) {
+					searchedCards.add(tempCards2.get(i));
+				}
+			}
+		}
+		
 			drawCardBook(searchedCards);
 		}
+	
+	public void drawProgressBar(int value, int x, int y) {
+				pb = new JProgressBar(0,value);
+				pb.setValue(0);
+				pb.setStringPainted(true);
+			    pbframe = new JFrame("Loading...");
+			    pbframe.setUndecorated(true);
+			    pbframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			    pbframe.setContentPane(pb);
+			    pbframe.pack();
+			    pbframe.setVisible(true);
+			    pbframe.setLocation(x, y);
+	}
+	
+	public void updateProgressBar() {
+		pb.setValue(pb.getValue() + 1);
+	}
 	
 
 

@@ -1,13 +1,17 @@
+import java.awt.Dimension;
+import java.awt.EventQueue;
+import java.awt.Toolkit;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.SwingUtilities;
 
-public class ProgressBarWindow extends JPanel {
+public class ProgressBarWindow {
 
   public static JProgressBar pbar;
   public static JFrame frame;
-
+  
   public static void updateBar() {
     pbar.setValue(pbar.getValue() + 1);
   }

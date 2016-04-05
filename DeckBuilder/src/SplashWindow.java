@@ -51,15 +51,7 @@ public class SplashWindow {
 		frame.setBackground(new Color(1.0f,1.0f,1.0f,0.0f));
 		Dimension dim2 = Toolkit.getDefaultToolkit().getScreenSize();
 		frame.setLocation(dim2.width/2-frame.getSize().width/2, dim2.height/2-frame.getSize().height/2);
-		frame.setContentPane(new JLabel(new ImageIcon("./resources/UI icons/splashscreen.png")));
-		
-		
-
-//		frame.setLocation(0, 0);
-//		frame.setSize(dim);
-//		frame.setUndecorated(true);
-//		frame.setBackground(new Color(0,255,0,0));
-		
+		frame.setContentPane(new JLabel(new ImageIcon("./resources/UI icons/splashscreen.png")));	
 	}
 
 }
