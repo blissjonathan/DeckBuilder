@@ -117,13 +117,17 @@ public static boolean loaded = false;
 			JSONArray basicCards = AllCardsObj.getJSONArray("Basic");
 			JSONArray classicCards = AllCardsObj.getJSONArray("Classic");
 			JSONArray naxCards = AllCardsObj.getJSONArray("Naxxramas");
+			JSONArray gvgCards = AllCardsObj.getJSONArray("Goblins vs Gnomes");
 			JSONArray loeCards = AllCardsObj.getJSONArray("The League of Explorers");
 			JSONArray blackrockCards = AllCardsObj.getJSONArray("Blackrock Mountain");
 			JSONArray tgtCards = AllCardsObj.getJSONArray("The Grand Tournament");
-			int totalCards = AllCardsObj.getJSONArray("Basic").length() + AllCardsObj.getJSONArray("Classic").length()
-								+ AllCardsObj.getJSONArray("Naxxramas").length() + AllCardsObj.getJSONArray("The League of Explorers").length()
-								+ AllCardsObj.getJSONArray("Blackrock Mountain").length() + 
-								AllCardsObj.getJSONArray("The Grand Tournament").length();
+			int totalCards = AllCardsObj.getJSONArray("Basic").length() + 
+								AllCardsObj.getJSONArray("Classic").length()+ 
+								AllCardsObj.getJSONArray("Naxxramas").length() + 
+								AllCardsObj.getJSONArray("The League of Explorers").length()+ 
+								AllCardsObj.getJSONArray("Blackrock Mountain").length() + 
+								AllCardsObj.getJSONArray("The Grand Tournament").length() + 
+								AllCardsObj.getJSONArray("Goblins vs Gnomes").length();
 			
 			ProgressBarWindow.createWindow(totalCards);
 			Dimension dim2 = Toolkit.getDefaultToolkit().getScreenSize();
@@ -132,6 +136,64 @@ public static boolean loaded = false;
 			
 			for(int i=0; i<basicCards.length();i++) {
 				JSONObject tObject = basicCards.getJSONObject(i);
+				Card tCard = new Card();
+				if(tObject.has("playerClass")) {
+					tCard.setHero(tObject.getString("playerClass"));
+				}
+				if(!(tObject.has("playerClass"))) {
+					tCard.setHero("Neutral");
+				}
+				if(tObject.has("cardId")) {
+					tCard.setID(tObject.getString("cardId"));
+				}
+				if(tObject.has("cardSet")) {
+					tCard.setSet(tObject.getString("cardSet"));
+				}
+				if(tObject.has("name")) {
+					tCard.setName(tObject.getString("name"));
+				}
+				if(tObject.has("type")) {
+					tCard.setType(tObject.getString("type"));
+				}
+				if(tObject.has("text")) {
+					tCard.setText(tObject.getString("text"));
+				}
+				if(tObject.has("attack")) {
+					tCard.setAttack(tObject.getInt("attack"));
+				}
+				if(tObject.has("health")) {
+					tCard.setHealth(tObject.getInt("health"));
+				}
+				if(tObject.has("img")) {
+					tCard.setImg(tObject.getString("img"));
+					File f = new File("./resources/tempdata/cards/" + tCard.getID() + ".png");
+					File dir = new File("./resources/tempdata/cards/");
+					if(!(dir.exists())) {
+						dir.mkdir();
+					}
+					if(!(f.exists())) { 
+						URL url = new URL(tObject.getString("img"));
+						BufferedImage bi = ImageIO.read(url);
+						File outputfile = new File("./resources/tempdata/cards/" + tCard.getID() + ".png");
+						ImageIO.write(bi, "png", outputfile);
+					}
+					ProgressBarWindow.updateBar();
+				}
+				if(tObject.has("cost")) {
+					tCard.setCost(tObject.getInt("cost"));
+				}
+				if(!(tObject.has("cost"))) {
+					tCard.setCost(0);
+				}
+				if(tObject.has("rarity")) {
+					tCard.setRarity(tObject.getString("rarity"));
+				}
+				
+				cards.add(tCard);	
+		}
+			
+			for(int i=0; i<gvgCards.length();i++) {
+				JSONObject tObject = gvgCards.getJSONObject(i);
 				Card tCard = new Card();
 				if(tObject.has("playerClass")) {
 					tCard.setHero(tObject.getString("playerClass"));
@@ -868,17 +930,33 @@ public static boolean loaded = false;
 	   }
 	   
 	   
-	   public static ArrayList<Card> createCardList(String input, int type) {
+	   public static ArrayList<Card> createCardList(String input, int type, String format) {
 		   ArrayList<Card> outputList = new ArrayList<Card>();
 		   
 		   if(type == 0) { //Get cards by Class
 			   
 			   for(int i = 0; i<cards.size();i++) {
-				   if(cards.get(i).getHero().equals(input) && cards.get(i).hasImage() == true &&
-						   (cards.get(i).getType().equals("Weapon") || cards.get(i).getType().equals("Minion") ||
-								   cards.get(i).getType().equals("Spell") || cards.get(i).getType().equals("Enchantment"))) {
+				   if(cards.get(i).getHero().equals(input) && 
+						   cards.get(i).hasImage() == true &&
+						   format.equals("Wild") &&
+						   			(cards.get(i).getType().equals("Weapon") ||
+								   cards.get(i).getType().equals("Minion") ||
+								   cards.get(i).getType().equals("Spell") || 
+								   cards.get(i).getType().equals("Enchantment"))) {
 					   outputList.add(cards.get(i));
 				   }
+				   
+				   if(cards.get(i).getHero().equals(input) && 
+						   cards.get(i).hasImage() == true &&
+						   format.equals("Standard") &&
+						   (!(cards.get(i).getSet().equals("Goblins vs Gnomes")) && !(cards.get(i).getSet().equals("Naxxramas"))) &&
+						   			(cards.get(i).getType().equals("Weapon") ||
+								   cards.get(i).getType().equals("Minion") ||
+								   cards.get(i).getType().equals("Spell") || 
+								   cards.get(i).getType().equals("Enchantment"))) {
+					   outputList.add(cards.get(i));
+				   }
+				   
 			   }
 			   
 		   }
@@ -887,8 +965,18 @@ public static boolean loaded = false;
 		   if(type == 1) { //Get cards by name (search)
 			   for(int i = 0; i<cards.size();i++) {
 				   if(cards.get(i).getName().toLowerCase().contains(input.toLowerCase()) && cards.get(i).hasImage() == true &&
+						   format.equals("Wild") &&
 						   (cards.get(i).getType().equals("Weapon") || cards.get(i).getType().equals("Minion") ||
 								   cards.get(i).getType().equals("Spell") || cards.get(i).getType().equals("Enchantment"))) {
+					   outputList.add(cards.get(i));
+				   }
+				   if(cards.get(i).getName().toLowerCase().contains(input.toLowerCase()) && cards.get(i).hasImage() == true &&
+						   format.equals("Standard") &&
+						   (!(cards.get(i).getSet().equals("Goblins vs Gnomes")) && !(cards.get(i).getSet().equals("Naxxramas"))) &&
+						   			(cards.get(i).getType().equals("Weapon") || 
+						   			cards.get(i).getType().equals("Minion") ||
+								   cards.get(i).getType().equals("Spell") || 
+								   cards.get(i).getType().equals("Enchantment"))) {
 					   outputList.add(cards.get(i));
 				   }
 			   }
@@ -909,6 +997,7 @@ public static boolean loaded = false;
 		   
 		   for(int i = 1; i < _cards.size(); i++) {
 			   Card temp = _cards.get(i-1);
+
 			   if(_cards.get(i).getCost() < temp.getCost()) {
 				   _cards.set(i-1, _cards.get(i));
 				   _cards.set(i, temp);

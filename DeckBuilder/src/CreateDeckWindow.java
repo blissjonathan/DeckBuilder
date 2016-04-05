@@ -157,7 +157,11 @@ public class CreateDeckWindow {
 				 classbtn.repaint();
 				 }
 				 
-				 ArrayList<Card> tempList = MainWindow.createCardList(classList.getSelectedItem().toString(), 0);
+				 ArrayList<Card> tempList = null;
+				 if(formatBox!=null) {
+				 tempList = MainWindow.createCardList(classList.getSelectedItem().toString(), 0, 
+						 formatBox.getSelectedItem().toString());
+				 }
 				 if(cardBook != null) {
 				 drawCardBook(tempList);
 				 }
@@ -202,7 +206,20 @@ public class CreateDeckWindow {
 		formatBox.setModel(new DefaultComboBoxModel(new String[] {"Standard", "Wild"}));
 		formatBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+			if(deckPanel != null && formatBox != null && classList != null) {
+				if(formatBox.getSelectedItem().toString().equals("Standard")) {
+					drawCardBook(MainWindow.createCardList(classList.getSelectedItem().toString(),0,"Standard"));
+					deckPanel.removeAll();
+					deckPanel.revalidate();
+					deckPanel.repaint();
+				}
+				if(formatBox.getSelectedItem().toString().equals("Wild")) {
+					drawCardBook(MainWindow.createCardList(classList.getSelectedItem().toString(),0,"Wild"));
+					deckPanel.removeAll();
+					deckPanel.revalidate();
+					deckPanel.repaint();
+				}
+			}
 			}
 		});
 		
@@ -223,7 +240,7 @@ public class CreateDeckWindow {
 		neutralbutton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				currentScreen = 1;
-				ArrayList<Card> neutrals = MainWindow.createCardList("Neutral", 0);
+				ArrayList<Card> neutrals = MainWindow.createCardList("Neutral", 0, formatBox.getSelectedItem().toString());
 				drawCardBook(neutrals);
 				
 			}
@@ -246,7 +263,7 @@ public class CreateDeckWindow {
 		classbtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				currentScreen = 0;
-				 ArrayList<Card> tempList = MainWindow.createCardList(classList.getSelectedItem().toString(), 0);
+				 ArrayList<Card> tempList = MainWindow.createCardList(classList.getSelectedItem().toString(), 0, formatBox.getSelectedItem().toString());
 				 if(cardBook != null) {
 				 drawCardBook(tempList);
 				 }		
@@ -292,7 +309,7 @@ public class CreateDeckWindow {
 		frame.getContentPane().add(cardBook, gbc_cardBook);
 		
 		cardPanel = new JPanel();
-		drawCardBook(MainWindow.createCardList(classList.getSelectedItem().toString(), 0));
+		drawCardBook(MainWindow.createCardList(classList.getSelectedItem().toString(), 0,formatBox.getSelectedItem().toString()));
 		
 		
 		
@@ -492,8 +509,8 @@ public class CreateDeckWindow {
 		ArrayList<Card> searchedCards = new ArrayList<Card>();
 		
 		if(currentScreen == 0) { //on class cards
-			ArrayList<Card> tempCards = MainWindow.createCardList(classList.getSelectedItem().toString(), 0);
-			ArrayList<Card> tempCards2 = MainWindow.createCardList(_card, 1);
+			ArrayList<Card> tempCards = MainWindow.createCardList(classList.getSelectedItem().toString(), 0, formatBox.getSelectedItem().toString());
+			ArrayList<Card> tempCards2 = MainWindow.createCardList(_card, 1, formatBox.getSelectedItem().toString());
 			for(int i =0; i < tempCards2.size(); i++) {
 				if(tempCards.contains(tempCards2.get(i))) {
 					searchedCards.add(tempCards2.get(i));
@@ -503,8 +520,8 @@ public class CreateDeckWindow {
 		}
 		
 		if(currentScreen == 1) { //on neutral cards
-			ArrayList<Card> tempCards = MainWindow.createCardList("Neutral", 0);
-			ArrayList<Card> tempCards2 = MainWindow.createCardList(_card, 1);
+			ArrayList<Card> tempCards = MainWindow.createCardList("Neutral", 0, formatBox.getSelectedItem().toString());
+			ArrayList<Card> tempCards2 = MainWindow.createCardList(_card, 1,formatBox.getSelectedItem().toString());
 			for(int i =0; i < tempCards2.size(); i++) {
 				if(tempCards.contains(tempCards2.get(i))) {
 					searchedCards.add(tempCards2.get(i));

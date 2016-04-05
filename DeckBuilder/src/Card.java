@@ -122,6 +122,10 @@ public void setSet(String string) {
 	
 }
 
+public String getSet() {
+	return set;
+}
+
 public void setAttack(int string) {
 	attack = String.valueOf(string);
 	
