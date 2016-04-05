@@ -298,6 +298,7 @@ public class CreateDeckWindow {
 		deckPanel.setLayout(new BoxLayout(deckPanel, BoxLayout.Y_AXIS));
 		
 		cardBook = new JScrollPane();
+		cardBook.getVerticalScrollBar().setUnitIncrement(16);
 		GridBagConstraints gbc_cardBook = new GridBagConstraints();
 		gbc_cardBook.gridwidth = 6;
 		gbc_cardBook.insets = new Insets(0, 0, 5, 0);
