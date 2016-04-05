@@ -58,6 +58,7 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mashape.unirest.request.GetRequest;
 
 import org.json.*;
+import javax.swing.border.LineBorder;
 
 
 public class MainWindow {
@@ -122,7 +123,11 @@ public static boolean loaded = false;
 			int totalCards = AllCardsObj.getJSONArray("Basic").length() + AllCardsObj.getJSONArray("Classic").length()
 								+ AllCardsObj.getJSONArray("Naxxramas").length() + AllCardsObj.getJSONArray("The League of Explorers").length()
 								+ AllCardsObj.getJSONArray("Blackrock Mountain").length() + AllCardsObj.getJSONArray("The Grand Tournament").length();
+			
 			ProgressBarWindow.createWindow(totalCards);
+			Dimension dim2 = Toolkit.getDefaultToolkit().getScreenSize();
+			ProgressBarWindow.setLoc(dim2.width/2-ProgressBarWindow.frame.getSize().width/2, 
+					dim2.height/2-ProgressBarWindow.frame.getSize().height/2+50);
 			
 			for(int i=0; i<basicCards.length();i++) {
 				JSONObject tObject = basicCards.getJSONObject(i);
@@ -575,12 +580,10 @@ public static boolean loaded = false;
 		panel.add(panel_3, BorderLayout.CENTER);
 		GridBagLayout gbl_panel_3 = new GridBagLayout();
 		gbl_panel_3.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_panel_3.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0};
-		gbl_panel_3.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
-		gbl_panel_3.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel_3.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_panel_3.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_panel_3.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel_3.setLayout(gbl_panel_3);
-		
-		JButton btnDecks = new JButton("Decks");
 		
 		deckBox = new JComboBox();
 		
@@ -661,25 +664,20 @@ public static boolean loaded = false;
 		});
 		deckBox.setToolTipText("Decks");
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
-		gbc_comboBox.gridwidth = 3;
+		gbc_comboBox.gridwidth = 6;
 		gbc_comboBox.insets = new Insets(0, 0, 5, 0);
 		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_comboBox.gridx = 9;
+		gbc_comboBox.gridx = 6;
 		gbc_comboBox.gridy = 0;
 		panel_3.add(deckBox, gbc_comboBox);
-			GridBagConstraints gbc_btnDecks = new GridBagConstraints();
-		gbc_btnDecks.insets = new Insets(0, 0, 5, 5);
-		gbc_btnDecks.gridx = 0;
-		gbc_btnDecks.gridy = 1;
-		panel_3.add(btnDecks, gbc_btnDecks);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 		gbc_scrollPane.insets = new Insets(0, 0, 5, 0);
-		gbc_scrollPane.gridheight = 3;
-		gbc_scrollPane.gridwidth = 3;
+		gbc_scrollPane.gridheight = 4;
+		gbc_scrollPane.gridwidth = 10;
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
-		gbc_scrollPane.gridx = 9;
+		gbc_scrollPane.gridx = 2;
 		gbc_scrollPane.gridy = 1;
 		panel_3.add(scrollPane, gbc_scrollPane);
 		
@@ -708,6 +706,18 @@ public static boolean loaded = false;
 		gbc_btnCreateADeck.gridy = 2;
 		panel_3.add(btnCreateADeck, gbc_btnCreateADeck);
 		
+		JPanel panel_4 = new JPanel();
+		panel_4.setBorder(new LineBorder(new Color(0, 0, 0), 4));
+		GridBagConstraints gbc_panel_4 = new GridBagConstraints();
+		gbc_panel_4.insets = new Insets(0, 0, 5, 5);
+		gbc_panel_4.fill = GridBagConstraints.BOTH;
+		gbc_panel_4.gridx = 0;
+		gbc_panel_4.gridy = 3;
+		panel_3.add(panel_4, gbc_panel_4);
+		
+		JLabel lblDeckProperties = new JLabel("Deck Properties:");
+		panel_4.add(lblDeckProperties);
+		
 		JButton btnDeleteDeck = new JButton("Delete Deck");
 		btnDeleteDeck.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -725,10 +735,10 @@ public static boolean loaded = false;
 			}
 		});
 		GridBagConstraints gbc_btnDeleteDeck = new GridBagConstraints();
-		gbc_btnDeleteDeck.gridwidth = 3;
+		gbc_btnDeleteDeck.gridwidth = 6;
 		gbc_btnDeleteDeck.insets = new Insets(0, 0, 5, 0);
-		gbc_btnDeleteDeck.gridx = 9;
-		gbc_btnDeleteDeck.gridy = 4;
+		gbc_btnDeleteDeck.gridx = 8;
+		gbc_btnDeleteDeck.gridy = 5;
 		panel_3.add(btnDeleteDeck, gbc_btnDeleteDeck);
 		
 		JMenuBar menuBar = new JMenuBar();

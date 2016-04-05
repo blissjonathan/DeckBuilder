@@ -11,6 +11,7 @@ import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.LayoutManager;
+import java.awt.Toolkit;
 
 import javax.swing.JTextField;
 
@@ -128,15 +129,24 @@ public class CreateDeckWindow {
 			public void actionPerformed(ActionEvent arg0) {
 				 classSelected = classList.getSelectedItem().toString();
 				 if(classbtn != null) {
+					 
+					 Image classImage = null;
+						try {
+							classImage = ImageIO.read(new File("./resources/icons/" + classList.getSelectedItem().toString() + "icon.png"));
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						}
+						Image tempImage3 = classImage.getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
+						classbtn.setIcon(new ImageIcon(tempImage3));	 
+				
 				 classbtn.revalidate();
 				 classbtn.repaint();
-				 classbtn.getParent().revalidate();
-				 classbtn.getParent().repaint();
-				 }
-				 if(classSelected != null) {
-				 
 				 }
 				 
+				 ArrayList<Card> tempList = MainWindow.createCardList(classList.getSelectedItem().toString(), 0);
+				 if(cardBook != null) {
+				 drawCardBook(tempList);
+				 }
 			}
 		});
 		classList.addItem("Rogue");
@@ -178,7 +188,7 @@ public class CreateDeckWindow {
 		formatBox.setModel(new DefaultComboBoxModel(new String[] {"Standard", "Wild"}));
 		formatBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//
+				
 			}
 		});
 		
@@ -198,10 +208,7 @@ public class CreateDeckWindow {
 		
 		neutralbutton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				ArrayList<Card> neutrals;
-				
-				neutrals = MainWindow.createCardList("Neutral", 0);
-				
+				ArrayList<Card> neutrals = MainWindow.createCardList("Neutral", 0);
 				drawCardBook(neutrals);
 				
 			}
@@ -223,6 +230,10 @@ public class CreateDeckWindow {
 		
 		classbtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				 ArrayList<Card> tempList = MainWindow.createCardList(classList.getSelectedItem().toString(), 0);
+				 if(cardBook != null) {
+				 drawCardBook(tempList);
+				 }		
 			}
 		});
 		GridBagConstraints gbc_classbtn = new GridBagConstraints();
@@ -336,7 +347,15 @@ public class CreateDeckWindow {
 	
 	public void drawCardBook(ArrayList<Card> _cards) {
 		cardPanel = new JPanel();
+		ProgressBarWindow.createWindow(_cards.size());
+			
+			Dimension dim2 = new Dimension(frame.getWidth(),frame.getHeight());
+			ProgressBarWindow.setLoc(dim2.width/2-ProgressBarWindow.frame.getSize().width/2, 
+					dim2.height/2-ProgressBarWindow.frame.getSize().height/2);
+			
+		
 			for(int i = 0; i<_cards.size();i++) {
+				ProgressBarWindow.updateBar();
 				JButton cardButton = new JButton("");
 				Image image = null;
 				ImageIcon cardIcon = null;
@@ -446,6 +465,7 @@ public class CreateDeckWindow {
 				cardPanel.add(cardButton);
 				
 			}
+			ProgressBarWindow.frame.dispose();
 			cardPanel.revalidate();
 			cardPanel.repaint();
 			cardBook.setViewportView(cardPanel);
