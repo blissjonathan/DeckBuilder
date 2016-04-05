@@ -52,6 +52,8 @@ import javax.swing.text.JTextComponent;
 
 import java.awt.GridLayout;
 import java.awt.FlowLayout;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class CreateDeckWindow {
 
@@ -131,6 +133,12 @@ public class CreateDeckWindow {
 		classList = new JComboBox();
 		classList.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				if(deckPanel != null) {
+				deckPanel.removeAll();
+				deckPanel.revalidate();
+				deckPanel.repaint();
+				}
+				
 				 classSelected = classList.getSelectedItem().toString();
 				 if(classbtn != null) {
 					 
@@ -267,7 +275,7 @@ public class CreateDeckWindow {
 		gbc_scrollPane.gridy = 3;
 		frame.getContentPane().add(scrollPane, gbc_scrollPane);
 		deckPanel = new JPanel();
-		scrollPane.setViewportView(drawDeckPanel());
+		scrollPane.setViewportView(deckPanel);
 		deckPanel.setLayout(new BoxLayout(deckPanel, BoxLayout.Y_AXIS));
 		
 		cardBook = new JScrollPane();
@@ -287,6 +295,14 @@ public class CreateDeckWindow {
 		
 		
 		txtSearch = new JTextField();
+		txtSearch.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode()== KeyEvent.VK_ENTER && txtSearch != null) {
+					searchBox(txtSearch.getText());
+				}
+			}
+		});
 		txtSearch.setText("Search");
 		GridBagConstraints gbc_txtSearch = new GridBagConstraints();
 		gbc_txtSearch.insets = new Insets(0, 0, 5, 5);
@@ -334,25 +350,13 @@ public class CreateDeckWindow {
 			}
 		});
 		mnDeckHelper.add(mntmOpenDeckHelper);
+		frame.toFront();
 	}
-	
-	public JPanel drawDeckPanel() {		
-		if(currentDeck != null) {
-		for(int i = 0; i < currentDeck.getSize(); i++) {
-			JButton cardButton = new JButton();
-			Card tCard;
-			tCard = (Card) currentDeck.getAllCards().get(i);
-			cardButton.setText(tCard.getName());
-			deckPanel.add(cardButton);
-			}
-		}
-		
-		
-		return deckPanel;
-	}
+
 	
 	public void drawCardBook(ArrayList<Card> _cards) {
 		cardPanel = new JPanel();
+		cardPanel.setLayout(new GridLayout(_cards.size()/3,3));
 		ProgressBarWindow.createWindow(_cards.size());	
 		Dimension dim2 = new Dimension(frame.getWidth(),frame.getHeight());
 		ProgressBarWindow.setLoc(dim2.width/2-ProgressBarWindow.frame.getSize().width/2, 
@@ -407,7 +411,7 @@ public class CreateDeckWindow {
 						deckButton.setOpaque(false);
 						deckButton.setContentAreaFilled(false);
 						deckButton.setBorder(BorderFactory.createLineBorder(Color.yellow, 3));
-						deckButton.setMaximumSize(new Dimension(Integer.MAX_VALUE, 15));
+						deckButton.setMaximumSize(new Dimension(Integer.MAX_VALUE, 23));
 						
 						deckButton.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
@@ -501,25 +505,7 @@ public class CreateDeckWindow {
 		}
 		
 			drawCardBook(searchedCards);
-		}
-	
-	public void drawProgressBar(int value, int x, int y) {
-				pb = new JProgressBar(0,value);
-				pb.setValue(0);
-				pb.setStringPainted(true);
-			    pbframe = new JFrame("Loading...");
-			    pbframe.setUndecorated(true);
-			    pbframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			    pbframe.setContentPane(pb);
-			    pbframe.pack();
-			    pbframe.setVisible(true);
-			    pbframe.setLocation(x, y);
-	}
-	
-	public void updateProgressBar() {
-		pb.setValue(pb.getValue() + 1);
-	}
-	
+		}	
 
 
 	private class SwingAction extends AbstractAction {
