@@ -108,7 +108,7 @@ public static boolean loaded = false;
 	public static void main(String[] args) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
 		SplashWindow.createWindow();
 		try {
-			HttpResponse<JsonNode> response = Unirest.get("https://omgvamp-hearthstone-v1.p.mashape.com/cards")
+			HttpResponse<JsonNode> response = Unirest.get("https://omgvamp-hearthstone-v1.p.mashape.com/cards?collectible=1")
 					.header("X-Mashape-Key", "32dPU6CVE4mshjYVlOQh1au6LxYVp1hAEkIjsnw7zXqucLcZY3")
 					.asJson();
 			
@@ -178,6 +178,9 @@ public static boolean loaded = false;
 				if(tObject.has("cost")) {
 					tCard.setCost(tObject.getInt("cost"));
 				}
+				if(!(tObject.has("cost"))) {
+					tCard.setCost(0);
+				}
 				if(tObject.has("rarity")) {
 					tCard.setRarity(tObject.getString("rarity"));
 				}
@@ -228,6 +231,9 @@ public static boolean loaded = false;
 				}
 				if(tObject.has("cost")) {
 					tCard.setCost(tObject.getInt("cost"));
+				}
+				if(!(tObject.has("cost"))) {
+					tCard.setCost(0);
 				}
 				if(tObject.has("rarity")) {
 					tCard.setRarity(tObject.getString("rarity"));
@@ -280,6 +286,9 @@ public static boolean loaded = false;
 				if(tObject.has("cost")) {
 					tCard.setCost(tObject.getInt("cost"));
 				}
+				if(!(tObject.has("cost"))) {
+					tCard.setCost(0);
+				}
 				if(tObject.has("rarity")) {
 					tCard.setRarity(tObject.getString("rarity"));
 				}
@@ -330,6 +339,9 @@ public static boolean loaded = false;
 				}
 				if(tObject.has("cost")) {
 					tCard.setCost(tObject.getInt("cost"));
+				}
+				if(!(tObject.has("cost"))) {
+					tCard.setCost(0);
 				}
 				if(tObject.has("rarity")) {
 					tCard.setRarity(tObject.getString("rarity"));
@@ -382,6 +394,9 @@ public static boolean loaded = false;
 				if(tObject.has("cost")) {
 					tCard.setCost(tObject.getInt("cost"));
 				}
+				if(!(tObject.has("cost"))) {
+					tCard.setCost(0);
+				}
 				if(tObject.has("rarity")) {
 					tCard.setRarity(tObject.getString("rarity"));
 				}
@@ -433,6 +448,9 @@ public static boolean loaded = false;
 				if(tObject.has("cost")) {
 					tCard.setCost(tObject.getInt("cost"));
 				}
+				if(!(tObject.has("cost"))) {
+					tCard.setCost(0);
+				}
 				if(tObject.has("rarity")) {
 					tCard.setRarity(tObject.getString("rarity"));
 				}
@@ -440,6 +458,7 @@ public static boolean loaded = false;
 				cards.add(tCard);	
 		}
 			ProgressBarWindow.frame.dispose();
+			cards = sortCards(cards);
 			
 		} catch (UnirestException e1) {
 			e1.printStackTrace();
@@ -866,9 +885,8 @@ public static boolean loaded = false;
 		   
 		   
 		   if(type == 1) { //Get cards by name (search)
-			   
 			   for(int i = 0; i<cards.size();i++) {
-				   if(cards.get(i).getName().contains(input) && cards.get(i).hasImage() == true &&
+				   if(cards.get(i).getName().toLowerCase().contains(input.toLowerCase()) && cards.get(i).hasImage() == true &&
 						   (cards.get(i).getType().equals("Weapon") || cards.get(i).getType().equals("Minion") ||
 								   cards.get(i).getType().equals("Spell") || cards.get(i).getType().equals("Enchantment"))) {
 					   outputList.add(cards.get(i));
@@ -886,9 +904,17 @@ public static boolean loaded = false;
 		   
 		   return outputList;
 	   }
-	   
-	   public void downloadImage() {
+
+	   public static ArrayList<Card> sortCards(ArrayList<Card> _cards) {
 		   
+		   for(int i = 1; i < _cards.size(); i++) {
+			   Card temp = _cards.get(i-1);
+			   if(_cards.get(i).getCost() < temp.getCost()) {
+				   _cards.set(i-1, _cards.get(i));
+				   _cards.set(i, temp);
+			   }
+		   }
+		   return _cards;
 	   }
 	  
 }

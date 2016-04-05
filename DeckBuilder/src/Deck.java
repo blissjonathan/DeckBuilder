@@ -86,11 +86,18 @@ public class Deck {
 	}
 
 	public Boolean addCard (Card _card) {
-		if(Collections.frequency(cards, _card) < 2 && currentsize <= maxsize && _card != null) {
+		if(Collections.frequency(cards, _card) < 2 && currentsize < maxsize && _card != null
+				&& _card.getRarity() != "Legendary") {
 		cards.add(_card);
 		currentsize++;
 		sortCards();
 		return true;
+		} else if(currentsize < maxsize && _card.getRarity().equals("Legendary")
+					&& _card != null && Collections.frequency(cards, _card) < 1){
+			cards.add(_card);
+			currentsize++;
+			sortCards();
+			return true;
 		} else {
 			return false;
 		}
@@ -112,7 +119,7 @@ public class Deck {
 		Card curCard =null;
 		for(int i = 0; i < cards.size();i++) {
 			if(i !=0) {
-			if(cards.get(i-1).getMana() > cards.get(i).getMana()) {
+			if(cards.get(i-1).getCost() > cards.get(i).getCost()) {
 				Card tempCard = cards.get(i);
 				cards.set(i, cards.get(i-1));
 				cards.set(i-1, tempCard);

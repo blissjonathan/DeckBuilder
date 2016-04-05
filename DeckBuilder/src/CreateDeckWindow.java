@@ -54,6 +54,8 @@ import java.awt.GridLayout;
 import java.awt.FlowLayout;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class CreateDeckWindow {
 
@@ -295,6 +297,12 @@ public class CreateDeckWindow {
 		
 		
 		txtSearch = new JTextField();
+		txtSearch.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				txtSearch.selectAll();
+			}
+		});
 		txtSearch.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -356,15 +364,15 @@ public class CreateDeckWindow {
 	
 	public void drawCardBook(ArrayList<Card> _cards) {
 		cardPanel = new JPanel();
-		cardPanel.setLayout(new GridLayout(_cards.size()/3,3));
-		ProgressBarWindow.createWindow(_cards.size());	
-		Dimension dim2 = new Dimension(frame.getWidth(),frame.getHeight());
-		ProgressBarWindow.setLoc(dim2.width/2-ProgressBarWindow.frame.getSize().width/2, 
-								dim2.height/2-ProgressBarWindow.frame.getSize().height/2);
-			
+		cardPanel.setLayout(new GridLayout((_cards.size()/3)+1,3));
+//		ProgressBarWindow.createWindow(_cards.size());	
+//		Dimension dim2 = new Dimension(frame.getWidth(),frame.getHeight());
+//		ProgressBarWindow.setLoc(dim2.width/2-ProgressBarWindow.frame.getSize().width/2, 
+//								dim2.height/2-ProgressBarWindow.frame.getSize().height/2);
+//			
 		
 			for(int i = 0; i<_cards.size();i++) {
-				ProgressBarWindow.updateBar();
+//				ProgressBarWindow.updateBar();
 				JButton cardButton = new JButton("");
 				Image image = null;
 				ImageIcon cardIcon = null;
@@ -474,7 +482,7 @@ public class CreateDeckWindow {
 				cardPanel.add(cardButton);
 				
 			}
-			ProgressBarWindow.frame.dispose();
+//			ProgressBarWindow.frame.dispose();
 			cardPanel.revalidate();
 			cardPanel.repaint();
 			cardBook.setViewportView(cardPanel);

@@ -4,7 +4,7 @@ public class Card {
 private String id;
 private String set;
 private String type;
-private String cost;
+private int cost;
 private String name;
 private String text;
 private String attack;
@@ -30,7 +30,6 @@ public Card(String _id, String _name, String _set, String _hero, String _type, S
 		attack = _attack;
 		health = _health;
 		rarity = _rarity;
-		cost = _mana;
 		hero = _hero;
 		id = _id;
 		set = _set;
@@ -41,7 +40,6 @@ public Card(String _id, String _name, String _set, String _hero, String _type, S
 		name = _name;
 		type = _type;
 		rarity = _rarity;
-		cost = _mana;
 		hero = _hero;
 		id = _id;
 		set = _set;
@@ -80,12 +78,8 @@ public String getID() {
 	return id;
 }
 
-public String getCost() {
+public int getCost() {
 	return cost;
-}
-
-public int getMana() {
-	return Integer.parseInt(cost);
 }
 
 
@@ -139,7 +133,7 @@ public void setImg(String string) {
 }
 
 public void setCost(int string) {
-	cost = String.valueOf(string);
+	cost = string;
 
 }
 
@@ -159,5 +153,6 @@ public boolean hasImage() {
 	
 	return hasimg;
 }
+
 
 }
