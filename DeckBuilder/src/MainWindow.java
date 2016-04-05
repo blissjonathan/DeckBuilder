@@ -36,6 +36,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Scanner;
 import java.util.StringTokenizer;
@@ -58,6 +60,7 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mashape.unirest.request.GetRequest;
 
 import org.json.*;
+
 import javax.swing.border.LineBorder;
 
 
@@ -520,8 +523,12 @@ public static boolean loaded = false;
 				cards.add(tCard);	
 		}
 			ProgressBarWindow.frame.dispose();
-			cards = sortCards(cards);
 			
+			    Collections.sort(cards, new Comparator<Card>() {
+		        @Override public int compare(Card c1, Card c2) {
+		            return c1.getCost() - c2.getCost(); // Ascending
+		        }	
+		    });	
 		} catch (UnirestException e1) {
 			e1.printStackTrace();
 		}
@@ -993,17 +1000,5 @@ public static boolean loaded = false;
 		   return outputList;
 	   }
 
-	   public static ArrayList<Card> sortCards(ArrayList<Card> _cards) {
-		   
-		   for(int i = 1; i < _cards.size(); i++) {
-			   Card temp = _cards.get(i-1);
-
-			   if(_cards.get(i).getCost() < temp.getCost()) {
-				   _cards.set(i-1, _cards.get(i));
-				   _cards.set(i, temp);
-			   }
-		   }
-		   return _cards;
-	   }
 	  
 }

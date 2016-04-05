@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 
 public class Deck {
 	private ArrayList<Card> cards = new ArrayList<Card>();
@@ -116,16 +117,11 @@ public class Deck {
 	}
 	
 	public void sortCards() {
-		Card curCard =null;
-		for(int i = 0; i < cards.size();i++) {
-			if(i !=0) {
-			if(cards.get(i-1).getCost() > cards.get(i).getCost()) {
-				Card tempCard = cards.get(i);
-				cards.set(i, cards.get(i-1));
-				cards.set(i-1, tempCard);
-			}
-			}
-		}
+		Collections.sort(cards, new Comparator<Card>() {
+	        @Override public int compare(Card c1, Card c2) {
+	            return c1.getCost() - c2.getCost(); // Ascending
+	        }	
+	    });
 		
 	}
 
