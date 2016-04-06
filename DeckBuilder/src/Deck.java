@@ -12,12 +12,19 @@ public class Deck {
 	private String archetype;
 	private boolean finisher;
 	private boolean burst;
-	private boolean boarclear;
+	private boolean aoe;
 	private boolean upgrades;
 	private boolean tempo;
 	private boolean finished;
 	private int dust = 0;
-	private String type;
+	private String type = null;
+	
+	
+	private int tempoCount = 0;
+	private int finisherCount = 0;
+	private int aoeCount = 0;
+	private int burstCount = 0;
+	private int drawCount = 0;
 	
 	public Deck(String _name, String _hero) {
 		name = _name;
@@ -90,14 +97,13 @@ public class Deck {
 
 	public Boolean addCard (Card _card) {
 		if(Collections.frequency(cards, _card) < 2 && currentsize < maxsize && _card != null
-				&& _card.getRarity() != "Legendary") {
+				&& !(_card.getRarity().equals("Legendary"))) {
 		cards.add(_card);
 		currentsize++;
 		dust = dust + _card.getDust();
 		sortCards();
 		return true;
-		} else if(currentsize < maxsize && _card.getRarity().equals("Legendary")
-					&& _card != null && Collections.frequency(cards, _card) < 1){
+		} else if(!(cards.contains(_card)) && _card.getRarity().equals("Legendary")) {
 			cards.add(_card);
 			currentsize++;
 			dust = dust + _card.getDust();
@@ -106,11 +112,70 @@ public class Deck {
 		} else {
 			return false;
 		}
-		
 	}
 	
 	public void setType() {
 		
+	}
+	
+	public String getType() {
+		return type;
+	}
+	
+	public int getDust() {
+		return dust;
+	}
+	
+	public boolean hasBurst() {
+		if(burstCount > 0 ) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean hasDraw() {
+		if(drawCount > 0 ) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean hasFinisher() {
+		if(finisherCount > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean hasTempo() {
+		if(tempoCount > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean isComplete() {
+		if(currentsize==30) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean hasAOE() {
+		if(aoeCount > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public String getFormat() {
+		return format;
 	}
 	
 	public String toString() {

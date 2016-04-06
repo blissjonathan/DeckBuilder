@@ -14,6 +14,7 @@ import javax.swing.JButton;
 
 import java.awt.BorderLayout;
 
+import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
@@ -113,12 +114,14 @@ public static JLabel lblCompic;
 public static JLabel lblAoepic;
 public static JLabel lblBpic;
 public static JLabel lblArch;
+public static JLabel lblForm;
 
 
 
 
 
 	private JFrame frmDeckbuilder;
+	private JPanel propPanel;
 
 	/**
 	 * Launch the application.
@@ -552,10 +555,6 @@ public static JLabel lblArch;
 			e1.printStackTrace();
 		}
 	
-//			for(int i = 0; i<cards.size();i++) { 	//Testing
-//				System.out.println(cards.get(i).toString());
-//			}
-			
 		URL update = new URL("https://dl.dropboxusercontent.com/u/82755681/DeckBuilder/update.txt");
 		Scanner sUpdate = new Scanner(update.openStream());
 		String checkUpdate = sUpdate.next();
@@ -572,10 +571,8 @@ public static JLabel lblArch;
 		
 	    try {
 	    	UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            
 	    } 
 	    catch (UnsupportedLookAndFeelException e) {
-       // handle exception
 	    }
 		
 	    String inputFile = "temp.txt";
@@ -620,9 +617,7 @@ public static JLabel lblArch;
             	   }
 
                }
-               
-            }   
-            
+            }  
 		} catch(FileNotFoundException ex) {
 			System.out.println("File not found");
 		}
@@ -709,6 +704,60 @@ public static JLabel lblArch;
 				 System.out.println(selected.toString());
 				 currentDeck = getDeck(selected.toString());
 				 }
+				 try {
+					Image xmark = ImageIO.read(new File("./resources/UI icons/xmark.png"));
+					Image checkmark = ImageIO.read(new File("./resources/UI icons/checkmark.png"));
+					xmark = xmark.getScaledInstance(15, 15, java.awt.Image.SCALE_SMOOTH);
+					checkmark = checkmark.getScaledInstance(15, 15, java.awt.Image.SCALE_SMOOTH);
+					ImageIcon xIcon = new ImageIcon(xmark);
+					ImageIcon checkIcon = new ImageIcon(checkmark);
+					
+					lblDust.setText(Integer.toString(currentDeck.getDust()));
+					lblArch.setText(currentDeck.getType());
+					lblForm.setText(currentDeck.getFormat());
+					
+					if(currentDeck.hasAOE()==true) {
+						lblAoepic.setIcon(checkIcon);
+					}
+					if(currentDeck.hasAOE()==false) {
+						lblAoepic.setIcon(xIcon);
+					}
+					if(currentDeck.hasBurst()==true) {
+						lblBpic.setIcon(checkIcon);
+					}
+					if(currentDeck.hasBurst()==false) {
+						lblBpic.setIcon(xIcon);
+					}
+					if(currentDeck.hasDraw()==true) {
+						lblDpic.setIcon(checkIcon);
+					}
+					if(currentDeck.hasDraw()==false) {
+						lblDpic.setIcon(xIcon);
+					}
+					if(currentDeck.hasFinisher()==true) {
+						lblFinpic.setIcon(checkIcon);
+					}
+					if(currentDeck.hasFinisher()==false) {
+						lblFinpic.setIcon(xIcon);
+					}
+					if(currentDeck.hasTempo()==true) {
+						lblTpic.setIcon(checkIcon);
+					}
+					if(currentDeck.hasTempo()==false) {
+						lblTpic.setIcon(xIcon);
+					}
+					if(currentDeck.isComplete()==true) {
+						lblCompic.setIcon(checkIcon);
+					}
+					if(currentDeck.isComplete()==false) {
+						lblCompic.setIcon(xIcon);
+					}
+					
+				} catch (IOException e2) {
+					e2.printStackTrace();
+				}
+				 
+				 
 				 
 				 for(int i=0; i<currentDeck.getAllCards().size();i++) {
 					JLabel cardLabel = new JLabel();
@@ -716,7 +765,7 @@ public static JLabel lblArch;
 					cardLabel.setText(curCard.getName());
 					cardLabel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 23));
 					cardLabel.setBorder(BorderFactory.createLineBorder(Color.yellow, 3));
-					cardLabel.setHorizontalAlignment(SwingConstants.CENTER);
+					cardLabel.setHorizontalAlignment(SwingConstants.LEFT);
 					cardLabel.setVerticalAlignment(SwingConstants.CENTER);
 					
 					Image origImage = null;
@@ -734,17 +783,32 @@ public static JLabel lblArch;
 					    g.drawImage(origImage, 0, 0, null);
 					    g.dispose();
 					
-					BufferedImage croppedImage = bi.getSubimage(46, 52, 60, 23); //needs to be fixed
+					BufferedImage croppedImage = bi.getSubimage(102, 117, 80, 23);
 					ImageIcon finalImage = new ImageIcon(croppedImage);
-					//cardLabel.setIcon(finalImage);
+					cardLabel.setIcon(finalImage);
 					
-					//labelstack todo
-					
-					deckListPanel.add(cardLabel);
+					boolean hasLabel = false;
+					checkPanel: {
+						for(int x = 0; x < deckListPanel.getComponentCount();x++) {
+							String labelText = ((JLabel) deckListPanel.getComponent(x)).getText();
+							
+							if(labelText.equals(cardLabel.getText())) {
+								((JLabel) deckListPanel.getComponent(x)).setText(labelText + " (2)");
+								hasLabel = true;
+								break checkPanel;
+							} else {
+								hasLabel = false;
+							}
+						}
+					}
+					if(hasLabel==false) {
+						deckListPanel.add(cardLabel);
+					}
 				 }
 				 
 
-				 
+				propPanel.revalidate();
+				propPanel.repaint();
 				deckListPanel.revalidate();
 				deckListPanel.repaint();
 				
@@ -807,17 +871,17 @@ public static JLabel lblArch;
 		gbc_comboBox.gridy = 0;
 		panel_3.add(deckBox, gbc_comboBox);
 		
-		JPanel panel_4 = new JPanel();
-		panel_4.setBorder(new LineBorder(new Color(0, 0, 0), 2));
-		GridBagConstraints gbc_panel_4 = new GridBagConstraints();
-		gbc_panel_4.gridwidth = 2;
-		gbc_panel_4.insets = new Insets(0, 0, 5, 5);
-		gbc_panel_4.fill = GridBagConstraints.BOTH;
-		gbc_panel_4.gridx = 0;
-		gbc_panel_4.gridy = 1;
-		panel_3.add(panel_4, gbc_panel_4);
+		propPanel = new JPanel();
+		propPanel.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		GridBagConstraints gbc_propPanel = new GridBagConstraints();
+		gbc_propPanel.gridwidth = 2;
+		gbc_propPanel.insets = new Insets(0, 0, 5, 5);
+		gbc_propPanel.fill = GridBagConstraints.BOTH;
+		gbc_propPanel.gridx = 0;
+		gbc_propPanel.gridy = 1;
+		panel_3.add(propPanel, gbc_propPanel);
 		
-		JLabel lblDeckProperties = new JLabel("Deck Properties:");
+		JLabel lblDeckProperties = new JLabel("Deck Overview:");
 		
 		JLabel lblFormat = new JLabel("Format:");
 		
@@ -854,95 +918,100 @@ public static JLabel lblArch;
 		lblTpic = new JLabel("");
 		
 		lblDpic = new JLabel("");
-		GroupLayout gl_panel_4 = new GroupLayout(panel_4);
-		gl_panel_4.setHorizontalGroup(
-			gl_panel_4.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_4.createSequentialGroup()
-					.addGroup(gl_panel_4.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panel_4.createSequentialGroup()
+		
+		lblForm = new JLabel("");
+		GroupLayout gl_propPanel = new GroupLayout(propPanel);
+		gl_propPanel.setHorizontalGroup(
+			gl_propPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_propPanel.createSequentialGroup()
+					.addGroup(gl_propPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_propPanel.createSequentialGroup()
 							.addComponent(lblFormat)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(lblFpic))
-						.addGroup(gl_panel_4.createSequentialGroup()
+							.addGroup(gl_propPanel.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblForm)
+								.addComponent(lblFpic)))
+						.addGroup(gl_propPanel.createSequentialGroup()
 							.addComponent(lblComplete)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(lblCompic))
-						.addGroup(gl_panel_4.createSequentialGroup()
+						.addGroup(gl_propPanel.createSequentialGroup()
 							.addComponent(lblArchetype)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(lblArch))
-						.addGroup(gl_panel_4.createSequentialGroup()
+						.addGroup(gl_propPanel.createSequentialGroup()
 							.addGap(20)
 							.addComponent(lblDeckProperties))
-						.addGroup(gl_panel_4.createSequentialGroup()
+						.addGroup(gl_propPanel.createSequentialGroup()
 							.addComponent(lblTotalDeckCost)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(lblDust))
-						.addGroup(gl_panel_4.createSequentialGroup()
+						.addGroup(gl_propPanel.createSequentialGroup()
 							.addComponent(lblAoe)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(lblAoepic))
-						.addGroup(gl_panel_4.createSequentialGroup()
+						.addGroup(gl_propPanel.createSequentialGroup()
 							.addComponent(lblBurst)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(lblBpic))
-						.addGroup(gl_panel_4.createSequentialGroup()
+						.addGroup(gl_propPanel.createSequentialGroup()
 							.addComponent(lblDraw)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(lblDpic))
-						.addGroup(gl_panel_4.createSequentialGroup()
+						.addGroup(gl_propPanel.createSequentialGroup()
 							.addComponent(lblFinisher)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(lblFinpic))
-						.addGroup(gl_panel_4.createSequentialGroup()
+						.addGroup(gl_propPanel.createSequentialGroup()
 							.addComponent(lblTempo)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(lblTpic)))
-					.addContainerGap(20, Short.MAX_VALUE))
+					.addContainerGap(30, Short.MAX_VALUE))
 		);
-		gl_panel_4.setVerticalGroup(
-			gl_panel_4.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_4.createSequentialGroup()
+		gl_propPanel.setVerticalGroup(
+			gl_propPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_propPanel.createSequentialGroup()
 					.addComponent(lblDeckProperties)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_panel_4.createParallelGroup(Alignment.BASELINE)
+					.addGroup(gl_propPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblFormat)
-						.addComponent(lblFpic))
+						.addComponent(lblFpic)
+						.addComponent(lblForm))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_panel_4.createParallelGroup(Alignment.BASELINE)
+					.addGroup(gl_propPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblArchetype)
 						.addComponent(lblArch))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_panel_4.createParallelGroup(Alignment.BASELINE)
+					.addGroup(gl_propPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblComplete)
 						.addComponent(lblCompic))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_panel_4.createParallelGroup(Alignment.BASELINE)
+					.addGroup(gl_propPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblTotalDeckCost)
 						.addComponent(lblDust))
 					.addGap(18)
-					.addGroup(gl_panel_4.createParallelGroup(Alignment.BASELINE)
+					.addGroup(gl_propPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblBurst)
 						.addComponent(lblBpic))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_panel_4.createParallelGroup(Alignment.BASELINE)
+					.addGroup(gl_propPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblAoe)
 						.addComponent(lblAoepic))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_panel_4.createParallelGroup(Alignment.BASELINE)
+					.addGroup(gl_propPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblFinisher)
 						.addComponent(lblFinpic))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_panel_4.createParallelGroup(Alignment.BASELINE)
+					.addGroup(gl_propPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblTempo)
 						.addComponent(lblTpic))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_panel_4.createParallelGroup(Alignment.BASELINE)
+					.addGroup(gl_propPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblDraw)
 						.addComponent(lblDpic))
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
-		panel_4.setLayout(gl_panel_4);
+		propPanel.setLayout(gl_propPanel);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
@@ -975,6 +1044,10 @@ public static JLabel lblArch;
 					}
 				}
 				deckBox.repaint();
+				propPanel.revalidate();
+				propPanel.repaint();
+				deckListPanel.revalidate();
+				deckListPanel.repaint();
 				System.out.println("Deck " + tempName + " deleted");
 			}
 		});
@@ -1151,17 +1224,8 @@ public static JLabel lblArch;
 								   cards.get(i).getType().equals("Enchantment"))) {
 					   outputList.add(cards.get(i));
 				   }
-			   }
-			   
-			   
+			   }   
 		   }
-		   
-		   if(type == 2) { //Get cards by format
-			   
-			   
-		   }
-		   
-		   
 		   return outputList;
 	   }
 }

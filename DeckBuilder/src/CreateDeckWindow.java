@@ -501,19 +501,18 @@ public class CreateDeckWindow {
 						for(int i = 0; i < deckPanel.getComponentCount(); i++) {
 							if(deckButton.getText().equals(((JButton) deckPanel.getComponent(i)).getText())) {
 							hasButton = true;
+							if(!(curCard.getRarity().equals("Legendary"))) {
 							((JButton) deckPanel.getComponent(i)).setText(buttonName + " (2)"); 
+							}
 							deckPanel.revalidate();
 							deckPanel.repaint();
 							break checkPanel;
-							}
-							else if((deckButton.getText() + " (2)").equals(((JButton) deckPanel.getComponent(i)).getText())) {
+							} else if((deckButton.getText() + " (2)").equals(((JButton) deckPanel.getComponent(i)).getText())) {
 							hasButton = true;
 							break checkPanel;
-							} 
-							else {
+							} else {
 							hasButton = false;
 							}
-
 						}
 					}	
 						if(hasButton == false) {
