@@ -16,6 +16,8 @@ public class Deck {
 	private boolean upgrades;
 	private boolean tempo;
 	private boolean finished;
+	private int dust = 0;
+	private String type;
 	
 	public Deck(String _name, String _hero) {
 		name = _name;
@@ -91,17 +93,23 @@ public class Deck {
 				&& _card.getRarity() != "Legendary") {
 		cards.add(_card);
 		currentsize++;
+		dust = dust + _card.getDust();
 		sortCards();
 		return true;
 		} else if(currentsize < maxsize && _card.getRarity().equals("Legendary")
 					&& _card != null && Collections.frequency(cards, _card) < 1){
 			cards.add(_card);
 			currentsize++;
+			dust = dust + _card.getDust();
 			sortCards();
 			return true;
 		} else {
 			return false;
 		}
+		
+	}
+	
+	public void setType() {
 		
 	}
 	

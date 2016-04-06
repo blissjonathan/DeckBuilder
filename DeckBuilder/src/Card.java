@@ -5,6 +5,7 @@ private String id;
 private String set;
 private String type;
 private int cost;
+private int dust;
 private String name;
 private String text;
 private String attack;
@@ -143,7 +144,24 @@ public void setCost(int string) {
 
 public void setRarity(String string) {
 	rarity =  string;
+	dust = 0;
+	if(rarity.equals("Common")) {
+		dust = 40;
+	}
+	if(rarity.equals("Rare")) {
+		dust = 100;
+	}
+	if(rarity.equals("Epic")) {
+		dust = 400;
+	}
+	if(rarity.equals("Legendary")) {
+		dust = 1600;
+	}
 	
+}
+
+public int getDust() {
+	return dust;
 }
 
 public boolean hasImage() {

@@ -4,10 +4,13 @@ import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import java.awt.AlphaComposite;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.LayoutManager;
@@ -56,6 +59,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 
 public class CreateDeckWindow {
 
@@ -77,6 +81,15 @@ public class CreateDeckWindow {
 	private JProgressBar pb;
 	private JFrame pbframe;
 	private int currentScreen = 0;
+	
+	
+	private int tempoCount = 0;
+	private int burstCount = 0;
+	private int controlCount = 0;
+	private int finisherCount = 0;
+	private int valueCount  = 0;
+	private int drawCount = 0;
+	
 
 	/**
 	 * Launch the application.
@@ -438,6 +451,19 @@ public class CreateDeckWindow {
 						deckButton.setContentAreaFilled(false);
 						deckButton.setBorder(BorderFactory.createLineBorder(Color.yellow, 3));
 						deckButton.setMaximumSize(new Dimension(Integer.MAX_VALUE, 23));
+						deckButton.setHorizontalAlignment(SwingConstants.LEFT);
+						
+						BufferedImage bi = new BufferedImage(tempImage.getWidth(null), tempImage.getHeight(null),
+						        BufferedImage.TYPE_INT_ARGB);
+
+						    Graphics g = bi.createGraphics();
+						    //((Graphics2D) g).setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
+						    g.drawImage(tempImage, 0, 0, null);
+						    g.dispose();
+						
+						BufferedImage croppedImage = bi.getSubimage(46, 52, 60, 23);
+						ImageIcon finalImage = new ImageIcon(croppedImage);
+						deckButton.setIcon(finalImage);
 						
 						deckButton.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {

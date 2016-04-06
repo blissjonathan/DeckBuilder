@@ -62,6 +62,8 @@ import com.mashape.unirest.request.GetRequest;
 import org.json.*;
 
 import javax.swing.border.LineBorder;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
 
 public class MainWindow {
@@ -644,7 +646,7 @@ public static boolean loaded = false;
 		frmDeckbuilder.setIconImage(Toolkit.getDefaultToolkit().getImage("./resources/icons/dbicon.png"));
 		frmDeckbuilder.setBackground(Color.LIGHT_GRAY);
 		frmDeckbuilder.setResizable(false);
-		frmDeckbuilder.setTitle("DeckBuilder " + version);
+		frmDeckbuilder.setTitle("DeckBuilder & Helper");
 		frmDeckbuilder.setBounds(100, 100, 450, 600);
 		frmDeckbuilder.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmDeckbuilder.getContentPane().setLayout(new CardLayout(0, 0));
@@ -669,7 +671,7 @@ public static boolean loaded = false;
 		panel.add(panel_3, BorderLayout.CENTER);
 		GridBagLayout gbl_panel_3 = new GridBagLayout();
 		gbl_panel_3.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_panel_3.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_panel_3.rowHeights = new int[]{0, 0, 0, 155, 0, 0, 0, 0};
 		gbl_panel_3.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
 		gbl_panel_3.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel_3.setLayout(gbl_panel_3);
@@ -686,31 +688,41 @@ public static boolean loaded = false;
 			public void actionPerformed(ActionEvent e) {
 				deckListPanel.removeAll();
 				 Object selected = deckBox.getSelectedItem();
+				 if(selected!=null) {
 				 System.out.println(selected.toString());
 				 currentDeck = getDeck(selected.toString());
-				 System.out.println("Cards in deck " + currentDeck.getAllCards());
+				 }
 				 
 				 for(int i=0; i<currentDeck.getAllCards().size();i++) {
 					JLabel cardLabel = new JLabel();
 					Card curCard = currentDeck.getAllCards().get(i);
 					cardLabel.setText(curCard.getName());
-					cardLabel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
+					cardLabel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 23));
 					cardLabel.setBorder(BorderFactory.createLineBorder(Color.yellow, 3));
 					cardLabel.setHorizontalAlignment(SwingConstants.CENTER);
 					cardLabel.setVerticalAlignment(SwingConstants.CENTER);
 					
+//					boolean hasLabel = false;
 //					checkPanel: {
 //						for(int x = 0; x < deckListPanel.getComponentCount(); x++) {
-//							if(cardLabel.getText().equals(((JButton) deckListPanel.getComponent(i)).getText())) {
-//							((JButton) deckListPanel.getComponent(i)).setText(cardLabel.getText() + " (2)"); 
+//							if(cardLabel.getText().equals(((JLabel) deckListPanel.getComponent(x)).getText())) {
+//							hasLabel=true;
+//							((JLabel) deckListPanel.getComponent(x)).setText(cardLabel.getText() + " (2)");
+//							deckListPanel.revalidate();
+//							deckListPanel.repaint();
 //							break checkPanel;
-//							} else if(!(cardLabel.getText().equals(((JButton) deckListPanel.getComponent(i)).getText()))) {
-//								deckListPanel.add(cardLabel);
-//							} 
-//
+//							} else if((cardLabel.getText() + " (2)").equals(((JLabel) deckListPanel.getComponent(x)).getText())) {
+//								hasLabel=true;
+//								break checkPanel;
+//							} else {
+//								hasLabel=false;
+//							}
 //						}
 //					}
-					
+//					if(hasLabel = false) {
+//					deckListPanel.add(cardLabel);
+//					deckListPanel.revalidate();
+//					}
 					deckListPanel.add(cardLabel);
 				 }
 				 
@@ -751,31 +763,6 @@ public static boolean loaded = false;
 				
 			}
 		});
-		deckBox.setToolTipText("Decks");
-		GridBagConstraints gbc_comboBox = new GridBagConstraints();
-		gbc_comboBox.gridwidth = 6;
-		gbc_comboBox.insets = new Insets(0, 0, 5, 0);
-		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_comboBox.gridx = 6;
-		gbc_comboBox.gridy = 0;
-		panel_3.add(deckBox, gbc_comboBox);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
-		gbc_scrollPane.insets = new Insets(0, 0, 5, 0);
-		gbc_scrollPane.gridheight = 4;
-		gbc_scrollPane.gridwidth = 10;
-		gbc_scrollPane.fill = GridBagConstraints.BOTH;
-		gbc_scrollPane.gridx = 2;
-		gbc_scrollPane.gridy = 1;
-		panel_3.add(scrollPane, gbc_scrollPane);
-		
-
-		scrollPane.setColumnHeaderView(classLabel);
-		
-		deckListPanel = new JPanel();
-		deckListPanel.setLayout(new BoxLayout(deckListPanel, BoxLayout.Y_AXIS));
-		scrollPane.setViewportView(deckListPanel);
 		
 		JButton btnCreateADeck = new JButton("Create a Deck");
 		
@@ -792,28 +779,179 @@ public static boolean loaded = false;
 		GridBagConstraints gbc_btnCreateADeck = new GridBagConstraints();
 		gbc_btnCreateADeck.insets = new Insets(0, 0, 5, 5);
 		gbc_btnCreateADeck.gridx = 0;
-		gbc_btnCreateADeck.gridy = 2;
+		gbc_btnCreateADeck.gridy = 0;
 		panel_3.add(btnCreateADeck, gbc_btnCreateADeck);
+		deckBox.setToolTipText("Decks");
+		GridBagConstraints gbc_comboBox = new GridBagConstraints();
+		gbc_comboBox.gridwidth = 8;
+		gbc_comboBox.insets = new Insets(0, 0, 5, 0);
+		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
+		gbc_comboBox.gridx = 6;
+		gbc_comboBox.gridy = 0;
+		panel_3.add(deckBox, gbc_comboBox);
 		
 		JPanel panel_4 = new JPanel();
-		panel_4.setBorder(new LineBorder(new Color(0, 0, 0), 4));
+		panel_4.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		GridBagConstraints gbc_panel_4 = new GridBagConstraints();
+		gbc_panel_4.gridwidth = 2;
 		gbc_panel_4.insets = new Insets(0, 0, 5, 5);
 		gbc_panel_4.fill = GridBagConstraints.BOTH;
 		gbc_panel_4.gridx = 0;
-		gbc_panel_4.gridy = 3;
+		gbc_panel_4.gridy = 1;
 		panel_3.add(panel_4, gbc_panel_4);
 		
 		JLabel lblDeckProperties = new JLabel("Deck Properties:");
-		panel_4.add(lblDeckProperties);
+		
+		JLabel lblFormat = new JLabel("Format:");
+		
+		JLabel lblArchetype = new JLabel("Archetype:");
+		
+		JLabel lblComplete = new JLabel("Complete:");
+		
+		JLabel lblFpic = new JLabel("fpic");
+		
+		JLabel lblArchlbl = new JLabel("Archlbl");
+		
+		JLabel lblCompic = new JLabel("compic");
+		
+		JLabel lblTotalDeckCost = new JLabel("Total Deck Cost:");
+		
+		JLabel lblDust = new JLabel("dust");
+		
+		JLabel lblBurst = new JLabel("Burst:");
+		
+		JLabel lblAoe = new JLabel("AOE:");
+		
+		JLabel lblFinisher = new JLabel("Finisher:");
+		
+		JLabel lblTempo = new JLabel("Tempo:");
+		
+		JLabel lblDraw = new JLabel("Draw:");
+		
+		JLabel lblBpic = new JLabel("bPic");
+		
+		JLabel lblAoepic = new JLabel("aoePIc");
+		
+		JLabel lblFpic_1 = new JLabel("fPic");
+		
+		JLabel lblTpic = new JLabel("tPic");
+		
+		JLabel lblDpic = new JLabel("dPic");
+		GroupLayout gl_panel_4 = new GroupLayout(panel_4);
+		gl_panel_4.setHorizontalGroup(
+			gl_panel_4.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_4.createSequentialGroup()
+					.addGroup(gl_panel_4.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel_4.createSequentialGroup()
+							.addComponent(lblFormat)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(lblFpic))
+						.addGroup(gl_panel_4.createSequentialGroup()
+							.addComponent(lblComplete)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(lblCompic))
+						.addGroup(gl_panel_4.createSequentialGroup()
+							.addComponent(lblArchetype)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(lblArchlbl))
+						.addGroup(gl_panel_4.createSequentialGroup()
+							.addGap(20)
+							.addComponent(lblDeckProperties))
+						.addGroup(gl_panel_4.createSequentialGroup()
+							.addComponent(lblTotalDeckCost)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(lblDust))
+						.addGroup(gl_panel_4.createSequentialGroup()
+							.addComponent(lblAoe)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(lblAoepic))
+						.addGroup(gl_panel_4.createSequentialGroup()
+							.addComponent(lblBurst)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(lblBpic))
+						.addGroup(gl_panel_4.createSequentialGroup()
+							.addComponent(lblDraw)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(lblDpic))
+						.addGroup(gl_panel_4.createSequentialGroup()
+							.addComponent(lblFinisher)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(lblFpic_1))
+						.addGroup(gl_panel_4.createSequentialGroup()
+							.addComponent(lblTempo)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(lblTpic)))
+					.addContainerGap(20, Short.MAX_VALUE))
+		);
+		gl_panel_4.setVerticalGroup(
+			gl_panel_4.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_4.createSequentialGroup()
+					.addComponent(lblDeckProperties)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_panel_4.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblFormat)
+						.addComponent(lblFpic))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_panel_4.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblArchetype)
+						.addComponent(lblArchlbl))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_panel_4.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblComplete)
+						.addComponent(lblCompic))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_panel_4.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblTotalDeckCost)
+						.addComponent(lblDust))
+					.addGap(18)
+					.addGroup(gl_panel_4.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblBurst)
+						.addComponent(lblBpic))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_panel_4.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblAoe)
+						.addComponent(lblAoepic))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(gl_panel_4.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblFinisher)
+						.addComponent(lblFpic_1))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_panel_4.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblTempo)
+						.addComponent(lblTpic))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_panel_4.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblDraw)
+						.addComponent(lblDpic))
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+		);
+		panel_4.setLayout(gl_panel_4);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+		gbc_scrollPane.insets = new Insets(0, 0, 5, 0);
+		gbc_scrollPane.gridheight = 4;
+		gbc_scrollPane.gridwidth = 12;
+		gbc_scrollPane.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane.gridx = 2;
+		gbc_scrollPane.gridy = 1;
+		panel_3.add(scrollPane, gbc_scrollPane);
+		
+
+		scrollPane.setColumnHeaderView(classLabel);
+		
+		deckListPanel = new JPanel();
+		deckListPanel.setLayout(new BoxLayout(deckListPanel, BoxLayout.Y_AXIS));
+		scrollPane.setViewportView(deckListPanel);
 		
 		JButton btnDeleteDeck = new JButton("Delete Deck");
 		btnDeleteDeck.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String tempName = deckBox.getSelectedItem().toString();
 				Object tempItem = deckBox.getSelectedItem();
+				if(tempItem!=null) {
 				deckBox.removeItem(tempItem);
-				
+				}
 				for(int i = 0; i < decks.size(); i++) {
 					if(tempName.equals(decks.get(i).getName())) {
 						decks.remove(i);
@@ -823,6 +961,16 @@ public static boolean loaded = false;
 				System.out.println("Deck " + tempName + " deleted");
 			}
 		});
+		
+		JPanel panel_5 = new JPanel();
+		GridBagConstraints gbc_panel_5 = new GridBagConstraints();
+		gbc_panel_5.gridwidth = 2;
+		gbc_panel_5.gridheight = 5;
+		gbc_panel_5.insets = new Insets(0, 0, 0, 5);
+		gbc_panel_5.fill = GridBagConstraints.BOTH;
+		gbc_panel_5.gridx = 0;
+		gbc_panel_5.gridy = 2;
+		panel_3.add(panel_5, gbc_panel_5);
 		GridBagConstraints gbc_btnDeleteDeck = new GridBagConstraints();
 		gbc_btnDeleteDeck.gridwidth = 6;
 		gbc_btnDeleteDeck.insets = new Insets(0, 0, 5, 0);
@@ -999,6 +1147,4 @@ public static boolean loaded = false;
 		   
 		   return outputList;
 	   }
-
-	  
 }
