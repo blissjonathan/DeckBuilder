@@ -150,7 +150,7 @@ public class CreateDeckWindow {
 						} catch (IOException e1) {
 							e1.printStackTrace();
 						}
-						Image tempImage3 = classImage.getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
+						Image tempImage3 = classImage.getScaledInstance(35, 35, java.awt.Image.SCALE_SMOOTH);
 						classbtn.setIcon(new ImageIcon(tempImage3));	 
 				
 				 classbtn.revalidate();
@@ -234,7 +234,7 @@ public class CreateDeckWindow {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		Image tempImage2 = neutralImage.getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
+		Image tempImage2 = neutralImage.getScaledInstance(35, 35, java.awt.Image.SCALE_SMOOTH);
 		neutralbutton.setIcon(new ImageIcon(tempImage2));
 		
 		neutralbutton.addActionListener(new ActionListener() {
@@ -257,7 +257,7 @@ public class CreateDeckWindow {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		Image tempImage3 = classImage.getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
+		Image tempImage3 = classImage.getScaledInstance(35, 35, java.awt.Image.SCALE_SMOOTH);
 		classbtn.setIcon(new ImageIcon(tempImage3));
 		
 		classbtn.addActionListener(new ActionListener() {
