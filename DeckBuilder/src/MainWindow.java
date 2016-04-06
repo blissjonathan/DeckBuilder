@@ -5,6 +5,8 @@ import javax.swing.JFrame;
 import java.awt.Color;
 import java.awt.CardLayout;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Image;
 
 import javax.swing.JPanel;
 import javax.swing.JMenuBar;
@@ -15,6 +17,7 @@ import java.awt.BorderLayout;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -100,6 +103,20 @@ public static JSONArray AllCards;
 
 public static String cardPath = "./resources/tempdata/cards/";
 public static boolean loaded = false;
+
+public static JLabel lblFpic;
+public static JLabel lblFinpic;
+public static JLabel lblDust;
+public static JLabel lblDpic;
+public static JLabel lblTpic;
+public static JLabel lblCompic;
+public static JLabel lblAoepic;
+public static JLabel lblBpic;
+public static JLabel lblArch;
+
+
+
+
 
 	private JFrame frmDeckbuilder;
 
@@ -685,7 +702,7 @@ public static boolean loaded = false;
 		}
 		
 		deckBox.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e) {				
 				deckListPanel.removeAll();
 				 Object selected = deckBox.getSelectedItem();
 				 if(selected!=null) {
@@ -702,27 +719,27 @@ public static boolean loaded = false;
 					cardLabel.setHorizontalAlignment(SwingConstants.CENTER);
 					cardLabel.setVerticalAlignment(SwingConstants.CENTER);
 					
-//					boolean hasLabel = false;
-//					checkPanel: {
-//						for(int x = 0; x < deckListPanel.getComponentCount(); x++) {
-//							if(cardLabel.getText().equals(((JLabel) deckListPanel.getComponent(x)).getText())) {
-//							hasLabel=true;
-//							((JLabel) deckListPanel.getComponent(x)).setText(cardLabel.getText() + " (2)");
-//							deckListPanel.revalidate();
-//							deckListPanel.repaint();
-//							break checkPanel;
-//							} else if((cardLabel.getText() + " (2)").equals(((JLabel) deckListPanel.getComponent(x)).getText())) {
-//								hasLabel=true;
-//								break checkPanel;
-//							} else {
-//								hasLabel=false;
-//							}
-//						}
-//					}
-//					if(hasLabel = false) {
-//					deckListPanel.add(cardLabel);
-//					deckListPanel.revalidate();
-//					}
+					Image origImage = null;
+					try {
+						origImage = ImageIO.read(new File
+								("./resources/tempdata/cards/" + curCard.getID() + ".png"));
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+					
+					BufferedImage bi = new BufferedImage(origImage.getWidth(null), origImage.getHeight(null),
+					        BufferedImage.TYPE_INT_ARGB);
+
+					    Graphics g = bi.createGraphics();
+					    g.drawImage(origImage, 0, 0, null);
+					    g.dispose();
+					
+					BufferedImage croppedImage = bi.getSubimage(46, 52, 60, 23); //needs to be fixed
+					ImageIcon finalImage = new ImageIcon(croppedImage);
+					//cardLabel.setIcon(finalImage);
+					
+					//labelstack todo
+					
 					deckListPanel.add(cardLabel);
 				 }
 				 
@@ -808,15 +825,15 @@ public static boolean loaded = false;
 		
 		JLabel lblComplete = new JLabel("Complete:");
 		
-		JLabel lblFpic = new JLabel("fpic");
+		lblFpic = new JLabel("");
 		
-		JLabel lblArchlbl = new JLabel("Archlbl");
+		lblArch = new JLabel("");
 		
-		JLabel lblCompic = new JLabel("compic");
+		lblCompic = new JLabel("");
 		
 		JLabel lblTotalDeckCost = new JLabel("Total Deck Cost:");
 		
-		JLabel lblDust = new JLabel("dust");
+		lblDust = new JLabel("");
 		
 		JLabel lblBurst = new JLabel("Burst:");
 		
@@ -828,15 +845,15 @@ public static boolean loaded = false;
 		
 		JLabel lblDraw = new JLabel("Draw:");
 		
-		JLabel lblBpic = new JLabel("bPic");
+		lblBpic = new JLabel("");
 		
-		JLabel lblAoepic = new JLabel("aoePIc");
+		lblAoepic = new JLabel("");
 		
-		JLabel lblFpic_1 = new JLabel("fPic");
+		lblFinpic = new JLabel("");
 		
-		JLabel lblTpic = new JLabel("tPic");
+		lblTpic = new JLabel("");
 		
-		JLabel lblDpic = new JLabel("dPic");
+		lblDpic = new JLabel("");
 		GroupLayout gl_panel_4 = new GroupLayout(panel_4);
 		gl_panel_4.setHorizontalGroup(
 			gl_panel_4.createParallelGroup(Alignment.LEADING)
@@ -853,7 +870,7 @@ public static boolean loaded = false;
 						.addGroup(gl_panel_4.createSequentialGroup()
 							.addComponent(lblArchetype)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(lblArchlbl))
+							.addComponent(lblArch))
 						.addGroup(gl_panel_4.createSequentialGroup()
 							.addGap(20)
 							.addComponent(lblDeckProperties))
@@ -876,7 +893,7 @@ public static boolean loaded = false;
 						.addGroup(gl_panel_4.createSequentialGroup()
 							.addComponent(lblFinisher)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(lblFpic_1))
+							.addComponent(lblFinpic))
 						.addGroup(gl_panel_4.createSequentialGroup()
 							.addComponent(lblTempo)
 							.addPreferredGap(ComponentPlacement.RELATED)
@@ -894,7 +911,7 @@ public static boolean loaded = false;
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_panel_4.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblArchetype)
-						.addComponent(lblArchlbl))
+						.addComponent(lblArch))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_panel_4.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblComplete)
@@ -914,7 +931,7 @@ public static boolean loaded = false;
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(gl_panel_4.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblFinisher)
-						.addComponent(lblFpic_1))
+						.addComponent(lblFinpic))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_panel_4.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblTempo)
