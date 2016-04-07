@@ -89,7 +89,7 @@ static boolean dataDownloaded = false;
 
 JLabel classLabel = new JLabel();
 static JComboBox deckBox;
-static JPanel deckListPanel;
+JPanel deckListPanel;
 
 Icon paladinIcon = new ImageIcon("./resources/icons/paladinicon.png");
 Icon warlockIcon = new ImageIcon("./resources/icons/warlockicon.png");
@@ -122,7 +122,7 @@ public static JLabel lblForm;
 
 
 
-	private JFrame frmDeckbuilder;
+	private JFrame frame;
 	private JPanel propPanel;
 
 	/**
@@ -637,7 +637,7 @@ public static JLabel lblForm;
 			public void run() {
 				try {
 					MainWindow window = new MainWindow();
-					window.frmDeckbuilder.setVisible(true);
+					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -656,8 +656,8 @@ public static JLabel lblForm;
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frmDeckbuilder = new JFrame();
-		frmDeckbuilder.addMouseListener(new MouseAdapter() {
+		frame = new JFrame();
+		frame.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseExited(MouseEvent e) {
 				if(CardImageWindow.frame!=null) {
@@ -665,16 +665,16 @@ public static JLabel lblForm;
 				}
 			}
 		});
-		frmDeckbuilder.setIconImage(Toolkit.getDefaultToolkit().getImage("./resources/icons/dbicon.png"));
-		frmDeckbuilder.setBackground(Color.LIGHT_GRAY);
-		frmDeckbuilder.setResizable(false);
-		frmDeckbuilder.setTitle("DeckBuilder & Helper");
-		frmDeckbuilder.setBounds(100, 100, 450, 600);
-		frmDeckbuilder.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frmDeckbuilder.getContentPane().setLayout(new CardLayout(0, 0));
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("./resources/icons/dbicon.png"));
+		frame.setBackground(Color.LIGHT_GRAY);
+		frame.setResizable(false);
+		frame.setTitle("DeckBuilder & Helper");
+		frame.setBounds(100, 100, 450, 600);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(new CardLayout(0, 0));
 		
 		JPanel panel = new JPanel();
-		frmDeckbuilder.getContentPane().add(panel, "name_749988116922344");
+		frame.getContentPane().add(panel, "name_749988116922344");
 		panel.setLayout(new BorderLayout(0, 0));
 		
 		JPanel panel_1 = new JPanel();
@@ -709,6 +709,8 @@ public static JLabel lblForm;
 		deckBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {				
 				deckListPanel.removeAll();
+				deckListPanel.revalidate();
+				deckListPanel.repaint();
 				 Object selected = deckBox.getSelectedItem();
 				 if(selected!=null) {
 				 System.out.println(selected.toString());
@@ -845,6 +847,8 @@ public static JLabel lblForm;
 
 				propPanel.revalidate();
 				propPanel.repaint();
+				deckListPanel.getParent().revalidate();
+				deckListPanel.getParent().repaint();
 				deckListPanel.revalidate();
 				deckListPanel.repaint();
 				
@@ -1111,8 +1115,8 @@ public static JLabel lblForm;
 		JButton btnEditDeck = new JButton("Edit Deck");
 		btnEditDeck.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CreateDeckWindow.createWindow();
-				CreateDeckWindow.importDeck(currentDeck);
+//				CreateDeckWindow.createWindow();
+//				CreateDeckWindow.importDeck(currentDeck);
 			}
 		});
 		GridBagConstraints gbc_btnEditDeck = new GridBagConstraints();
@@ -1128,7 +1132,7 @@ public static JLabel lblForm;
 		panel_3.add(btnDeleteDeck, gbc_btnDeleteDeck);
 		
 		JMenuBar menuBar = new JMenuBar();
-		frmDeckbuilder.setJMenuBar(menuBar);
+		frame.setJMenuBar(menuBar);
 		
 		JMenu mnFile = new JMenu("File");
 		menuBar.add(mnFile);
@@ -1142,7 +1146,7 @@ public static JLabel lblForm;
 		JMenuItem mntmExit = new JMenuItem("Exit");
 		mntmExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				frmDeckbuilder.dispatchEvent(new WindowEvent(frmDeckbuilder, WindowEvent.WINDOW_CLOSING));
+				frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 			}
 		});
 		mnFile.add(mntmExit);

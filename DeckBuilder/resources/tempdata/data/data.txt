@@ -1,1 +1,2 @@
+DECK|sdf|Priest|Silence|Silence|Mind Vision|Mind Vision|Northshire Cleric|Northshire Cleric|Twilight Whelp|Twilight Whelp|Flash Heal
 COLLECTION|
