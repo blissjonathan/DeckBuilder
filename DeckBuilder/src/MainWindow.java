@@ -5,6 +5,8 @@ import javax.swing.JFrame;
 import java.awt.Color;
 import java.awt.CardLayout;
 import java.awt.Dimension;
+import java.awt.Event;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 
@@ -655,6 +657,14 @@ public static JLabel lblForm;
 	 */
 	private void initialize() {
 		frmDeckbuilder = new JFrame();
+		frmDeckbuilder.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseExited(MouseEvent e) {
+				if(CardImageWindow.frame!=null) {
+					CardImageWindow.frame.dispose();
+				}
+			}
+		});
 		frmDeckbuilder.setIconImage(Toolkit.getDefaultToolkit().getImage("./resources/icons/dbicon.png"));
 		frmDeckbuilder.setBackground(Color.LIGHT_GRAY);
 		frmDeckbuilder.setResizable(false);
@@ -763,7 +773,7 @@ public static JLabel lblForm;
 					JLabel cardLabel = new JLabel();
 					Card curCard = currentDeck.getAllCards().get(i);
 					cardLabel.setText(curCard.getName());
-					cardLabel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 23));
+					cardLabel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
 					cardLabel.setBorder(BorderFactory.createLineBorder(Color.yellow, 3));
 					cardLabel.setHorizontalAlignment(SwingConstants.LEFT);
 					cardLabel.setVerticalAlignment(SwingConstants.CENTER);
@@ -783,9 +793,35 @@ public static JLabel lblForm;
 					    g.drawImage(origImage, 0, 0, null);
 					    g.dispose();
 					
-					BufferedImage croppedImage = bi.getSubimage(102, 117, 80, 23);
+					BufferedImage croppedImage = bi.getSubimage(102, 117, 80, 30);
 					ImageIcon finalImage = new ImageIcon(croppedImage);
 					cardLabel.setIcon(finalImage);
+					
+					CardImageWindow cardWindow = null;
+					cardLabel.addMouseListener(new MouseAdapter() {
+						@Override
+						public void mouseEntered(MouseEvent e) {
+							try {
+								if(CardImageWindow.frame != null) {
+									CardImageWindow.frame.dispose();
+								}
+								Image cardImg = ImageIO.read(new File("./resources/tempdata/cards/" + curCard.getID() + ".png"));
+								ImageIcon cardIcon = new ImageIcon(cardImg);
+								CardImageWindow cardWindow = new CardImageWindow(cardIcon);
+							} catch (IOException e1) {
+								e1.printStackTrace();
+							}
+						}
+					});
+					
+					cardLabel.addMouseListener(new MouseAdapter() {
+						@Override
+						public void mouseExited(MouseEvent e) {
+							if(cardWindow != null) {
+								cardWindow.destroyFrame();
+							}
+						}
+					});
 					
 					boolean hasLabel = false;
 					checkPanel: {
@@ -814,6 +850,8 @@ public static JLabel lblForm;
 				
 				 
 				 classLabel.setText(currentDeck.getHero());
+				 classLabel.setFont(new Font("Serif", Font.PLAIN, 25));
+				 classLabel.setBorder(BorderFactory.createLineBorder(Color.black, 3));
 				 if(currentDeck.getHero()=="Paladin") {
 				 classLabel.setIcon(paladinIcon);
 				 }
@@ -1027,6 +1065,14 @@ public static JLabel lblForm;
 		scrollPane.setColumnHeaderView(classLabel);
 		
 		deckListPanel = new JPanel();
+		deckListPanel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				if(CardImageWindow.frame != null) {
+					CardImageWindow.frame.dispose();
+				}
+			}
+		});
 		deckListPanel.setLayout(new BoxLayout(deckListPanel, BoxLayout.Y_AXIS));
 		scrollPane.setViewportView(deckListPanel);
 		
@@ -1061,6 +1107,19 @@ public static JLabel lblForm;
 		gbc_panel_5.gridx = 0;
 		gbc_panel_5.gridy = 2;
 		panel_3.add(panel_5, gbc_panel_5);
+		
+		JButton btnEditDeck = new JButton("Edit Deck");
+		btnEditDeck.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CreateDeckWindow.createWindow();
+				CreateDeckWindow.importDeck(currentDeck);
+			}
+		});
+		GridBagConstraints gbc_btnEditDeck = new GridBagConstraints();
+		gbc_btnEditDeck.insets = new Insets(0, 0, 5, 5);
+		gbc_btnEditDeck.gridx = 7;
+		gbc_btnEditDeck.gridy = 5;
+		panel_3.add(btnEditDeck, gbc_btnEditDeck);
 		GridBagConstraints gbc_btnDeleteDeck = new GridBagConstraints();
 		gbc_btnDeleteDeck.gridwidth = 6;
 		gbc_btnDeleteDeck.insets = new Insets(0, 0, 5, 0);

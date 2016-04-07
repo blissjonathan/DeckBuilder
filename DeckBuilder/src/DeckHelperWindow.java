@@ -9,6 +9,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JPanel;
 import java.awt.Font;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 
 public class DeckHelperWindow {
@@ -49,6 +51,8 @@ public class DeckHelperWindow {
 		frmDeckHelper.setBounds(100, 100, 450, 553);
 		frmDeckHelper.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmDeckHelper.getContentPane().setLayout(null);
+		frmDeckHelper.setLocation(CreateDeckWindow.frame.getX()+CreateDeckWindow.frame.getWidth(), 
+				CreateDeckWindow.frame.getY());
 		
 		JLabel lblDeckName = new JLabel("Deck Name:");
 		lblDeckName.setBounds(10, 11, 69, 24);
@@ -62,8 +66,8 @@ public class DeckHelperWindow {
 		scrollPane.setBounds(10, 254, 424, 259);
 		frmDeckHelper.getContentPane().add(scrollPane);
 		
-		JPanel panel = new JPanel();
-		scrollPane.setViewportView(panel);
+		JPanel cardPanel = new JPanel();
+		scrollPane.setViewportView(cardPanel);
 		
 		JLabel deckName = new JLabel("NAME");
 		deckName.setBounds(70, 16, 46, 14);
@@ -91,6 +95,10 @@ public class DeckHelperWindow {
 		frmDeckHelper.getContentPane().add(lblCheckList);
 		
 		JButton btnFinisher = new JButton("Finisher");
+		btnFinisher.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
 		btnFinisher.setBounds(10, 104, 89, 23);
 		frmDeckHelper.getContentPane().add(btnFinisher);
 		
@@ -99,18 +107,34 @@ public class DeckHelperWindow {
 		frmDeckHelper.getContentPane().add(lblFinisherlabel);
 		
 		JButton btnBoardClear = new JButton("Board Clear");
+		btnBoardClear.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnBoardClear.setBounds(10, 138, 89, 23);
 		frmDeckHelper.getContentPane().add(btnBoardClear);
 		
 		JButton btnBurst = new JButton("Burst");
+		btnBurst.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnBurst.setBounds(10, 172, 89, 23);
 		frmDeckHelper.getContentPane().add(btnBurst);
 		
 		JButton btnValue = new JButton("Value");
+		btnValue.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnValue.setBounds(234, 104, 89, 23);
 		frmDeckHelper.getContentPane().add(btnValue);
 		
 		JButton btnNewButton = new JButton("Tempo");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnNewButton.setBounds(234, 138, 89, 23);
 		frmDeckHelper.getContentPane().add(btnNewButton);
 		

@@ -63,17 +63,17 @@ import java.awt.image.BufferedImage;
 
 public class CreateDeckWindow {
 
-	private JFrame frame;
+	public static JFrame frame;
 	private JTextField nameField;
 	private final Action action = new SwingAction();
 	private JTextField txtSearch;
 	private JPanel cardPanel;
 	private String classSelected;
-	private JComboBox classList;
-	private Deck currentDeck = new Deck();
-	private JPanel deckPanel;
+	public static JComboBox classList;
+	private static Deck currentDeck = new Deck();
+	private static JPanel deckPanel;
 	private JButton btnS;
-	private JComboBox formatBox;
+	public static JComboBox formatBox;
 	private String cardPath = MainWindow.cardPath;
 	private JButton classbtn;
 	private JButton neutralbutton;
@@ -556,7 +556,109 @@ public class CreateDeckWindow {
 		}
 		
 			drawCardBook(searchedCards);
+		}
+	
+	
+	public static void importDeck(Deck _deck) {
+		for(int i = 0; i < classList.getComponentCount(); i++) {
+			if(classList.getComponent(i).toString().equals(_deck.getHero())) {
+				classList.setSelectedItem(classList.getComponent(i));
+			}
+		}
+		
+		for(int i = 0; i < _deck.getAllCards().size(); i++) {
+			Card curCard = _deck.getAllCards().get(i);
+			
+			String buttonName = curCard.getName();
+			JButton deckButton = new JButton(buttonName);
+			deckButton.setPreferredSize(new Dimension(30,8));
+			deckButton.setOpaque(false);
+			deckButton.setContentAreaFilled(false);
+			deckButton.setBorder(BorderFactory.createLineBorder(Color.yellow, 3));
+			deckButton.setMaximumSize(new Dimension(Integer.MAX_VALUE, 23));
+			deckButton.setHorizontalAlignment(SwingConstants.LEFT);
+			
+			Image tempImage = null;
+			try {
+				tempImage = ImageIO.read(new File("./resources/tempdata/cards/" + curCard.getID() + ".png"));
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			
+			tempImage = tempImage.getScaledInstance(150, 230, java.awt.Image.SCALE_SMOOTH);
+			
+			BufferedImage bi = new BufferedImage(tempImage.getWidth(null), tempImage.getHeight(null),
+			        BufferedImage.TYPE_INT_ARGB);
+
+			    Graphics g = bi.createGraphics();
+			    g.drawImage(tempImage, 0, 0, null);
+			    g.dispose();
+			
+			BufferedImage croppedImage = bi.getSubimage(46, 52, 60, 23);
+			ImageIcon finalImage = new ImageIcon(croppedImage);
+			deckButton.setIcon(finalImage);
+			
+			deckButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					JButton sourceButton = (JButton) e.getSource();
+					System.out.println(sourceButton.getText() + " deck button pressed");
+					checkPanelforRemove: {
+					for(int i = 0; i < deckPanel.getComponentCount(); i++) {
+					if(((JButton) deckPanel.getComponent(i)).getText().contains("(2)") &&
+							((JButton) deckPanel.getComponent(i)).getText().contains(
+									sourceButton.getText().replace(" (2)", ""))) {
+					System.out.println("Found stacked button");
+					String origName = sourceButton.getText().replace(" (2)", "");
+					currentDeck.removeCard(origName);	
+					((JButton) deckPanel.getComponent(i)).setText(origName);	
+					deckPanel.revalidate();
+					deckPanel.repaint();
+					break checkPanelforRemove;
+					} else if(sourceButton.getText().equals(
+							((JButton) deckPanel.getComponent(i)).getText())) {
+						System.out.println("Found unstacked button " + ((JButton) deckPanel.getComponent(i)).getText());
+						currentDeck.removeCard(((JButton) deckPanel.getComponent(i)).getText());	
+						deckPanel.remove(deckPanel.getComponent(i));	
+						deckPanel.revalidate();
+						deckPanel.repaint();
+						break checkPanelforRemove;
+					}
+					
+					}
+					}
+				}
+			});
+			boolean hasButton = false;
+			
+			checkPanel: {
+			for(int x = 0; x < deckPanel.getComponentCount(); x++) {
+				if(deckButton.getText().equals(((JButton) deckPanel.getComponent(x)).getText())) {
+				hasButton = true;
+				if(!(curCard.getRarity().equals("Legendary"))) {
+				((JButton) deckPanel.getComponent(x)).setText(buttonName + " (2)"); 
+				}
+				deckPanel.revalidate();
+				deckPanel.repaint();
+				break checkPanel;
+				} else if((deckButton.getText() + " (2)").equals(((JButton) deckPanel.getComponent(x)).getText())) {
+				hasButton = true;
+				break checkPanel;
+				} else {
+				hasButton = false;
+				}
+			}
 		}	
+			if(hasButton == false) {
+			deckPanel.add(deckButton);
+			deckPanel.revalidate();
+			}
+		}
+		deckPanel.revalidate();
+		deckPanel.repaint();
+		}
+		
+		
+	
 
 
 	private class SwingAction extends AbstractAction {
