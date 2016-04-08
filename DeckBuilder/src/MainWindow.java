@@ -191,6 +191,9 @@ public static JLabel lblForm;
 				if(tObject.has("health")) {
 					tCard.setHealth(tObject.getInt("health"));
 				}
+				if(tObject.has("race")) {
+					tCard.setRace(tObject.getString("race"));
+				}
 				if(tObject.has("img")) {
 					tCard.setImg(tObject.getString("img"));
 					File f = new File("./resources/tempdata/cards/" + tCard.getID() + ".png");
@@ -233,6 +236,9 @@ public static JLabel lblForm;
 				}
 				if(tObject.has("cardSet")) {
 					tCard.setSet(tObject.getString("cardSet"));
+				}
+				if(tObject.has("race")) {
+					tCard.setRace(tObject.getString("race"));
 				}
 				if(tObject.has("name")) {
 					tCard.setName(tObject.getString("name"));
@@ -291,6 +297,9 @@ public static JLabel lblForm;
 				}
 				if(tObject.has("cardSet")) {
 					tCard.setSet(tObject.getString("cardSet"));
+				}
+				if(tObject.has("race")) {
+					tCard.setRace(tObject.getString("race"));
 				}
 				if(tObject.has("name")) {
 					tCard.setName(tObject.getString("name"));
@@ -352,6 +361,9 @@ public static JLabel lblForm;
 				if(tObject.has("type")) {
 					tCard.setType(tObject.getString("type"));
 				}
+				if(tObject.has("race")) {
+					tCard.setRace(tObject.getString("race"));
+				}
 				if(tObject.has("text")) {
 					tCard.setText(tObject.getString("text"));
 				}
@@ -412,6 +424,9 @@ public static JLabel lblForm;
 				if(tObject.has("attack")) {
 					tCard.setAttack(tObject.getInt("attack"));
 				}
+				if(tObject.has("race")) {
+					tCard.setRace(tObject.getString("race"));
+				}
 				if(tObject.has("health")) {
 					tCard.setHealth(tObject.getInt("health"));
 				}
@@ -466,6 +481,9 @@ public static JLabel lblForm;
 				if(tObject.has("attack")) {
 					tCard.setAttack(tObject.getInt("attack"));
 				}
+				if(tObject.has("race")) {
+					tCard.setRace(tObject.getString("race"));
+				}
 				if(tObject.has("health")) {
 					tCard.setHealth(tObject.getInt("health"));
 				}
@@ -510,6 +528,9 @@ public static JLabel lblForm;
 				}
 				if(tObject.has("name")) {
 					tCard.setName(tObject.getString("name"));
+				}
+				if(tObject.has("race")) {
+					tCard.setRace(tObject.getString("race"));
 				}
 				if(tObject.has("type")) {
 					tCard.setType(tObject.getString("type"));
@@ -1168,6 +1189,7 @@ public static JLabel lblForm;
 		JMenuItem mntmAbout = new JMenuItem("About");
 		mntmAbout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				AboutWindow.createWindow(version);
 			}
 		});
 		mnHelp.add(mntmAbout);

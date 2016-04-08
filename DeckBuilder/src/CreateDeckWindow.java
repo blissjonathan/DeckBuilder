@@ -70,8 +70,8 @@ public class CreateDeckWindow {
 	private JPanel cardPanel;
 	private String classSelected;
 	public static JComboBox classList;
-	private static Deck currentDeck = new Deck();
-	private static JPanel deckPanel;
+	public static Deck currentDeck = new Deck();
+	static JPanel deckPanel;
 	private JButton btnS;
 	public static JComboBox formatBox;
 	private String cardPath = MainWindow.cardPath;
@@ -394,7 +394,6 @@ public class CreateDeckWindow {
 
 	
 	public void drawCardBook(ArrayList<Card> _cards) {
-		currentDeck = new Deck();
 		cardPanel = new JPanel();
 		cardPanel.setLayout(new GridLayout((_cards.size()/3)+1,3));
 //		ProgressBarWindow.createWindow(_cards.size());	

@@ -22,6 +22,7 @@ private boolean nerf;
 private boolean aoe;
 private String image;
 private String fileName;
+private String race;
 
 private boolean hasDeathrattle = false;
 private boolean hasTaunt  = false;
@@ -89,6 +90,13 @@ public int getCost() {
 	return cost;
 }
 
+public void setRace(String _race) {
+	race = _race;
+}
+
+public String getRace() {
+	return race;
+}
 
 public void setHealth(int _health) {
 	attack = String.valueOf(_health);
