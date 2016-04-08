@@ -23,6 +23,12 @@ private boolean aoe;
 private String image;
 private String fileName;
 
+private boolean hasDeathrattle = false;
+private boolean hasTaunt  = false;
+private boolean hasBattleCry = false;
+private boolean hasSpellDamage = false;
+
+
 public Card(String _id, String _name, String _set, String _hero, String _type, String _attack, String _health, 
 		String _rarity, String _mana) {
 		
@@ -115,6 +121,20 @@ type = string;
 
 public void setText(String string) {
 	text = string;
+	
+	if(string.contains("Taunt")) {
+		hasTaunt = true;
+	}
+	if(string.contains("Spell Damage")) {
+		hasSpellDamage = true;
+	}
+	if(string.contains("Deathrattle")) {
+		hasDeathrattle = true;
+	}
+	
+	if(string.contains("Battlecry")) {
+		hasBattleCry = true;
+	}
 	
 }
 
