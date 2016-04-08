@@ -307,11 +307,9 @@ public class CreateDeckWindow {
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane.gridx = 0;
 		gbc_scrollPane.gridy = 3;
-		frame.getContentPane().add(scrollPane, gbc_scrollPane);
 		deckPanel = new JPanel();
-		scrollPane.setViewportView(deckPanel);
 		deckPanel.setLayout(new BoxLayout(deckPanel, BoxLayout.Y_AXIS));
-		
+		scrollPane.setViewportView(deckPanel);
 		cardBook = new JScrollPane();
 		cardBook.getVerticalScrollBar().setUnitIncrement(16);
 		GridBagConstraints gbc_cardBook = new GridBagConstraints();
@@ -321,7 +319,7 @@ public class CreateDeckWindow {
 		gbc_cardBook.gridx = 3;
 		gbc_cardBook.gridy = 3;
 		
-		
+		frame.getContentPane().add(scrollPane, gbc_scrollPane);
 		frame.getContentPane().add(cardBook, gbc_cardBook);
 		
 		cardPanel = new JPanel();
@@ -454,6 +452,7 @@ public class CreateDeckWindow {
 						deckButton.setContentAreaFilled(false);
 						deckButton.setBorder(BorderFactory.createLineBorder(Color.yellow, 3));
 						deckButton.setMaximumSize(new Dimension(Integer.MAX_VALUE, 23));
+						deckButton.setMinimumSize(new Dimension(Integer.MAX_VALUE, 23));
 						deckButton.setHorizontalAlignment(SwingConstants.LEFT);
 						
 						BufferedImage bi = new BufferedImage(tempImage.getWidth(null), tempImage.getHeight(null),
@@ -504,7 +503,7 @@ public class CreateDeckWindow {
 						for(int i = 0; i < deckPanel.getComponentCount(); i++) {
 							if(deckButton.getText().equals(((JButton) deckPanel.getComponent(i)).getText())) {
 							hasButton = true;
-							if(!(curCard.getRarity().equals("Legendary"))) {
+							if(!(curCard.getRarity().equals("Legendary")) && currentDeck.getSize() < 30) {
 							((JButton) deckPanel.getComponent(i)).setText(buttonName + " (2)"); 
 							}
 							deckPanel.revalidate();
@@ -518,10 +517,13 @@ public class CreateDeckWindow {
 							}
 						}
 					}	
-						if(hasButton == false) {
+						if(hasButton == false && currentDeck.getSize() < 30) {
 						deckPanel.add(deckButton);
 						deckPanel.revalidate();
+						deckPanel.repaint();
 						}
+						deckPanel.getParent().revalidate();
+						deckPanel.getParent().repaint();
 					}
 				});
 				
@@ -629,6 +631,8 @@ public class CreateDeckWindow {
 					
 					}
 					}
+					deckPanel.getParent().revalidate();
+					deckPanel.getParent().repaint();
 				}
 			});
 			boolean hasButton = false;
@@ -637,7 +641,7 @@ public class CreateDeckWindow {
 			for(int x = 0; x < deckPanel.getComponentCount(); x++) {
 				if(deckButton.getText().equals(((JButton) deckPanel.getComponent(x)).getText())) {
 				hasButton = true;
-				if(!(curCard.getRarity().equals("Legendary"))) {
+				if(!(curCard.getRarity().equals("Legendary")) && currentDeck.getSize() < 30) {
 				((JButton) deckPanel.getComponent(x)).setText(buttonName + " (2)"); 
 				}
 				deckPanel.revalidate();
@@ -651,13 +655,15 @@ public class CreateDeckWindow {
 				}
 			}
 		}	
-			if(hasButton == false) {
+			if(hasButton == false && currentDeck.getSize() < 30) {
 			deckPanel.add(deckButton);
 			deckPanel.revalidate();
 			}
 		}
 		deckPanel.revalidate();
 		deckPanel.repaint();
+		deckPanel.getParent().revalidate();
+		deckPanel.getParent().repaint();
 		}
 		
 		
