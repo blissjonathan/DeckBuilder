@@ -59,7 +59,14 @@ public class Deck {
 	public ArrayList<Card> getAllCards() {
 		return cards;
 	}
-	
+//	
+//	public String toString() {
+//		String output = name + " ";
+//		for(int i = 0;  i<cards.size();i++) {
+//			output = output + cards.get(i).getName() + " ";
+//		}
+//		return output;
+//	}
 	
 	public void removeCard(String name) {
 		cards.remove(getCard(name));

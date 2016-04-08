@@ -95,6 +95,7 @@ public class CreateDeckWindow {
 	 * Launch the application.
 	 */
 	public static void createWindow() {
+		currentDeck = new Deck();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -205,6 +206,7 @@ public class CreateDeckWindow {
 				currentDeck.setName(nameField.getText());
 				currentDeck.setFormat(formatBox.getSelectedItem().toString());
 				MainWindow.decks.add(currentDeck);
+				System.out.println("Deck Added " + currentDeck.toString());
 				MainWindow.deckBox.addItem(currentDeck.getName());
 				MainWindow.deckBox.revalidate();
 				MainWindow.deckBox.repaint();
@@ -394,6 +396,7 @@ public class CreateDeckWindow {
 
 	
 	public void drawCardBook(ArrayList<Card> _cards) {
+		currentDeck = new Deck();
 		cardPanel = new JPanel();
 		cardPanel.setLayout(new GridLayout((_cards.size()/3)+1,3));
 //		ProgressBarWindow.createWindow(_cards.size());	
