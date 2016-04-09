@@ -92,6 +92,7 @@ static boolean dataDownloaded = false;
 JLabel classLabel = new JLabel();
 static JComboBox deckBox;
 BackgroundPanel deckListPanel;
+BackgroundPanel panel;
 
 Icon paladinIcon = new ImageIcon("./resources/icons/paladinicon.png");
 Icon warlockIcon = new ImageIcon("./resources/icons/warlockicon.png");
@@ -680,6 +681,16 @@ public static JLabel lblForm;
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		
+		Image mainbr = null;
+		try {
+			mainbr = ImageIO.read(new File("./resources/UI icons/leather-background.png"));
+		} catch (IOException e3) {
+			e3.printStackTrace();
+		}
+		BackgroundPanel mainPanel = new BackgroundPanel(mainbr);
+		frame.setContentPane(mainPanel);
+		
 		frame.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseExited(MouseEvent e) {
@@ -697,18 +708,10 @@ public static JLabel lblForm;
 		frame.setBounds(100, 100, 450, 600);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new CardLayout(0, 0));
-		
-		Image mainbr = null;
-		try {
-			mainbr = ImageIO.read(new File("./resources/UI icons/leather-background.png"));
-		} catch (IOException e3) {
-			e3.printStackTrace();
-		}
-		
-		
-		BackgroundPanel panel = new BackgroundPanel(mainbr);
-		frame.getContentPane().add(panel, "name_749988116922344");
+	
+		panel = new BackgroundPanel(null);
 		panel.setLayout(new BorderLayout(0, 0));
+		frame.getContentPane().add(panel, "name_749988116922344");
 		
 		JPanel panel_1 = new JPanel();
 		panel.add(panel_1, BorderLayout.NORTH);

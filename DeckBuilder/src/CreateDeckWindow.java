@@ -67,11 +67,11 @@ public class CreateDeckWindow {
 	private JTextField nameField;
 	private final Action action = new SwingAction();
 	private JTextField txtSearch;
-	private JPanel cardPanel;
+	private BackgroundPanel cardPanel;
 	private String classSelected;
 	public static JComboBox classList;
 	public static Deck currentDeck = new Deck();
-	static JPanel deckPanel;
+	static BackgroundPanel deckPanel;
 	private JButton btnS;
 	public static JComboBox formatBox;
 	private String cardPath = MainWindow.cardPath;
@@ -81,7 +81,8 @@ public class CreateDeckWindow {
 	private JProgressBar pb;
 	private JFrame pbframe;
 	private int currentScreen = 0;
-	
+	private Image cardPanelBackground;
+	private Image mainBackground;
 	
 	private int tempoCount = 0;
 	private int burstCount = 0;
@@ -119,10 +120,20 @@ public class CreateDeckWindow {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		
+		try {
+			cardPanelBackground = ImageIO.read(new File("./resources/UI icons/sand-background.png"));
+			mainBackground = ImageIO.read(new File("./resources/UI icons/leather-background.png"));
+		} catch (IOException e2) {
+			e2.printStackTrace();
+		}
+		
 		frame = new JFrame();
 		frame.setResizable(false);
 		frame.setBounds(100, 100, 750, 500);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		BackgroundPanel mainPanel = new BackgroundPanel(mainBackground);
+		frame.setContentPane(mainPanel);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0};
@@ -147,6 +158,7 @@ public class CreateDeckWindow {
 		nameField.setColumns(10);
 		
 		classList = new JComboBox();
+		classList.setBackground(Color.yellow);
 		classList.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				currentDeck = new Deck();
@@ -308,7 +320,7 @@ public class CreateDeckWindow {
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane.gridx = 0;
 		gbc_scrollPane.gridy = 3;
-		deckPanel = new JPanel();
+		deckPanel = new BackgroundPanel(cardPanelBackground);
 		deckPanel.setLayout(new BoxLayout(deckPanel, BoxLayout.Y_AXIS));
 		scrollPane.setViewportView(deckPanel);
 		cardBook = new JScrollPane();
@@ -323,7 +335,7 @@ public class CreateDeckWindow {
 		frame.getContentPane().add(scrollPane, gbc_scrollPane);
 		frame.getContentPane().add(cardBook, gbc_cardBook);
 		
-		cardPanel = new JPanel();
+		cardPanel = new BackgroundPanel(cardPanelBackground);
 		drawCardBook(MainWindow.createCardList(classList.getSelectedItem().toString(), 0,formatBox.getSelectedItem().toString()));
 		
 		
@@ -395,7 +407,7 @@ public class CreateDeckWindow {
 
 	
 	public void drawCardBook(ArrayList<Card> _cards) {
-		cardPanel = new JPanel();
+		cardPanel = new BackgroundPanel(cardPanelBackground);
 		cardPanel.setLayout(new GridLayout((_cards.size()/3)+1,3));
 //		ProgressBarWindow.createWindow(_cards.size());	
 //		Dimension dim2 = new Dimension(frame.getWidth(),frame.getHeight());
