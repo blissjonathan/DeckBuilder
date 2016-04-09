@@ -28,6 +28,7 @@ private boolean hasDeathrattle = false;
 private boolean hasTaunt  = false;
 private boolean hasBattleCry = false;
 private boolean hasSpellDamage = false;
+private boolean highValue = false;
 
 
 public Card(String _id, String _name, String _set, String _hero, String _type, String _attack, String _health, 

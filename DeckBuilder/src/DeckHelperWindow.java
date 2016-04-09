@@ -35,6 +35,11 @@ public class DeckHelperWindow {
 	private JFrame frmDeckHelper;
 	private JPanel cardPanel;
 	private JScrollPane helpBook;
+	private JLabel lblBurst;
+	private JLabel lblBoardclear;
+	private JLabel lblTempo;
+	private JLabel lblValue;
+	private JLabel lblFinisher;
 
 	/**
 	 * Launch the application.
@@ -121,9 +126,9 @@ public class DeckHelperWindow {
 		btnFinisher.setBounds(10, 104, 89, 23);
 		frmDeckHelper.getContentPane().add(btnFinisher);
 		
-		JLabel lblFinisherlabel = new JLabel("finisherlabel");
-		lblFinisherlabel.setBounds(109, 108, 74, 14);
-		frmDeckHelper.getContentPane().add(lblFinisherlabel);
+		lblFinisher = new JLabel("");
+		lblFinisher.setBounds(109, 108, 74, 14);
+		frmDeckHelper.getContentPane().add(lblFinisher);
 		
 		JButton btnBoardClear = new JButton("Board Clear");
 		btnBoardClear.addActionListener(new ActionListener() {
@@ -157,23 +162,68 @@ public class DeckHelperWindow {
 		btnNewButton.setBounds(234, 138, 89, 23);
 		frmDeckHelper.getContentPane().add(btnNewButton);
 		
-		JLabel lblBoardclear = new JLabel("");
+		lblBoardclear = new JLabel("");
 		lblBoardclear.setBounds(109, 142, 74, 14);
 		frmDeckHelper.getContentPane().add(lblBoardclear);
 		
-		JLabel lblBurst = new JLabel("");
+		lblBurst = new JLabel("");
 		lblBurst.setBounds(109, 176, 74, 14);
 		frmDeckHelper.getContentPane().add(lblBurst);
 		
-		JLabel lblValue = new JLabel("value");
+		lblValue = new JLabel("");
 		lblValue.setBounds(333, 108, 74, 14);
 		frmDeckHelper.getContentPane().add(lblValue);
 		
-		JLabel lblTempo = new JLabel("tempo");
+		lblTempo = new JLabel("");
 		lblTempo.setBounds(333, 142, 74, 14);
 		frmDeckHelper.getContentPane().add(lblTempo);
+		
+		setLabels();
 	}
 	
+	public void setLabels() {
+		
+		ImageIcon xicon = null;
+		ImageIcon checkicon = null;	
+		try {
+			Image xmark = ImageIO.read(new File("./resources/UI icons/xmark.png"));
+			Image checkmark = ImageIO.read(new File("./resources/UI icons/checkmark.png"));
+			xmark = xmark.getScaledInstance(15, 15, Image.SCALE_SMOOTH);
+			checkmark = checkmark.getScaledInstance(15, 15, Image.SCALE_SMOOTH);
+			xicon = new ImageIcon(xmark);
+			checkicon = new ImageIcon(checkmark);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		
+		if(CreateDeckWindow.currentDeck.hasFinisher()==true) {
+		lblFinisher.setIcon(checkicon);
+		}
+		if(CreateDeckWindow.currentDeck.hasFinisher()==false) {
+		lblFinisher.setIcon(xicon);
+		}
+		
+		if(CreateDeckWindow.currentDeck.hasBurst()==true) {
+		lblBurst.setIcon(checkicon);
+		}
+		if(CreateDeckWindow.currentDeck.hasBurst()==false) {
+		lblBurst.setIcon(xicon);
+		}
+		
+		if(CreateDeckWindow.currentDeck.hasAOE()==true) {
+		lblBoardclear.setIcon(checkicon);
+		}
+		if(CreateDeckWindow.currentDeck.hasAOE()==false) {
+		lblBoardclear.setIcon(xicon);
+		}		
+		if(CreateDeckWindow.currentDeck.hasTempo()==true) {
+		lblTempo.setIcon(checkicon);
+		}
+		if(CreateDeckWindow.currentDeck.hasTempo()==false) {
+		lblTempo.setIcon(xicon);
+		}
+	}
 	
 	public void drawHelpBook(ArrayList<Card> _cards) {
 		cardPanel = new JPanel();
@@ -187,19 +237,15 @@ public class DeckHelperWindow {
 			
 				try {
 					image = ImageIO.read(new File("./resources/tempdata/cards/" + _cards.get(i).getID() + ".png"));
-					System.out.println("Image " + i + " loaded");
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
 				
 				Image tempImage = image.getScaledInstance(150, 230, java.awt.Image.SCALE_SMOOTH);
-				System.out.println("Image " + i + " scaled");
 				cardIcon = new ImageIcon(tempImage);
 				cardButton.setPreferredSize(new Dimension(150,230));
 				cardButton.setIcon(cardIcon);
-				System.out.println("Image " + i + " set");
 				cardButton.setName(_cards.get(i).getName());
-				System.out.println("Button name set to " + MainWindow.cards.get(i).getName());
 				cardButton.setOpaque(false);
 				cardButton.setContentAreaFilled(false);
 				cardButton.setBorderPainted(false);

@@ -149,6 +149,7 @@ public class CreateDeckWindow {
 		classList = new JComboBox();
 		classList.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				currentDeck = new Deck();
 				if(deckPanel != null) {
 				deckPanel.removeAll();
 				deckPanel.revalidate();

@@ -196,5 +196,14 @@ public class Deck {
 	    });
 		
 	}
+	
+	public ArrayList<Card> suggestCards() {
+		ArrayList<Card> output = new ArrayList<Card>();
+		
+		
+		
+		return output;
+		
+	}
 
 }
