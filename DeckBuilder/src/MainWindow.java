@@ -8,6 +8,7 @@ import java.awt.Dimension;
 import java.awt.Event;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 
 import javax.swing.JPanel;
@@ -70,6 +71,7 @@ import org.json.*;
 import javax.swing.border.LineBorder;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.border.BevelBorder;
 
 
 public class MainWindow {
@@ -89,7 +91,7 @@ static boolean dataDownloaded = false;
 
 JLabel classLabel = new JLabel();
 static JComboBox deckBox;
-JPanel deckListPanel;
+BackgroundPanel deckListPanel;
 
 Icon paladinIcon = new ImageIcon("./resources/icons/paladinicon.png");
 Icon warlockIcon = new ImageIcon("./resources/icons/warlockicon.png");
@@ -686,6 +688,8 @@ public static JLabel lblForm;
 				}
 			}
 		});
+
+		
 		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("./resources/icons/dbicon.png"));
 		frame.setBackground(Color.LIGHT_GRAY);
 		frame.setResizable(false);
@@ -694,7 +698,15 @@ public static JLabel lblForm;
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new CardLayout(0, 0));
 		
-		JPanel panel = new JPanel();
+		Image mainbr = null;
+		try {
+			mainbr = ImageIO.read(new File("./resources/UI icons/leather-background.png"));
+		} catch (IOException e3) {
+			e3.printStackTrace();
+		}
+		
+		
+		BackgroundPanel panel = new BackgroundPanel(mainbr);
 		frame.getContentPane().add(panel, "name_749988116922344");
 		panel.setLayout(new BorderLayout(0, 0));
 		
@@ -1089,7 +1101,15 @@ public static JLabel lblForm;
 
 		scrollPane.setColumnHeaderView(classLabel);
 		
-		deckListPanel = new JPanel();
+		Image deckbr = null;
+		try {
+			deckbr = ImageIO.read(new File("./resources/UI icons/sand-background.png"));
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		
+		deckListPanel = new BackgroundPanel(deckbr);
+		deckListPanel.setBorder(new BevelBorder(BevelBorder.LOWERED, Color.BLACK, Color.BLACK, Color.LIGHT_GRAY, Color.LIGHT_GRAY));
 		deckListPanel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -1313,4 +1333,6 @@ public static JLabel lblForm;
 		   }
 		   return outputList;
 	   }
+	   
+	   
 }
