@@ -93,6 +93,7 @@ JLabel classLabel = new JLabel();
 static JComboBox deckBox;
 BackgroundPanel deckListPanel;
 BackgroundPanel panel;
+BackgroundPanel panel_3;
 
 Icon paladinIcon = new ImageIcon("./resources/icons/paladinicon.png");
 Icon warlockIcon = new ImageIcon("./resources/icons/warlockicon.png");
@@ -159,9 +160,9 @@ public static JLabel lblForm;
 								AllCardsObj.getJSONArray("The Grand Tournament").length() + 
 								AllCardsObj.getJSONArray("Goblins vs Gnomes").length();
 			
-			ProgressBarWindow.createWindow(totalCards);
+			ProgressBarWindow window = new ProgressBarWindow(totalCards);
 			Dimension dim2 = Toolkit.getDefaultToolkit().getScreenSize();
-			ProgressBarWindow.setLoc(dim2.width/2-ProgressBarWindow.frame.getSize().width/2, 
+			window.setLoc(dim2.width/2-ProgressBarWindow.frame.getSize().width/2, 
 					dim2.height/2-ProgressBarWindow.frame.getSize().height/2+50);
 			
 			for(int i=0; i<basicCards.length();i++) {
@@ -681,6 +682,7 @@ public static JLabel lblForm;
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.setForeground(new Color(153, 51, 0));
 		
 		Image mainbr = null;
 		try {
@@ -688,8 +690,8 @@ public static JLabel lblForm;
 		} catch (IOException e3) {
 			e3.printStackTrace();
 		}
-		BackgroundPanel mainPanel = new BackgroundPanel(mainbr);
-		frame.setContentPane(mainPanel);
+//		BackgroundPanel mainPanel = new BackgroundPanel(mainbr);
+//		frame.setContentPane(mainPanel);
 		
 		frame.addMouseListener(new MouseAdapter() {
 			@Override
@@ -713,19 +715,7 @@ public static JLabel lblForm;
 		panel.setLayout(new BorderLayout(0, 0));
 		frame.getContentPane().add(panel, "name_749988116922344");
 		
-		JPanel panel_1 = new JPanel();
-		panel.add(panel_1, BorderLayout.NORTH);
-		GridBagLayout gbl_panel_1 = new GridBagLayout();
-		gbl_panel_1.columnWidths = new int[]{0};
-		gbl_panel_1.rowHeights = new int[]{0};
-		gbl_panel_1.columnWeights = new double[]{Double.MIN_VALUE};
-		gbl_panel_1.rowWeights = new double[]{Double.MIN_VALUE};
-		panel_1.setLayout(gbl_panel_1);
-		
-		JPanel panel_2 = new JPanel();
-		panel.add(panel_2, BorderLayout.WEST);
-		
-		JPanel panel_3 = new JPanel();
+		panel_3 = new BackgroundPanel(mainbr);
 		panel.add(panel_3, BorderLayout.CENTER);
 		GridBagLayout gbl_panel_3 = new GridBagLayout();
 		gbl_panel_3.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -761,8 +751,11 @@ public static JLabel lblForm;
 					ImageIcon checkIcon = new ImageIcon(checkmark);
 					
 					lblDust.setText(Integer.toString(currentDeck.getDust()));
+					lblDust.setForeground(Color.white);
 					lblArch.setText(currentDeck.getType());
+					lblArch.setForeground(Color.white);
 					lblForm.setText(currentDeck.getFormat());
+					lblForm.setForeground(Color.white);
 					
 					if(currentDeck.hasAOE()==true) {
 						lblAoepic.setIcon(checkIcon);
@@ -951,6 +944,7 @@ public static JLabel lblForm;
 		
 		propPanel = new JPanel();
 		propPanel.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		propPanel.setBackground(new Color(1.0f,1.0f,1.0f,0.0f));
 		GridBagConstraints gbc_propPanel = new GridBagConstraints();
 		gbc_propPanel.gridwidth = 2;
 		gbc_propPanel.insets = new Insets(0, 0, 5, 5);
@@ -959,13 +953,22 @@ public static JLabel lblForm;
 		gbc_propPanel.gridy = 1;
 		panel_3.add(propPanel, gbc_propPanel);
 		
+		Font font = new Font("Courier", Font.BOLD,12);
 		JLabel lblDeckProperties = new JLabel("Deck Overview:");
+		lblDeckProperties.setFont(font);
+		lblDeckProperties.setForeground(Color.white);
 		
 		JLabel lblFormat = new JLabel("Format:");
+		lblFormat.setFont(font);
+		lblFormat.setForeground(Color.white);
 		
 		JLabel lblArchetype = new JLabel("Archetype:");
+		lblArchetype.setFont(font);
+		lblArchetype.setForeground(Color.white);
 		
 		JLabel lblComplete = new JLabel("Complete:");
+		lblComplete.setFont(font);
+		lblComplete.setForeground(Color.white);
 		
 		lblFpic = new JLabel("");
 		
@@ -974,18 +977,30 @@ public static JLabel lblForm;
 		lblCompic = new JLabel("");
 		
 		JLabel lblTotalDeckCost = new JLabel("Total Deck Cost:");
+		lblTotalDeckCost.setFont(font);
+		lblTotalDeckCost.setForeground(Color.white);
 		
 		lblDust = new JLabel("");
 		
 		JLabel lblBurst = new JLabel("Burst:");
+		lblBurst.setFont(font);
+		lblBurst.setForeground(Color.white);
 		
 		JLabel lblAoe = new JLabel("AOE:");
+		lblAoe.setFont(font);
+		lblAoe.setForeground(Color.white);
 		
 		JLabel lblFinisher = new JLabel("Finisher:");
+		lblFinisher.setFont(font);
+		lblFinisher.setForeground(Color.white);
 		
 		JLabel lblTempo = new JLabel("Tempo:");
+		lblTempo.setFont(font);
+		lblTempo.setForeground(Color.white);
 		
 		JLabel lblDraw = new JLabel("Draw:");
+		lblDraw.setFont(font);
+		lblDraw.setForeground(Color.white);
 		
 		lblBpic = new JLabel("");
 		
@@ -1155,6 +1170,7 @@ public static JLabel lblForm;
 		gbc_panel_5.gridx = 0;
 		gbc_panel_5.gridy = 2;
 		panel_3.add(panel_5, gbc_panel_5);
+		panel_5.setVisible(false);
 		
 		JButton btnEditDeck = new JButton("Edit Deck");
 		btnEditDeck.addActionListener(new ActionListener() {

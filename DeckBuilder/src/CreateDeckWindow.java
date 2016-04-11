@@ -141,14 +141,7 @@ public class CreateDeckWindow {
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
 		frame.getContentPane().setLayout(gridBagLayout);
 		
-		JLabel lblName = new JLabel("Name:");
-		GridBagConstraints gbc_lblName = new GridBagConstraints();
-		gbc_lblName.insets = new Insets(0, 0, 5, 5);
-		gbc_lblName.gridx = 7;
-		gbc_lblName.gridy = 0;
-		frame.getContentPane().add(lblName, gbc_lblName);
-		
-		nameField = new JTextField("");
+		nameField = new JTextField("Name");
 		GridBagConstraints gbc_textField = new GridBagConstraints();
 		gbc_textField.insets = new Insets(0, 0, 5, 0);
 		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
@@ -409,14 +402,14 @@ public class CreateDeckWindow {
 	public void drawCardBook(ArrayList<Card> _cards) {
 		cardPanel = new BackgroundPanel(cardPanelBackground);
 		cardPanel.setLayout(new GridLayout((_cards.size()/3)+1,3));
-//		ProgressBarWindow.createWindow(_cards.size());	
+//		ProgressBarWindow window = new ProgressBarWindow(_cards.size());	
 //		Dimension dim2 = new Dimension(frame.getWidth(),frame.getHeight());
-//		ProgressBarWindow.setLoc(dim2.width/2-ProgressBarWindow.frame.getSize().width/2, 
+//		window.setLoc(dim2.width/2-ProgressBarWindow.frame.getSize().width/2, 
 //								dim2.height/2-ProgressBarWindow.frame.getSize().height/2);
-//			
+			
 		
 			for(int i = 0; i<_cards.size();i++) {
-//				ProgressBarWindow.updateBar();
+//				window.updateBar();
 				JButton cardButton = new JButton("");
 				Image image = null;
 				ImageIcon cardIcon = null;
@@ -542,7 +535,7 @@ public class CreateDeckWindow {
 				cardPanel.add(cardButton);
 				
 			}
-//			ProgressBarWindow.frame.dispose();
+//			window.destroyWindow();
 			cardPanel.revalidate();
 			cardPanel.repaint();
 			cardBook.setViewportView(cardPanel);
