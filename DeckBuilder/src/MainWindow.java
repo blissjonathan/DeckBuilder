@@ -211,7 +211,7 @@ public static JLabel lblForm;
 						File outputfile = new File("./resources/tempdata/cards/" + tCard.getID() + ".png");
 						ImageIO.write(bi, "png", outputfile);
 					}
-					ProgressBarWindow.updateBar();
+					window.updateBar();
 				}
 				if(tObject.has("cost")) {
 					tCard.setCost(tObject.getInt("cost"));
@@ -272,7 +272,7 @@ public static JLabel lblForm;
 						File outputfile = new File("./resources/tempdata/cards/" + tCard.getID() + ".png");
 						ImageIO.write(bi, "png", outputfile);
 					}
-					ProgressBarWindow.updateBar();
+					window.updateBar();
 				}
 				if(tObject.has("cost")) {
 					tCard.setCost(tObject.getInt("cost"));
@@ -329,7 +329,7 @@ public static JLabel lblForm;
 						File outputfile = new File("./resources/tempdata/cards/" + tCard.getID() + ".png");
 						ImageIO.write(bi, "png", outputfile);
 					}
-					ProgressBarWindow.updateBar();
+					window.updateBar();
 				}
 				if(tObject.has("cost")) {
 					tCard.setCost(tObject.getInt("cost"));
@@ -386,7 +386,7 @@ public static JLabel lblForm;
 						File outputfile = new File("./resources/tempdata/cards/" + tCard.getID() + ".png");
 						ImageIO.write(bi, "png", outputfile);
 					}
-					ProgressBarWindow.updateBar();
+					window.updateBar();
 				}
 				if(tObject.has("cost")) {
 					tCard.setCost(tObject.getInt("cost"));
@@ -443,7 +443,7 @@ public static JLabel lblForm;
 						File outputfile = new File("./resources/tempdata/cards/" + tCard.getID() + ".png");
 						ImageIO.write(bi, "png", outputfile);
 					}
-					ProgressBarWindow.updateBar();
+					window.updateBar();
 				}
 				if(tObject.has("cost")) {
 					tCard.setCost(tObject.getInt("cost"));
@@ -500,7 +500,7 @@ public static JLabel lblForm;
 						File outputfile = new File("./resources/tempdata/cards/" + tCard.getID() + ".png");
 						ImageIO.write(bi, "png", outputfile);
 					}
-					ProgressBarWindow.updateBar();
+					window.updateBar();
 				}
 				if(tObject.has("cost")) {
 					tCard.setCost(tObject.getInt("cost"));
@@ -557,7 +557,7 @@ public static JLabel lblForm;
 						File outputfile = new File("./resources/tempdata/cards/" + tCard.getID() + ".png");
 						ImageIO.write(bi, "png", outputfile);
 					}
-					ProgressBarWindow.updateBar();
+					window.updateBar();
 				}
 				if(tObject.has("cost")) {
 					tCard.setCost(tObject.getInt("cost"));

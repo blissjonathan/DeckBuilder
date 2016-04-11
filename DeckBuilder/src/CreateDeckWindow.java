@@ -402,14 +402,14 @@ public class CreateDeckWindow {
 	public void drawCardBook(ArrayList<Card> _cards) {
 		cardPanel = new BackgroundPanel(cardPanelBackground);
 		cardPanel.setLayout(new GridLayout((_cards.size()/3)+1,3));
-//		ProgressBarWindow window = new ProgressBarWindow(_cards.size());	
-//		Dimension dim2 = new Dimension(frame.getWidth(),frame.getHeight());
-//		window.setLoc(dim2.width/2-ProgressBarWindow.frame.getSize().width/2, 
-//								dim2.height/2-ProgressBarWindow.frame.getSize().height/2);
+		ProgressBarWindow window = new ProgressBarWindow(_cards.size());	
+		Dimension dim2 = new Dimension(frame.getWidth(),frame.getHeight());
+		window.setLoc(dim2.width/2-ProgressBarWindow.frame.getSize().width/2, 
+								dim2.height/2-ProgressBarWindow.frame.getSize().height/2);
 			
 		
 			for(int i = 0; i<_cards.size();i++) {
-//				window.updateBar();
+				window.updateBar();
 				JButton cardButton = new JButton("");
 				Image image = null;
 				ImageIcon cardIcon = null;
@@ -535,7 +535,7 @@ public class CreateDeckWindow {
 				cardPanel.add(cardButton);
 				
 			}
-//			window.destroyWindow();
+			window.destroyWindow();
 			cardPanel.revalidate();
 			cardPanel.repaint();
 			cardBook.setViewportView(cardPanel);

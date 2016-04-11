@@ -38,6 +38,8 @@ public class ProgressBarWindow {
 	pbar = new JProgressBar(0,value);
 	pbar.setValue(0);
 	pbar.setStringPainted(true);
+	pbar.revalidate();
+	pbar.repaint();
     frame = new JFrame("Loading...");
     frame.setUndecorated(true);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -52,5 +54,6 @@ public class ProgressBarWindow {
   
   public static void destroyWindow() {
 	  frame.dispose();
+	 
   }
 }
