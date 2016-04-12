@@ -64,6 +64,7 @@ import java.awt.image.BufferedImage;
 public class CreateDeckWindow {
 
 	public static JFrame frame;
+	public static JFrame loadingFrame;
 	private JTextField nameField;
 	private final Action action = new SwingAction();
 	private JTextField txtSearch;
@@ -402,14 +403,8 @@ public class CreateDeckWindow {
 	public void drawCardBook(ArrayList<Card> _cards) {
 		cardPanel = new BackgroundPanel(cardPanelBackground);
 		cardPanel.setLayout(new GridLayout((_cards.size()/3)+1,3));
-		ProgressBarWindow window = new ProgressBarWindow(_cards.size());	
-		Dimension dim2 = new Dimension(frame.getWidth(),frame.getHeight());
-		window.setLoc(dim2.width/2-ProgressBarWindow.frame.getSize().width/2, 
-								dim2.height/2-ProgressBarWindow.frame.getSize().height/2);
-			
 		
 			for(int i = 0; i<_cards.size();i++) {
-				window.updateBar();
 				JButton cardButton = new JButton("");
 				Image image = null;
 				ImageIcon cardIcon = null;
@@ -535,7 +530,6 @@ public class CreateDeckWindow {
 				cardPanel.add(cardButton);
 				
 			}
-			window.destroyWindow();
 			cardPanel.revalidate();
 			cardPanel.repaint();
 			cardBook.setViewportView(cardPanel);
@@ -672,7 +666,19 @@ public class CreateDeckWindow {
 		}
 		
 		
-	
+	public void createLoadingFrame() {
+		loadingFrame = new JFrame();
+		loadingFrame.setResizable(false);
+		loadingFrame.setBounds(100, 100, 60, 60);
+		loadingFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		loadingFrame.setUndecorated(true);
+		loadingFrame.setBackground(new Color(1.0f,1.0f,1.0f,0.0f));
+		loadingFrame.setVisible(true);
+		Dimension dim2 = new Dimension(frame.getWidth(),frame.getHeight());
+		loadingFrame.setLocation(dim2.width/2-loadingFrame.getSize().width/2, 
+				dim2.height/2-loadingFrame.getSize().height/2);
+		loadingFrame.setContentPane(new JLabel(new ImageIcon("./resources/UI icons/loading.gif")));	
+	}
 
 
 	private class SwingAction extends AbstractAction {
