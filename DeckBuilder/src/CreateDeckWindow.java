@@ -155,6 +155,7 @@ public class CreateDeckWindow {
 		classList.setBackground(Color.yellow);
 		classList.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				createLoadingFrame();
 				currentDeck = new Deck();
 				if(deckPanel != null) {
 				deckPanel.removeAll();
@@ -185,6 +186,9 @@ public class CreateDeckWindow {
 				 }
 				 if(cardBook != null) {
 				 drawCardBook(tempList);
+				 }
+				 if(loadingFrame != null) {
+					 loadingFrame.dispose();
 				 }
 			}
 		});
@@ -228,6 +232,7 @@ public class CreateDeckWindow {
 		formatBox.setModel(new DefaultComboBoxModel(new String[] {"Standard", "Wild"}));
 		formatBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+			createLoadingFrame();
 			if(deckPanel != null && formatBox != null && classList != null) {
 				if(formatBox.getSelectedItem().toString().equals("Standard")) {
 					drawCardBook(MainWindow.createCardList(classList.getSelectedItem().toString(),0,"Standard"));
@@ -241,6 +246,9 @@ public class CreateDeckWindow {
 					deckPanel.revalidate();
 					deckPanel.repaint();
 				}
+			}
+			if(loadingFrame!=null) {
+			loadingFrame.dispose();
 			}
 			}
 		});
@@ -261,10 +269,13 @@ public class CreateDeckWindow {
 		
 		neutralbutton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				createLoadingFrame();
 				currentScreen = 1;
 				ArrayList<Card> neutrals = MainWindow.createCardList("Neutral", 0, formatBox.getSelectedItem().toString());
 				drawCardBook(neutrals);
-				
+				if(loadingFrame != null) {
+					loadingFrame.dispose();
+				}
 			}
 		});
 		
@@ -284,11 +295,15 @@ public class CreateDeckWindow {
 		
 		classbtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				createLoadingFrame();
 				currentScreen = 0;
 				 ArrayList<Card> tempList = MainWindow.createCardList(classList.getSelectedItem().toString(), 0, formatBox.getSelectedItem().toString());
 				 if(cardBook != null) {
 				 drawCardBook(tempList);
-				 }		
+				 }
+				 if(loadingFrame != null) {
+					 loadingFrame.dispose();
+				 }
 			}
 		});
 		GridBagConstraints gbc_classbtn = new GridBagConstraints();
@@ -671,12 +686,13 @@ public class CreateDeckWindow {
 		loadingFrame.setResizable(false);
 		loadingFrame.setBounds(100, 100, 60, 60);
 		loadingFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		loadingFrame.setUndecorated(true);
-		loadingFrame.setBackground(new Color(1.0f,1.0f,1.0f,0.0f));
+//		loadingFrame.setUndecorated(true);
+		loadingFrame.setAlwaysOnTop(true);
+//		loadingFrame.setBackground(new Color(1.0f,1.0f,1.0f,0.0f));
 		loadingFrame.setVisible(true);
-		Dimension dim2 = new Dimension(frame.getWidth(),frame.getHeight());
-		loadingFrame.setLocation(dim2.width/2-loadingFrame.getSize().width/2, 
-				dim2.height/2-loadingFrame.getSize().height/2);
+//		Dimension dim2 = new Dimension(frame.getWidth(),frame.getHeight());
+//		loadingFrame.setLocation(dim2.width/2-loadingFrame.getSize().width/2, 
+//				dim2.height/2-loadingFrame.getSize().height/2);
 		loadingFrame.setContentPane(new JLabel(new ImageIcon("./resources/UI icons/loading.gif")));	
 	}
 
