@@ -152,13 +152,15 @@ public static JLabel lblForm;
 			JSONArray loeCards = AllCardsObj.getJSONArray("The League of Explorers");
 			JSONArray blackrockCards = AllCardsObj.getJSONArray("Blackrock Mountain");
 			JSONArray tgtCards = AllCardsObj.getJSONArray("The Grand Tournament");
+			JSONArray wotogCards = AllCardsObj.getJSONArray("Whispers of the Old Gods");
 			int totalCards = AllCardsObj.getJSONArray("Basic").length() + 
 								AllCardsObj.getJSONArray("Classic").length()+ 
 								AllCardsObj.getJSONArray("Naxxramas").length() + 
 								AllCardsObj.getJSONArray("The League of Explorers").length()+ 
 								AllCardsObj.getJSONArray("Blackrock Mountain").length() + 
 								AllCardsObj.getJSONArray("The Grand Tournament").length() + 
-								AllCardsObj.getJSONArray("Goblins vs Gnomes").length();
+								AllCardsObj.getJSONArray("Goblins vs Gnomes").length() +
+								AllCardsObj.getJSONArray("Whispers of the Old Gods").length();
 			
 			ProgressBarWindow window = new ProgressBarWindow(totalCards);
 			Dimension dim2 = Toolkit.getDefaultToolkit().getScreenSize();
@@ -167,6 +169,67 @@ public static JLabel lblForm;
 			
 			for(int i=0; i<basicCards.length();i++) {
 				JSONObject tObject = basicCards.getJSONObject(i);
+				Card tCard = new Card();
+				if(tObject.has("playerClass")) {
+					tCard.setHero(tObject.getString("playerClass"));
+				}
+				if(!(tObject.has("playerClass"))) {
+					tCard.setHero("Neutral");
+				}
+				if(tObject.has("cardId")) {
+					tCard.setID(tObject.getString("cardId"));
+				}
+				if(tObject.has("cardSet")) {
+					tCard.setSet(tObject.getString("cardSet"));
+				}
+				if(tObject.has("name")) {
+					tCard.setName(tObject.getString("name"));
+				}
+				if(tObject.has("type")) {
+					tCard.setType(tObject.getString("type"));
+				}
+				if(tObject.has("text")) {
+					tCard.setText(tObject.getString("text"));
+				}
+				if(tObject.has("attack")) {
+					tCard.setAttack(tObject.getInt("attack"));
+				}
+				if(tObject.has("health")) {
+					tCard.setHealth(tObject.getInt("health"));
+				}
+				if(tObject.has("race")) {
+					tCard.setRace(tObject.getString("race"));
+				}
+				if(tObject.has("img")) {
+					tCard.setImg(tObject.getString("img"));
+					File f = new File("./resources/tempdata/cards/" + tCard.getID() + ".png");
+					File dir = new File("./resources/tempdata/cards/");
+					if(!(dir.exists())) {
+						dir.mkdir();
+					}
+					if(!(f.exists())) { 
+						URL url = new URL(tObject.getString("img"));
+						BufferedImage bi = ImageIO.read(url);
+						File outputfile = new File("./resources/tempdata/cards/" + tCard.getID() + ".png");
+						ImageIO.write(bi, "png", outputfile);
+					}
+					window.updateBar();
+				}
+				if(tObject.has("cost")) {
+					tCard.setCost(tObject.getInt("cost"));
+				}
+				if(!(tObject.has("cost"))) {
+					tCard.setCost(0);
+				}
+				if(tObject.has("rarity")) {
+					tCard.setRarity(tObject.getString("rarity"));
+				}
+				
+				cards.add(tCard);	
+		}
+			
+			for(int i=0; i<wotogCards.length();i++) {
+				JSONObject tObject = wotogCards.getJSONObject(i);
 				Card tCard = new Card();
 				if(tObject.has("playerClass")) {
 					tCard.setHero(tObject.getString("playerClass"));
