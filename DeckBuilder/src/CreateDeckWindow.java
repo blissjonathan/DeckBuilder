@@ -155,7 +155,6 @@ public class CreateDeckWindow {
 		classList.setBackground(Color.yellow);
 		classList.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				createLoadingFrame();
 				currentDeck = new Deck();
 				if(deckPanel != null) {
 				deckPanel.removeAll();
@@ -247,9 +246,9 @@ public class CreateDeckWindow {
 					deckPanel.repaint();
 				}
 			}
-			if(loadingFrame!=null) {
-			loadingFrame.dispose();
-			}
+//			if(loadingFrame!=null) {
+//			loadingFrame.dispose();
+//			}
 			}
 		});
 		
@@ -474,7 +473,6 @@ public class CreateDeckWindow {
 						        BufferedImage.TYPE_INT_ARGB);
 
 						    Graphics g = bi.createGraphics();
-						    //((Graphics2D) g).setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
 						    g.drawImage(tempImage, 0, 0, null);
 						    g.dispose();
 						
@@ -579,43 +577,38 @@ public class CreateDeckWindow {
 	
 	
 	public static void importDeck(Deck _deck) {
-		for(int i = 0; i < classList.getComponentCount(); i++) {
-			if(classList.getComponent(i).toString().equals(_deck.getHero())) {
-				classList.setSelectedItem(classList.getComponent(i));
-			}
-		}
-		
-		for(int i = 0; i < _deck.getAllCards().size(); i++) {
-			Card curCard = _deck.getAllCards().get(i);
-			
-			String buttonName = curCard.getName();
+		for(int i = 0; i < _deck.getAllCards().size();i++) {
+			String buttonName = _deck.getAllCards().get(i).getName();
 			JButton deckButton = new JButton(buttonName);
 			deckButton.setPreferredSize(new Dimension(30,8));
 			deckButton.setOpaque(false);
 			deckButton.setContentAreaFilled(false);
 			deckButton.setBorder(BorderFactory.createLineBorder(Color.yellow, 3));
 			deckButton.setMaximumSize(new Dimension(Integer.MAX_VALUE, 23));
+			deckButton.setMinimumSize(new Dimension(Integer.MAX_VALUE, 23));
 			deckButton.setHorizontalAlignment(SwingConstants.LEFT);
+			Image image = null;
+			Image scaledImage = null;
 			
-			Image tempImage = null;
 			try {
-				tempImage = ImageIO.read(new File("./resources/tempdata/cards/" + curCard.getID() + ".png"));
-			} catch (IOException e1) {
-				e1.printStackTrace();
+				image = ImageIO.read(new File("./resources/tempdata/cards/" 
+				+ _deck.getAllCards().get(i).getID() + ".png"));
+				scaledImage = image.getScaledInstance(150, 230, java.awt.Image.SCALE_SMOOTH);
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 			
-			tempImage = tempImage.getScaledInstance(150, 230, java.awt.Image.SCALE_SMOOTH);
-			
-			BufferedImage bi = new BufferedImage(tempImage.getWidth(null), tempImage.getHeight(null),
+			BufferedImage bi = new BufferedImage(scaledImage.getWidth(null), scaledImage.getHeight(null),
 			        BufferedImage.TYPE_INT_ARGB);
 
 			    Graphics g = bi.createGraphics();
-			    g.drawImage(tempImage, 0, 0, null);
+			    g.drawImage(scaledImage, 0, 0, null);
 			    g.dispose();
 			
 			BufferedImage croppedImage = bi.getSubimage(46, 52, 60, 23);
 			ImageIcon finalImage = new ImageIcon(croppedImage);
 			deckButton.setIcon(finalImage);
+			
 			
 			deckButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -645,55 +638,33 @@ public class CreateDeckWindow {
 					
 					}
 					}
-					deckPanel.getParent().revalidate();
-					deckPanel.getParent().repaint();
 				}
 			});
-			boolean hasButton = false;
 			
-			checkPanel: {
-			for(int x = 0; x < deckPanel.getComponentCount(); x++) {
-				if(deckButton.getText().equals(((JButton) deckPanel.getComponent(x)).getText())) {
-				hasButton = true;
-				if(!(curCard.getRarity().equals("Legendary")) && currentDeck.getSize() < 30) {
-				((JButton) deckPanel.getComponent(x)).setText(buttonName + " (2)"); 
-				}
-				deckPanel.revalidate();
-				deckPanel.repaint();
-				break checkPanel;
-				} else if((deckButton.getText() + " (2)").equals(((JButton) deckPanel.getComponent(x)).getText())) {
-				hasButton = true;
-				break checkPanel;
-				} else {
-				hasButton = false;
-				}
-			}
-		}	
-			if(hasButton == false && currentDeck.getSize() < 30) {
-			deckPanel.add(deckButton);
-			deckPanel.revalidate();
-			}
+//			deckPanel.add(deckButton);
+			
 		}
+		
 		deckPanel.revalidate();
 		deckPanel.repaint();
-		deckPanel.getParent().revalidate();
-		deckPanel.getParent().repaint();
 		}
 		
 		
 	public void createLoadingFrame() {
 		loadingFrame = new JFrame();
+		loadingFrame.setVisible(true);
 		loadingFrame.setResizable(false);
 		loadingFrame.setBounds(100, 100, 60, 60);
 		loadingFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 //		loadingFrame.setUndecorated(true);
 		loadingFrame.setAlwaysOnTop(true);
 //		loadingFrame.setBackground(new Color(1.0f,1.0f,1.0f,0.0f));
-		loadingFrame.setVisible(true);
 //		Dimension dim2 = new Dimension(frame.getWidth(),frame.getHeight());
 //		loadingFrame.setLocation(dim2.width/2-loadingFrame.getSize().width/2, 
 //				dim2.height/2-loadingFrame.getSize().height/2);
 		loadingFrame.setContentPane(new JLabel(new ImageIcon("./resources/UI icons/loading.gif")));	
+		loadingFrame.revalidate();
+		loadingFrame.repaint();
 	}
 
 

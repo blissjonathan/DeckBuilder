@@ -1238,8 +1238,8 @@ public static JLabel lblForm;
 		JButton btnEditDeck = new JButton("Edit Deck");
 		btnEditDeck.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				CreateDeckWindow.createWindow();
-//				CreateDeckWindow.importDeck(currentDeck);
+				CreateDeckWindow.createWindow();
+				CreateDeckWindow.importDeck(currentDeck);
 			}
 		});
 		GridBagConstraints gbc_btnEditDeck = new GridBagConstraints();
